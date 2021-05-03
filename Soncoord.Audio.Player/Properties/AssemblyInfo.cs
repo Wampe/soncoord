@@ -7,11 +7,11 @@ using System.Windows;
 // Allgemeine Informationen über eine Assembly werden über die folgenden
 // Attribute gesteuert. Ändern Sie diese Attributwerte, um die Informationen zu ändern,
 // die einer Assembly zugeordnet sind.
-[assembly: AssemblyTitle("Soncoord.Client.WPF")]
+[assembly: AssemblyTitle("Soncoord.Audio.Player")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Soncoord.Client.WPF")]
+[assembly: AssemblyProduct("Soncoord.Audio.Player")]
 [assembly: AssemblyCopyright("Copyright ©  2021")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -31,13 +31,13 @@ using System.Windows;
 //[assembly: NeutralResourcesLanguage("en-US", UltimateResourceFallbackLocation.Satellite)]
 
 
-[assembly: ThemeInfo(
+[assembly:ThemeInfo(
     ResourceDictionaryLocation.None, //Speicherort der designspezifischen Ressourcenwörterbücher
-                                     //(wird verwendet, wenn eine Ressource auf der Seite nicht gefunden wird,
-                                     // oder in den Anwendungsressourcen-Wörterbüchern nicht gefunden werden kann.)
+                             //(wird verwendet, wenn eine Ressource auf der Seite nicht gefunden wird,
+                             // oder in den Anwendungsressourcen-Wörterbüchern nicht gefunden werden kann.)
     ResourceDictionaryLocation.SourceAssembly //Speicherort des generischen Ressourcenwörterbuchs
-                                              //(wird verwendet, wenn eine Ressource auf der Seite nicht gefunden wird,
-                                              // designspezifischen Ressourcenwörterbuch nicht gefunden werden kann.)
+                                      //(wird verwendet, wenn eine Ressource auf der Seite nicht gefunden wird,
+                                      // designspezifischen Ressourcenwörterbuch nicht gefunden werden kann.)
 )]
 
 

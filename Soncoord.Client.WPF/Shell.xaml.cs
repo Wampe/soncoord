@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace Soncoord.Client.WPF.Modules.Shell
+namespace Soncoord.Client.WPF
 {
     public partial class Shell : Window
     {
