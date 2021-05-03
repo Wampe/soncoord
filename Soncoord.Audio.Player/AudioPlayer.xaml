@@ -20,6 +20,14 @@
             </Grid.ColumnDefinitions>
             <TextBlock Text="{Binding ModuleTitle}" />
             <StackPanel Grid.Column="1" Orientation="Horizontal">
+                <TextBlock VerticalAlignment="Center" Margin="16">
+                    <TextBlock.Text>
+                        <MultiBinding StringFormat="{}{0:00}:{1:00;00}">
+                            <Binding Path="AudioPosition.Minutes"/>
+                            <Binding Path="AudioPosition.Seconds"/>
+                        </MultiBinding>
+                    </TextBlock.Text>
+                </TextBlock>
                 <Button Content="Play" Command="{Binding PlayCommand}" Margin="16" Padding="16"/>
                 <Button Content="Stop" Command="{Binding StopCommand}" Margin="16" Padding="16"/>
             </StackPanel>
@@ -34,7 +42,9 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition />
                 </Grid.RowDefinitions>
-                <TextBlock Text="Click Track" />
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Click Track" />
+                </StackPanel>
                 <ListBox Grid.Row="1" HorizontalContentAlignment="Stretch"
                     DisplayMemberPath="Description"
                     ItemsSource="{Binding Devices}"
