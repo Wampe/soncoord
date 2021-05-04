@@ -3,6 +3,7 @@ using Prism.Modularity;
 using Prism.Mvvm;
 using Prism.Unity;
 using Soncoord.Audio.Player;
+using Soncoord.Audio.Visualizer;
 using System.Windows;
 
 namespace Soncoord.Client.WPF
@@ -21,6 +22,7 @@ namespace Soncoord.Client.WPF
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
         {
             moduleCatalog.AddModule<AudioPlayerModule>();
+            moduleCatalog.AddModule<AudioVisualizerModule>();
         }
 
         protected override void ConfigureViewModelLocator()

@@ -35,6 +35,7 @@ namespace Soncoord.Audio.Player
                 .ObservesProperty(() => SelectedClickDevice)
                 .ObservesProperty(() => SelectedSongDevice);
 
+            AudioLength = 0.0;
             UpdateAudioPosition(new TimeSpan(0));
             LoadDevices();
         }
@@ -48,6 +49,20 @@ namespace Soncoord.Audio.Player
         {
             get => _audioPosition;
             set => SetProperty(ref _audioPosition, value);
+        }
+
+        private double _audioLength;
+        public double AudioLength
+        {
+            get => _audioLength;
+            set => SetProperty(ref _audioLength, value);
+        }
+
+        private double _sliderPosition;
+        public double SliderPosition
+        {
+            get => _sliderPosition;
+            set => SetProperty(ref _sliderPosition, value);
         }
 
         private string _moduleTitle;
@@ -87,8 +102,8 @@ namespace Soncoord.Audio.Player
 
         private void PlayCommandExecute()
         {
-            _clickReader = new Mp3FileReader(@"");
-            _songReader = new Mp3FileReader(@"");
+            _clickReader = new Mp3FileReader(@"C:\Users\Dennis\Downloads\Tina_Turner_Nutbush_City_Limits(Klick_Individuelles_Playback) (1).mp3");
+            _songReader = new Mp3FileReader(@"C:\Users\Dennis\Downloads\Tina_Turner_Nutbush_City_Limits(Individuelles_Playback).mp3");
             
             _outputClick = new DirectSoundOut(SelectedClickDevice.Guid);
             _outputClick.PlaybackStopped += OnPlaybackStopped;
@@ -108,6 +123,7 @@ namespace Soncoord.Audio.Player
             _outputSong.Play();
             _positionTimer.Start();
 
+            AudioLength = _songReader.TotalTime.TotalSeconds;
             IsPlaying = true;
         }
         
@@ -154,12 +170,18 @@ namespace Soncoord.Audio.Player
 
         private void PositionTimerTick(object sender, EventArgs e)
         {
+            if (_songReader == null)
+            {
+                return;
+            }
+
             UpdateAudioPosition(_songReader.CurrentTime);
         }
 
         private void UpdateAudioPosition(TimeSpan value)
         {
             AudioPosition = value;
+            SliderPosition = AudioPosition.TotalSeconds;
         }
     }
 }
