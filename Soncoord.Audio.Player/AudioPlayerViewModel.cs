@@ -102,8 +102,8 @@ namespace Soncoord.Audio.Player
 
         private void PlayCommandExecute()
         {
-            _clickReader = new Mp3FileReader(@"C:\Users\Dennis\Downloads\Tina_Turner_Nutbush_City_Limits(Klick_Individuelles_Playback) (1).mp3");
-            _songReader = new Mp3FileReader(@"C:\Users\Dennis\Downloads\Tina_Turner_Nutbush_City_Limits(Individuelles_Playback).mp3");
+            _clickReader = new Mp3FileReader(@"");
+            _songReader = new Mp3FileReader(@"");
             
             _outputClick = new DirectSoundOut(SelectedClickDevice.Guid);
             _outputClick.PlaybackStopped += OnPlaybackStopped;

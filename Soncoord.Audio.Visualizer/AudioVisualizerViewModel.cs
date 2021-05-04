@@ -53,12 +53,12 @@ namespace Soncoord.Audio.Visualizer
             myRendererSettings.BottomPeakPen = new Pen(Color.Gray);
 
             var renderer = new WaveFormRenderer();
-            var audioFilePath = @"C:\Users\Dennis\Downloads\Tina_Turner_Nutbush_City_Limits(Individuelles_Playback).mp3";
+            var audioFilePath = @"";
 
             Image = renderer.Render(audioFilePath, rmsPeakProvider, myRendererSettings);
 
             renderer = new WaveFormRenderer();
-            audioFilePath = @"C:\Users\Dennis\Downloads\Tina_Turner_Nutbush_City_Limits(Klick_Individuelles_Playback) (1).mp3";
+            audioFilePath = @"";
 
             Image2 = renderer.Render(audioFilePath, rmsPeakProvider, myRendererSettings);
         }
