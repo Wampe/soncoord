@@ -7,6 +7,8 @@ using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace Soncoord.SongManager
 {
@@ -39,6 +41,7 @@ namespace Soncoord.SongManager
     public class SongManagerViewModel : BindableBase
     {
         private readonly HttpClient _httpClient;
+        private readonly string _songsPath;
 
         public SongManagerViewModel()
         {
@@ -46,6 +49,7 @@ namespace Soncoord.SongManager
             {
                 BaseAddress = new Uri("https://api.streamersonglist.com")
             };
+             _songsPath = $"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\\Soncoord\\Songs";
 
             Songs = new ObservableCollection<Song>();
             LoadSongsExternal = new DelegateCommand(OnLoadSongsExternalExecute);
@@ -54,30 +58,46 @@ namespace Soncoord.SongManager
         }
 
         // First test implementation
-        // ToDo: Central Manager for Laoding and Saving data and build relations between!
+        // ToDo: Central Manager for Loading and Saving data and build relations between!
 
         private void OnSaveSongExecute()
         {
-            using (var file = File.CreateText(@"D:\songs.json"))
+            if (!Directory.Exists(_songsPath))
             {
-                var serializer = new JsonSerializer();
-                serializer.Serialize(file, Songs);
+                Directory.CreateDirectory(_songsPath);
+            }
+
+            foreach (var song in Songs)
+            {
+                // Check if file for song already exists
+                // if not then create
+
+                // Feature for future => Merge (if something edited on StreamerSonglist)
+
+                using (var file = File.CreateText($"{_songsPath}\\{song.Id}.json"))
+                {
+                    var serializer = new JsonSerializer();
+                    serializer.Serialize(file, song);
+                }
             }
         }
 
         private void OnLoadSongsFromFileExecute()
         {
-            using (var file = File.OpenText(@"D:\songs.json"))
-            {
-                var serializer = new JsonSerializer();
-                var songs = serializer.Deserialize(file, typeof(Song[])) as Song[];
-                Songs.Clear();
+            var files = Directory.GetFiles(_songsPath);
 
-                foreach(var item in songs)
+            Songs.Clear();
+
+            foreach (var item in files)
+            {
+                using (var file = File.OpenText(item))
                 {
-                    Songs.Add(item);
+                    var serializer = new JsonSerializer();
+                    var song = serializer.Deserialize(file, typeof(Song)) as Song;
+                    Songs.Add(song);
                 }
             }
+            Songs = new ObservableCollection<Song>(Songs.OrderBy(song => song.Title));
         }
 
         private void OnLoadSongsExternalExecute()
@@ -120,7 +140,13 @@ namespace Soncoord.SongManager
             return builder.Uri;
         }
 
-        public ObservableCollection<Song> Songs { get; set; }
+        private ObservableCollection<Song> _songs;
+        public ObservableCollection<Song> Songs 
+        {
+            get => _songs;
+            set => SetProperty(ref _songs, value);
+        }
+
         public DelegateCommand LoadSongsExternal { get; set; }
         public DelegateCommand SaveSongs { get; set; }
         public DelegateCommand LoadsSongsFromFile { get; set; }
