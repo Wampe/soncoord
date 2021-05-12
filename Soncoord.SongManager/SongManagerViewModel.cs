@@ -102,16 +102,18 @@ namespace Soncoord.SongManager
         private void OnLoadSongsFromFileExecute()
         {
             var files = Directory.GetFiles(_songsPath);
-
-            Songs.Clear();
-
-            foreach (var item in files)
+            if (files != null && files.Length > 0)
             {
-                using (var file = File.OpenText(item))
+                Songs.Clear();
+
+                foreach (var item in files)
                 {
-                    var serializer = new JsonSerializer();
-                    var song = serializer.Deserialize(file, typeof(Song)) as ISong;
-                    Songs.Add(song);
+                    using (var file = File.OpenText(item))
+                    {
+                        var serializer = new JsonSerializer();
+                        var song = serializer.Deserialize(file, typeof(Song)) as ISong;
+                        Songs.Add(song);
+                    }
                 }
             }
         }
