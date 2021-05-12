@@ -8,7 +8,10 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web;
 using System.Linq;
-using System.Collections.Generic;
+using Soncoord.Infrastructure.Models;
+using Soncoord.Infrastructure.Interfaces;
+using System.Windows.Data;
+using System.ComponentModel;
 
 namespace Soncoord.SongManager
 {
@@ -16,27 +19,6 @@ namespace Soncoord.SongManager
     // Song Manager will just manage the song itself. 
     // At the moment this implementation is for loading the songs from StreamerSonglist
     // This will have to get moved to the planned Streamer SongList Connector
-
-    // ToDO: Move to seperate Files
-    public class SongQuery
-    {
-        public Song[] Items { get; set; }
-        public int Total { get; set; }
-    }
-
-    public class Song
-    {
-        public string Id { get; set; }
-        public string Title { get; set; }
-        public string Artist { get; set; }
-        public DateTime CreatedAt { get; set; }
-        public bool Active { get; set; }
-        public double MinAmount { get; set; }
-        public DateTime? LastPlayed { get; set; }
-        public int TimesPlayed { get; set; }
-        public int NumQueued { get; set; }
-        public string[] AttributeIds { get; set; }
-    }
 
     public class SongManagerViewModel : BindableBase
     {
@@ -51,14 +33,50 @@ namespace Soncoord.SongManager
             };
              _songsPath = $"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\\Soncoord\\Songs";
 
-            Songs = new ObservableCollection<Song>();
+            Songs = new ObservableCollection<ISong>();
+            SongsViewSource = new CollectionViewSource
+            {
+                Source = Songs,
+                
+            };
+            SongsViewSource.SortDescriptions.Add(new SortDescription("Artist", ListSortDirection.Ascending));
+            SongsViewSource.SortDescriptions.Add(new SortDescription("Title", ListSortDirection.Ascending));
+            SongsViewSource.Filter += SongsViewSourceFilter;
+
             LoadSongsExternal = new DelegateCommand(OnLoadSongsExternalExecute);
             SaveSongs = new DelegateCommand(OnSaveSongExecute);
             LoadsSongsFromFile = new DelegateCommand(OnLoadSongsFromFileExecute);
         }
 
-        // First test implementation
-        // ToDo: Central Manager for Loading and Saving data and build relations between!
+        public DelegateCommand LoadSongsExternal { get; set; }
+        public DelegateCommand SaveSongs { get; set; }
+        public DelegateCommand LoadsSongsFromFile { get; set; }
+        internal ObservableCollection<ISong> Songs { get; set; }
+        internal CollectionViewSource SongsViewSource { get; set; }
+
+        public ICollectionView SongsView
+        {
+            get { return SongsViewSource.View; }
+        }
+
+        private string _filterText;
+        public string FilterText
+        {
+            get => _filterText;
+            set
+            {
+                SetProperty(ref _filterText, value);
+                SongsView.Refresh();
+            }
+        }
+
+        private void SongsViewSourceFilter(object sender, FilterEventArgs e)
+        {
+            var song = e.Item as ISong;
+            e.Accepted = string.IsNullOrWhiteSpace(_filterText)
+                || song.Artist.ToLower().Contains(_filterText.ToLower())
+                || song.Title.ToLower().Contains(_filterText.ToLower());
+        }
 
         private void OnSaveSongExecute()
         {
@@ -71,9 +89,8 @@ namespace Soncoord.SongManager
             {
                 // Check if file for song already exists
                 // if not then create
-
-                // Feature for future => Merge (if something edited on StreamerSonglist)
-
+                
+                // Beside of a new created song possibly create an seperate definitions file as json
                 using (var file = File.CreateText($"{_songsPath}\\{song.Id}.json"))
                 {
                     var serializer = new JsonSerializer();
@@ -93,11 +110,10 @@ namespace Soncoord.SongManager
                 using (var file = File.OpenText(item))
                 {
                     var serializer = new JsonSerializer();
-                    var song = serializer.Deserialize(file, typeof(Song)) as Song;
+                    var song = serializer.Deserialize(file, typeof(Song)) as ISong;
                     Songs.Add(song);
                 }
             }
-            Songs = new ObservableCollection<Song>(Songs.OrderBy(song => song.Title));
         }
 
         private void OnLoadSongsExternalExecute()
@@ -131,7 +147,8 @@ namespace Soncoord.SongManager
 
         private Uri BuildUriQuery(int size, int current)
         {
-            var builder = new UriBuilder($"{_httpClient.BaseAddress}v1/streamers/2557/songs");
+            var builder = new UriBuilder($"{_httpClient.BaseAddress}v1/streamers/wampe/songs");
+            //var builder = new UriBuilder($"{_httpClient.BaseAddress}v1/streamers/2557/songs");
             var query = HttpUtility.ParseQueryString(builder.Query);
             query["size"] = size.ToString();
             query["current"] = current.ToString();
@@ -139,16 +156,5 @@ namespace Soncoord.SongManager
 
             return builder.Uri;
         }
-
-        private ObservableCollection<Song> _songs;
-        public ObservableCollection<Song> Songs 
-        {
-            get => _songs;
-            set => SetProperty(ref _songs, value);
-        }
-
-        public DelegateCommand LoadSongsExternal { get; set; }
-        public DelegateCommand SaveSongs { get; set; }
-        public DelegateCommand LoadsSongsFromFile { get; set; }
     }
 }
