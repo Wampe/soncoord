@@ -12,7 +12,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Soncoord.Audio.Player", "Soncoord.Audio.Player\Soncoord.Audio.Player.csproj", "{E162D451-DB1B-4570-883F-05104065A0FC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Soncoord.Player", "Soncoord.Audio.Player\Soncoord.Player.csproj", "{E162D451-DB1B-4570-883F-05104065A0FC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Soncoord.SongManager", "Soncoord.SongManager\Soncoord.SongManager.csproj", "{7FDA7C55-E134-4464-AE91-5CD3AAABB53B}"
 EndProject

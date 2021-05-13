@@ -6,9 +6,9 @@ using System;
 using System.Collections.ObjectModel;
 using System.Windows.Threading;
 
-namespace Soncoord.Audio.Player
+namespace Soncoord.Player
 {
-    public class AudioPlayerViewModel : BindableBase
+    public class PlayerViewModel : BindableBase
     {
         private DirectSoundOut _outputClick;
         private DirectSoundOut _outputSong;
@@ -18,7 +18,7 @@ namespace Soncoord.Audio.Player
 
         private readonly DispatcherTimer _positionTimer;
 
-        public AudioPlayerViewModel()
+        public PlayerViewModel()
         {
             _positionTimer = new DispatcherTimer(DispatcherPriority.ApplicationIdle)
             {

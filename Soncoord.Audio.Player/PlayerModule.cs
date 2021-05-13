@@ -4,19 +4,19 @@ using Prism.Mvvm;
 using Prism.Regions;
 using Soncoord.Infrastructure;
 
-namespace Soncoord.Audio.Player
+namespace Soncoord.Player
 {
-    public class AudioPlayerModule : IModule
+    public class PlayerModule : IModule
     {
         public void OnInitialized(IContainerProvider containerProvider)
         {
             var regionManager = containerProvider.Resolve<IRegionManager>();
-            regionManager.RegisterViewWithRegion(Regions.ShellContent, typeof(AudioPlayer));
+            regionManager.RegisterViewWithRegion(Regions.ShellContent, typeof(Player));
         }
 
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            ViewModelLocationProvider.Register<AudioPlayer, AudioPlayerViewModel>();
+            ViewModelLocationProvider.Register<Player, PlayerViewModel>();
         }
     }
 }
