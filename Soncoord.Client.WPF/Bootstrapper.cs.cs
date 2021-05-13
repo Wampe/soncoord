@@ -21,7 +21,7 @@ namespace Soncoord.Client.WPF
 
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
         {
-            //moduleCatalog.AddModule<AudioPlayerModule>();
+            moduleCatalog.AddModule<AudioPlayerModule>();
             moduleCatalog.AddModule<SongManagerModule>();
         }
 

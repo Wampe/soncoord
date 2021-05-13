@@ -2,6 +2,7 @@
 using Prism.Modularity;
 using Prism.Mvvm;
 using Prism.Regions;
+using Soncoord.Infrastructure;
 
 namespace Soncoord.Audio.Player
 {
@@ -10,7 +11,7 @@ namespace Soncoord.Audio.Player
         public void OnInitialized(IContainerProvider containerProvider)
         {
             var regionManager = containerProvider.Resolve<IRegionManager>();
-            regionManager.RegisterViewWithRegion("ContentRegion", typeof(AudioPlayer));
+            regionManager.RegisterViewWithRegion(Regions.ShellContent, typeof(AudioPlayer));
         }
 
         public void RegisterTypes(IContainerRegistry containerRegistry)

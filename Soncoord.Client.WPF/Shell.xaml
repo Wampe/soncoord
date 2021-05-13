@@ -13,14 +13,27 @@
             <RowDefinition Height="Auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
-        <TextBlock VerticalAlignment="Center" Margin="16">
-            <TextBlock.Text>
-                <MultiBinding StringFormat="{}{0:00}:{1:00;00}">
-                    <Binding Path="PlayerTime.Minutes"/>
-                    <Binding Path="PlayerTime.Seconds"/>
-                </MultiBinding>
-            </TextBlock.Text>
-        </TextBlock>
-        <ContentControl prism:RegionManager.RegionName="{x:Static infrastructure:Regions.ShellContent}" Grid.Row="1"/>
+        <StackPanel Margin="8"
+                    Orientation="Horizontal">
+            <TextBlock Margin="8"
+                       VerticalAlignment="Center">
+                <TextBlock.Text>
+                    <MultiBinding StringFormat="{}{0:00}:{1:00;00}">
+                        <Binding Path="PlayerTime.Minutes"/>
+                        <Binding Path="PlayerTime.Seconds"/>
+                    </MultiBinding>
+                </TextBlock.Text>
+            </TextBlock>
+            <Button Margin="8"
+                    Padding="8"
+                    Content="Audio Player" 
+                    Command="{Binding Path=CallAudioPlayer}" />
+            <Button Margin="8"
+                    Padding="8"
+                    Content="Song Manager" 
+                    Command="{Binding Path=CallSongManager}" />
+        </StackPanel>
+        <ContentControl Grid.Row="1"
+                        prism:RegionManager.RegionName="{x:Static infrastructure:Regions.ShellContent}" />
     </Grid>
 </Window>

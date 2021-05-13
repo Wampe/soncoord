@@ -122,5 +122,11 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Soncoord.Infrastructure\Soncoord.Infrastructure.csproj">
+      <Project>{585dd6c6-8dde-40f1-bf30-71ecb4907a60}</Project>
+      <Name>Soncoord.Infrastructure</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1,4 +1,7 @@
-﻿using Prism.Mvvm;
+﻿using Prism.Commands;
+using Prism.Mvvm;
+using Prism.Regions;
+using Soncoord.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -9,9 +12,11 @@ namespace Soncoord.Client.WPF
     public class ShellViewModel : BindableBase
     {
         private readonly DispatcherTimer _positionTimer;
+        private readonly IRegionManager _regionManager;
 
-        public ShellViewModel()
+        public ShellViewModel(IRegionManager regionManager)
         {
+            _regionManager = regionManager;
             _positionTimer = new DispatcherTimer(DispatcherPriority.ApplicationIdle)
             {
                 Interval = TimeSpan.FromMilliseconds(1000)
@@ -65,7 +70,28 @@ namespace Soncoord.Client.WPF
             };
 
             _positionTimer.Start();
+
+            CallAudioPlayer = new DelegateCommand(() =>
+            {
+                _regionManager.RequestNavigate(
+                    Regions.ShellContent,
+                    "AudioPlayer"
+                );
+            });
+
+            CallSongManager = new DelegateCommand(() =>
+            {
+                _regionManager.RequestNavigate(
+                    Regions.ShellContent,
+                    "SongManager"
+                );
+            });
+
+            
         }
+
+        public DelegateCommand CallAudioPlayer { get; set; }
+        public DelegateCommand CallSongManager { get; set; }
 
         public ObservableCollection<KeyValuePair<TimeSpan, IList<string>>> TimeCodes { get; set; }
 

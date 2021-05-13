@@ -12,7 +12,7 @@ namespace Soncoord.SongManager
     {
         public void OnInitialized(IContainerProvider containerProvider)
         {
-            var regionManager = containerProvider.Resolve<IRegionManager>();
+            var regionManager = containerProvider.Resolve<IRegionManager>();           
             regionManager.RegisterViewWithRegion(Regions.ShellContent, typeof(SongManager));
             regionManager.RegisterViewWithRegion(Regions.SongList, typeof(SongList));
             regionManager.RegisterViewWithRegion(Regions.SongDetail, typeof(SongDetail));

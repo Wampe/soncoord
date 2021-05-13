@@ -142,6 +142,7 @@ namespace Soncoord.SongManager.ViewModels
 
         private void LoadSongsFromFiles()
         {
+            Console.WriteLine("Called LoadSongsFromLib");
             var files = Directory.GetFiles(Globals.SongsPath);
             if (files != null && files.Length > 0)
             {
