@@ -1,8 +1,10 @@
 ﻿using Newtonsoft.Json;
 using Prism.Commands;
+using Prism.Events;
 using Prism.Mvvm;
 using Prism.Regions;
 using Soncoord.Infrastructure;
+using Soncoord.Infrastructure.Events;
 using Soncoord.Infrastructure.Interfaces;
 using Soncoord.Infrastructure.Models;
 using System;
@@ -18,10 +20,13 @@ namespace Soncoord.SongManager.ViewModels
     public class SongListViewModel : BindableBase, INavigationAware
     {
         private readonly IRegionManager _regionManager;
+        private readonly IEventAggregator _eventAggregator;
 
-        public SongListViewModel(IRegionManager regionManager)
+        public SongListViewModel(IRegionManager regionManager, IEventAggregator eventAggregator)
         {
             _regionManager = regionManager;
+            _eventAggregator = eventAggregator;
+            _eventAggregator.GetEvent<SongsImportedEvent>().Subscribe(LoadSongsFromFiles);
 
             Songs = new ObservableCollection<ISong>();
             SongsViewSource = new CollectionViewSource

@@ -81,9 +81,13 @@
     <Compile Include="SongManagerModule.cs" />
     <Compile Include="SongManagerViewModel.cs" />
     <Compile Include="ViewModels\SongDetailViewModel.cs" />
+    <Compile Include="ViewModels\SongImportViewModel.cs" />
     <Compile Include="ViewModels\SongListViewModel.cs" />
     <Compile Include="Views\SongDetail.xaml.cs">
       <DependentUpon>SongDetail.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SongImport.xaml.cs">
+      <DependentUpon>SongImport.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SongList.xaml.cs">
       <DependentUpon>SongList.xaml</DependentUpon>
@@ -104,6 +108,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\SongDetail.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SongImport.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

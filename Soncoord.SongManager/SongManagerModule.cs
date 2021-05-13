@@ -16,6 +16,7 @@ namespace Soncoord.SongManager
             regionManager.RegisterViewWithRegion(Regions.ShellContent, typeof(SongManager));
             regionManager.RegisterViewWithRegion(Regions.SongList, typeof(SongList));
             regionManager.RegisterViewWithRegion(Regions.SongDetail, typeof(SongDetail));
+            regionManager.RegisterViewWithRegion(Regions.SongImport, typeof(SongImport));
             
         }
 
@@ -24,6 +25,7 @@ namespace Soncoord.SongManager
             ViewModelLocationProvider.Register<SongManager, SongManagerViewModel>();
             ViewModelLocationProvider.Register<SongDetail, SongDetailViewModel>();
             ViewModelLocationProvider.Register<SongList, SongListViewModel>();
+            ViewModelLocationProvider.Register<SongImport, SongImportViewModel>();
         }
     }
 }

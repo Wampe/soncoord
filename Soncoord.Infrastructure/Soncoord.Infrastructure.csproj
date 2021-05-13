@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Events\SongsImported.cs" />
     <Compile Include="Globals.cs" />
     <Compile Include="Interfaces\ISong.cs" />
     <Compile Include="Interfaces\ISongQuery.cs" />

@@ -8,13 +8,20 @@
              xmlns:infrastructure="clr-namespace:Soncoord.Infrastructure;assembly=Soncoord.Infrastructure"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition />
-            <ColumnDefinition />
-        </Grid.ColumnDefinitions>
-        <ContentControl prism:RegionManager.RegionName="{x:Static infrastructure:Regions.SongList}" />
-        <ContentControl Grid.Column="1"
-                        prism:RegionManager.RegionName="{x:Static infrastructure:Regions.SongDetail}" />
-    </Grid>
+    <TabControl>
+        <TabItem Header="Library">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <ContentControl prism:RegionManager.RegionName="{x:Static infrastructure:Regions.SongList}" />
+                <ContentControl Grid.Column="1"
+                                prism:RegionManager.RegionName="{x:Static infrastructure:Regions.SongDetail}" />
+            </Grid>
+        </TabItem>
+        <TabItem Header="Import">
+            <ContentControl prism:RegionManager.RegionName="{x:Static infrastructure:Regions.SongImport}" />
+        </TabItem>
+    </TabControl>
 </UserControl>
