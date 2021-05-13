@@ -43,16 +43,16 @@ namespace Soncoord.SongManager.ViewModels
         internal CollectionViewSource SongsViewSource { get; set; }
         internal ISong PreviousSelectedSong { get; set; }
 
+        public ICollectionView SongsView
+        {
+            get => SongsViewSource.View;
+        }
+
         private ISong _selectedSong;
         public ISong SelectedSong
         {
             get => _selectedSong;
             set => SetProperty(ref _selectedSong, value);
-        }
-
-        public ICollectionView SongsView
-        {
-            get => SongsViewSource.View;
         }
 
         private string _filterText;
