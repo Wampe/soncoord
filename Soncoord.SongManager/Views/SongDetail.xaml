@@ -1,0 +1,147 @@
+﻿<UserControl x:Class="Soncoord.SongManager.Views.SongDetail"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:prism="http://prismlibrary.com/"
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800"
+             Padding="8">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        
+        <TextBlock Margin="8">Id</TextBlock>
+        <TextBlock Grid.Column="1"
+                   Margin="8"
+                   Text="{Binding Path=SelectedSong.Id}" />
+
+        <TextBlock Grid.Row="1"
+                   Margin="8">Title</TextBlock>
+        <TextBlock Grid.Row="1"
+                   Grid.Column="1" 
+                   Margin="8"
+                   Text="{Binding Path=SelectedSong.Title}" />
+
+        <TextBlock Grid.Row="2"
+                   Margin="8">Artist</TextBlock>
+        <TextBlock Grid.Row="2"
+                   Grid.Column="1" 
+                   Margin="8"
+                   Text="{Binding Path=SelectedSong.Artist}" />
+
+        <TextBlock Grid.Row="3"
+                   Margin="8">Created At</TextBlock>
+        <TextBlock Grid.Row="3"
+                   Grid.Column="1" 
+                   Margin="8"
+                   Text="{Binding Path=SelectedSong.CreatedAt}" />
+
+        <TextBlock Grid.Row="4"
+                   Margin="8">Active</TextBlock>
+        <TextBlock Grid.Row="4"
+                   Grid.Column="1" 
+                   Margin="8"
+                   Text="{Binding Path=SelectedSong.Active}" />
+
+        <TextBlock Grid.Row="5"
+                   Margin="8">Min Amount</TextBlock>
+        <TextBlock Grid.Row="5"
+                   Grid.Column="1" 
+                   Margin="8"
+                   Text="{Binding Path=SelectedSong.MinAmount}" />
+
+        <TextBlock Grid.Row="6"
+                   Margin="8">Last Played</TextBlock>
+        <TextBlock Grid.Row="6"
+                   Grid.Column="1" 
+                   Margin="8"
+                   Text="{Binding Path=SelectedSong.LastPlayed}" />
+
+        <TextBlock Grid.Row="7"
+                   Margin="8">Times Played</TextBlock>
+        <TextBlock Grid.Row="7"
+                   Grid.Column="1" 
+                   Margin="8"
+                   Text="{Binding Path=SelectedSong.TimesPlayed}" />
+
+        <TextBlock Grid.Row="8"
+                   Margin="8">Num Queued</TextBlock>
+        <TextBlock Grid.Row="8"
+                   Grid.Column="1" 
+                   Margin="8"
+                   Text="{Binding Path=SelectedSong.NumQueued}" />
+
+        <TextBlock Grid.Row="9"
+                   Margin="8">Attribute Ids</TextBlock>
+        <TextBlock Grid.Row="9"
+                   Grid.Column="1" 
+                   Margin="8"
+                   Text="{Binding Path=SelectedSong.AttributeIds}" />
+
+        <TextBlock Grid.Row="10"
+                   Margin="8">Click Track</TextBlock>
+        <Grid Grid.Row="10"
+              Grid.Column="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Button Margin="8"
+                    Padding="8"
+                    Content="Select" 
+                    Command="{Binding Path=SelectClickTrack}" />
+            <TextBox Grid.Column="1" 
+                     Margin="8"
+                     Padding="4"
+                     VerticalContentAlignment="Center"
+                     Text="{Binding Path=SongSettings.ClickTrackPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+        </Grid>
+
+        <TextBlock Grid.Row="11"
+                   Margin="8">Music Track</TextBlock>
+        <Grid Grid.Row="11"
+              Grid.Column="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Button Margin="8"
+                    Padding="8"
+                    Content="Select" 
+                    Command="{Binding Path=SelectMusicTrack}" />
+            <TextBox Grid.Column="1" 
+                     Margin="8"
+                     Padding="4"
+                     VerticalContentAlignment="Center"
+                     Text="{Binding Path=SongSettings.MusicTrackPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+        </Grid>
+
+        <Button Content="Save" 
+                Grid.Row="12"
+                Grid.Column="1"
+                Margin="8"
+                Padding="8"
+                Command="{Binding Path=SaveSettings}" />
+
+    </Grid>
+</UserControl>

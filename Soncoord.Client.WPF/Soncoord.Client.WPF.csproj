@@ -126,6 +126,10 @@
       <Project>{e162d451-db1b-4570-883f-05104065a0fc}</Project>
       <Name>Soncoord.Audio.Player</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Soncoord.Infrastructure\Soncoord.Infrastructure.csproj">
+      <Project>{585dd6c6-8dde-40f1-bf30-71ecb4907a60}</Project>
+      <Name>Soncoord.Infrastructure</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Soncoord.SongManager\Soncoord.SongManager.csproj">
       <Project>{7fda7c55-e134-4464-ae91-5cd3aaabb53b}</Project>
       <Name>Soncoord.SongManager</Name>

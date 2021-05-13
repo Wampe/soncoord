@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:prism="http://prismlibrary.com/"
         prism:ViewModelLocator.AutoWireViewModel="True"
+        xmlns:infrastructure="clr-namespace:Soncoord.Infrastructure;assembly=Soncoord.Infrastructure"
         mc:Ignorable="d"
         Title="Soncoord" Height="720" Width="1280" WindowStartupLocation="CenterScreen">
     <Grid>
@@ -20,6 +21,6 @@
                 </MultiBinding>
             </TextBlock.Text>
         </TextBlock>
-        <ContentControl prism:RegionManager.RegionName="ContentRegion" Grid.Row="1"/>
+        <ContentControl prism:RegionManager.RegionName="{x:Static infrastructure:Regions.ShellContent}" Grid.Row="1"/>
     </Grid>
 </Window>
