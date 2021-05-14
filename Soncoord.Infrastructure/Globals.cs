@@ -8,5 +8,8 @@ namespace Soncoord.Infrastructure
 
         public static readonly string SongsPath = $"{LocalAppData}\\Songs";
         public static readonly string SongSettingsPath = $"{SongsPath}\\Settings";
+
+        public static readonly string PlayerPath = $"{LocalAppData}\\Player";
+        public static readonly string PlayerOutputSettingsFile = $"{PlayerPath}\\settings.json";
     }
 }

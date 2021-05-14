@@ -17,7 +17,6 @@ namespace Soncoord.SongManager
             regionManager.RegisterViewWithRegion(Regions.SongList, typeof(SongList));
             regionManager.RegisterViewWithRegion(Regions.SongDetail, typeof(SongDetail));
             regionManager.RegisterViewWithRegion(Regions.SongImport, typeof(SongImport));
-            
         }
 
         public void RegisterTypes(IContainerRegistry containerRegistry)

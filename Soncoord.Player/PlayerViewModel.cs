@@ -31,52 +31,44 @@ namespace Soncoord.Player
             _positionTimer.Tick += PositionTimerTick;
 
             // EQ Settings simliar to Techno preset of Winamp
-            _bands = new EqualizerBand[]
-            {
-                new EqualizerBand {Bandwidth = 0.8f, Frequency = 70, Gain = 4.5f},
-                new EqualizerBand {Bandwidth = 0.8f, Frequency = 180, Gain = 3.375f},
-                new EqualizerBand {Bandwidth = 0.8f, Frequency = 320, Gain = 0},
-                new EqualizerBand {Bandwidth = 0.8f, Frequency = 600, Gain = -3.75f},
-                new EqualizerBand {Bandwidth = 0.8f, Frequency = 1000, Gain = -3.375f},
-                new EqualizerBand {Bandwidth = 0.8f, Frequency = 3000, Gain = 0},
-                new EqualizerBand {Bandwidth = 0.8f, Frequency = 6000, Gain = 4.5f},
-                new EqualizerBand {Bandwidth = 0.8f, Frequency = 12000, Gain = 5.625f},
-                new EqualizerBand {Bandwidth = 0.8f, Frequency = 14000, Gain = 5.658f},
-                new EqualizerBand {Bandwidth = 0.8f, Frequency = 16000, Gain = 5.25f},
-            };
+            //_bands = new EqualizerBand[]
+            //{
+            //    new EqualizerBand {Bandwidth = 0.8f, Frequency = 70, Gain = 4.5f},
+            //    new EqualizerBand {Bandwidth = 0.8f, Frequency = 180, Gain = 3.375f},
+            //    new EqualizerBand {Bandwidth = 0.8f, Frequency = 320, Gain = 0},
+            //    new EqualizerBand {Bandwidth = 0.8f, Frequency = 600, Gain = -3.75f},
+            //    new EqualizerBand {Bandwidth = 0.8f, Frequency = 1000, Gain = -3.375f},
+            //    new EqualizerBand {Bandwidth = 0.8f, Frequency = 3000, Gain = 0},
+            //    new EqualizerBand {Bandwidth = 0.8f, Frequency = 6000, Gain = 4.5f},
+            //    new EqualizerBand {Bandwidth = 0.8f, Frequency = 12000, Gain = 5.625f},
+            //    new EqualizerBand {Bandwidth = 0.8f, Frequency = 14000, Gain = 5.658f},
+            //    new EqualizerBand {Bandwidth = 0.8f, Frequency = 16000, Gain = 5.25f},
+            //};
 
-            ModuleTitle = "Audio Player 0.1";
-            Devices = new ObservableCollection<DirectSoundDeviceInfo>();
+            //Devices = new ObservableCollection<DirectSoundDeviceInfo>();
             StopCommand = new DelegateCommand(StopCommandExecute, CanStopCommandExecute)
                 .ObservesProperty(() => IsPlaying);
             PlayCommand = new DelegateCommand(PlayCommandExecute, CanPlayCommandExecute)
-                .ObservesProperty(() => IsPlaying)
-                .ObservesProperty(() => SelectedClickDevice)
-                .ObservesProperty(() => SelectedSongDevice);
+                .ObservesProperty(() => IsPlaying);
+                //.ObservesProperty(() => SelectedClickDevice)
+                //.ObservesProperty(() => SelectedSongDevice);
 
             UpdateAudioPosition(new TimeSpan(0));
-            LoadDevices();
+            //LoadDevices();
         }
 
         public DelegateCommand PlayCommand { get; set; }
         public DelegateCommand StopCommand { get; set; }
-        public ObservableCollection<DirectSoundDeviceInfo> Devices { get; set; }
+        //public ObservableCollection<DirectSoundDeviceInfo> Devices { get; set; }
 
-        public float MinimumGain => -12;
-        public float MaximumGain => 12;
+        //public float MinimumGain => -12;
+        //public float MaximumGain => 12;
 
         private TimeSpan _audioPosition;
         public TimeSpan AudioPosition
         {
             get => _audioPosition;
             set => SetProperty(ref _audioPosition, value);
-        }
-
-        private string _moduleTitle;
-        public string ModuleTitle
-        {
-            get => _moduleTitle;
-            set => SetProperty(ref _moduleTitle, value);
         }
 
         private bool _isPlaying;
@@ -86,53 +78,54 @@ namespace Soncoord.Player
             set => SetProperty(ref _isPlaying, value);
         }
 
-        private DirectSoundDeviceInfo _selectedClickDevice;
-        public DirectSoundDeviceInfo SelectedClickDevice
-        {
-            get => _selectedClickDevice;
-            set => SetProperty(ref _selectedClickDevice, value);
-        }
+        //private DirectSoundDeviceInfo _selectedClickDevice;
+        //public DirectSoundDeviceInfo SelectedClickDevice
+        //{
+        //    get => _selectedClickDevice;
+        //    set => SetProperty(ref _selectedClickDevice, value);
+        //}
 
-        private DirectSoundDeviceInfo _selectedSongDevice;
-        public DirectSoundDeviceInfo SelectedSongDevice
-        {
-            get => _selectedSongDevice;
-            set => SetProperty(ref _selectedSongDevice, value);
-        }
+        //private DirectSoundDeviceInfo _selectedSongDevice;
+        //public DirectSoundDeviceInfo SelectedSongDevice
+        //{
+        //    get => _selectedSongDevice;
+        //    set => SetProperty(ref _selectedSongDevice, value);
+        //}
 
         private bool CanPlayCommandExecute()
         {
-            return !IsPlaying
-                && SelectedSongDevice != null
-                && SelectedClickDevice != null;
+            return true;
+                //!IsPlaying
+                //&& SelectedSongDevice != null
+                //&& SelectedClickDevice != null;
         }
 
         private void PlayCommandExecute()
         {
-            _clickReader = new AudioFileReader(@"");
-            _songReader = new AudioFileReader(@"");
+            //_clickReader = new AudioFileReader(@"");
+            //_songReader = new AudioFileReader(@"");
             
-            _outputClick = new DirectSoundOut(SelectedClickDevice.Guid);
-            _outputClick.PlaybackStopped += OnPlaybackStopped;
-            _outputClick.Init(new OffsetSampleProvider(_clickReader.ToSampleProvider())
-            {
-                DelayBy = TimeSpan.FromSeconds(1)
-            });
+            //_outputClick = new DirectSoundOut(SelectedClickDevice.Guid);
+            //_outputClick.PlaybackStopped += OnPlaybackStopped;
+            //_outputClick.Init(new OffsetSampleProvider(_clickReader.ToSampleProvider())
+            //{
+            //    DelayBy = TimeSpan.FromSeconds(1)
+            //});
 
-            var sampleProvider = new OffsetSampleProvider(_songReader.ToSampleProvider())
-            {
-                DelayBy = _clickReader.TotalTime - _songReader.TotalTime + TimeSpan.FromSeconds(1)
-            };
-            _equalizer = new Equalizer(sampleProvider, _bands);
-            _outputSong = new DirectSoundOut(SelectedSongDevice.Guid);
-            _outputSong.PlaybackStopped += OnPlaybackStopped;
-            _outputSong.Init(_equalizer);
+            //var sampleProvider = new OffsetSampleProvider(_songReader.ToSampleProvider())
+            //{
+            //    DelayBy = _clickReader.TotalTime - _songReader.TotalTime + TimeSpan.FromSeconds(1)
+            //};
+            //_equalizer = new Equalizer(sampleProvider, _bands);
+            //_outputSong = new DirectSoundOut(SelectedSongDevice.Guid);
+            //_outputSong.PlaybackStopped += OnPlaybackStopped;
+            //_outputSong.Init(_equalizer);
 
-            _outputClick.Play();
-            _outputSong.Play();
-            _positionTimer.Start();
+            //_outputClick.Play();
+            //_outputSong.Play();
+            //_positionTimer.Start();
 
-            IsPlaying = true;
+            //IsPlaying = true;
         }
         
         private bool CanStopCommandExecute()
@@ -168,13 +161,13 @@ namespace Soncoord.Player
             UpdateAudioPosition(new TimeSpan(0));
         }
 
-        private void LoadDevices()
-        {
-            foreach (var device in DirectSoundOut.Devices)
-            {
-                Devices.Add(device);
-            }
-        }
+        //private void LoadDevices()
+        //{
+        //    foreach (var device in DirectSoundOut.Devices)
+        //    {
+        //        Devices.Add(device);
+        //    }
+        //}
 
         private void PositionTimerTick(object sender, EventArgs e)
         {

@@ -1,0 +1,274 @@
+﻿<UserControl x:Class="Soncoord.Player.Views.Settings"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:prism="http://prismlibrary.com/"
+             xmlns:infrastructure="clr-namespace:Soncoord.Infrastructure;assembly=Soncoord.Infrastructure"
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Output Device for Click Track" />
+                <TextBlock Text="{Binding Path=SelectedOutputSettings.ClickTrackOutputDevice.Description}" />
+            </StackPanel>
+            <ComboBox Grid.Row="1"
+                      DisplayMemberPath="Description"
+                      ItemsSource="{Binding Path=OutputDevices}"
+                      SelectedItem="{Binding Path=SelectedOutputSettings.ClickTrackOutputDevice, Mode=TwoWay}"/>
+            <!--<ListBox Grid.Row="1"
+                         HorizontalContentAlignment="Stretch"
+                         DisplayMemberPath="Description"
+                         ItemsSource="{Binding Path=OutputDevices}"
+                         SelectedItem="{Binding Path=SelectedOutputDevices.ClickTrackOutputDevice, Mode=TwoWay}" />-->
+        </Grid>
+
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Output Device for Song" />
+                <TextBlock Text="{Binding Path=SelectedOutputSettings.SongTrackOutputDevice.Description}" />
+            </StackPanel>
+            <ComboBox Grid.Row="1"
+                      DisplayMemberPath="Description"                      
+                      ItemsSource="{Binding Path=OutputDevices}"
+                      SelectedItem="{Binding Path=SelectedOutputSettings.SongTrackOutputDevice, Mode=TwoWay}"  />
+            <!--<ListBox Grid.Row="1"
+                         HorizontalContentAlignment="Stretch"
+                         DisplayMemberPath="Description"
+                         ItemsSource="{Binding Path=OutputDevices}"
+                         SelectedItem="{Binding Path=SelectedOutputDevices.SongTrackOutputDevice, Mode=TwoWay}" />-->
+        </Grid>
+
+
+        <UniformGrid Grid.Row="2"
+                     Columns="12">
+            <StackPanel>
+                <TextBlock Text="EQ Preset" />
+                <ComboBox DisplayMemberPath="Key"
+                          SelectedValuePath="Value"
+                          ItemsSource="{x:Static infrastructure:EqualizerPresets.Presets}" 
+                          SelectedValue="{Binding Path=SelectedOutputSettings.EqualizerBands}"/>
+            </StackPanel>
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <TextBlock Text="12 db"
+                           HorizontalAlignment="Center" />
+                <TextBlock Text="0 db" 
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Center" />
+                <TextBlock Text="-12 db" 
+                           VerticalAlignment="Bottom"
+                           HorizontalAlignment="Center" />
+                <TextBlock Grid.Row="1" />
+                <TextBlock Grid.Row="2" />
+            </Grid>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Slider Orientation="Vertical"
+                        HorizontalAlignment="Center" 
+                        Minimum="{Binding Path=MinimumGain}" 
+                        Maximum="{Binding Path=MaximumGain}" 
+                        Value="{Binding Path=SelectedOutputSettings.EqualizerBands[0].Gain, Mode=TwoWay}" />
+                <TextBlock Grid.Row="1"
+                           HorizontalAlignment="Center" 
+                           Text="{Binding Path=SelectedOutputSettings.EqualizerBands[0].Gain}"/>
+                <TextBlock Grid.Row="2"
+                           HorizontalAlignment="Center" 
+                           Text="{Binding Path=SelectedOutputSettings.EqualizerBands[0].Frequency, StringFormat={}{0} Hz}"/>
+            </Grid>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Slider Orientation="Vertical"
+                        HorizontalAlignment="Center" 
+                        Minimum="{Binding Path=MinimumGain}" 
+                        Maximum="{Binding Path=MaximumGain}" 
+                        Value="{Binding Path=SelectedOutputSettings.EqualizerBands[1].Gain, Mode=TwoWay}" />
+                <TextBlock Grid.Row="1"
+                           HorizontalAlignment="Center" 
+                           Text="{Binding Path=SelectedOutputSettings.EqualizerBands[1].Gain}"/>
+                <TextBlock Grid.Row="2"
+                           HorizontalAlignment="Center" 
+                           Text="{Binding Path=SelectedOutputSettings.EqualizerBands[1].Frequency, StringFormat={}{0} Hz}"/>
+            </Grid>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Slider Orientation="Vertical"
+                        HorizontalAlignment="Center" 
+                        Minimum="{Binding Path=MinimumGain}" 
+                        Maximum="{Binding Path=MaximumGain}" 
+                        Value="{Binding Path=SelectedOutputSettings.EqualizerBands[2].Gain, Mode=TwoWay}" />
+                <TextBlock Grid.Row="1"
+                           HorizontalAlignment="Center" 
+                           Text="{Binding Path=SelectedOutputSettings.EqualizerBands[2].Gain}"/>
+                <TextBlock Grid.Row="2"
+                           HorizontalAlignment="Center" 
+                           Text="{Binding Path=SelectedOutputSettings.EqualizerBands[2].Frequency, StringFormat={}{0} Hz}"/>
+            </Grid>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Slider Orientation="Vertical"
+                        HorizontalAlignment="Center" 
+                        Minimum="{Binding Path=MinimumGain}" 
+                        Maximum="{Binding Path=MaximumGain}" 
+                        Value="{Binding Path=SelectedOutputSettings.EqualizerBands[3].Gain, Mode=TwoWay}" />
+                <TextBlock Grid.Row="1"
+                           HorizontalAlignment="Center" 
+                           Text="{Binding Path=SelectedOutputSettings.EqualizerBands[3].Gain}"/>
+                <TextBlock Grid.Row="2"
+                           HorizontalAlignment="Center" 
+                           Text="{Binding Path=SelectedOutputSettings.EqualizerBands[3].Frequency, StringFormat={}{0} Hz}"/>
+            </Grid>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Slider Orientation="Vertical"
+                        HorizontalAlignment="Center" 
+                        Minimum="{Binding Path=MinimumGain}" 
+                        Maximum="{Binding Path=MaximumGain}" 
+                        Value="{Binding Path=SelectedOutputSettings.EqualizerBands[4].Gain, Mode=TwoWay}" />
+                <TextBlock Grid.Row="1"
+                           HorizontalAlignment="Center" 
+                           Text="{Binding Path=SelectedOutputSettings.EqualizerBands[4].Gain}"/>
+                <TextBlock Grid.Row="2"
+                           HorizontalAlignment="Center" 
+                           Text="{Binding Path=SelectedOutputSettings.EqualizerBands[4].Frequency, StringFormat={}{0} Hz}"/>
+            </Grid>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Slider Orientation="Vertical"
+                        HorizontalAlignment="Center" 
+                        Minimum="{Binding Path=MinimumGain}" 
+                        Maximum="{Binding Path=MaximumGain}" 
+                        Value="{Binding Path=SelectedOutputSettings.EqualizerBands[5].Gain, Mode=TwoWay}" />
+                <TextBlock Grid.Row="1"
+                           HorizontalAlignment="Center" 
+                           Text="{Binding Path=SelectedOutputSettings.EqualizerBands[5].Gain}"/>
+                <TextBlock Grid.Row="2"
+                           HorizontalAlignment="Center" 
+                           Text="{Binding Path=SelectedOutputSettings.EqualizerBands[5].Frequency, StringFormat={}{0} Hz}"/>
+            </Grid>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Slider Orientation="Vertical"
+                        HorizontalAlignment="Center" 
+                        Minimum="{Binding Path=MinimumGain}" 
+                        Maximum="{Binding Path=MaximumGain}" 
+                        Value="{Binding Path=SelectedOutputSettings.EqualizerBands[6].Gain, Mode=TwoWay}" />
+                <TextBlock Grid.Row="1"
+                           HorizontalAlignment="Center" 
+                           Text="{Binding Path=SelectedOutputSettings.EqualizerBands[6].Gain}"/>
+                <TextBlock Grid.Row="2"
+                           HorizontalAlignment="Center" 
+                           Text="{Binding Path=SelectedOutputSettings.EqualizerBands[6].Frequency, StringFormat={}{0} Hz}"/>
+            </Grid>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Slider Orientation="Vertical"
+                        HorizontalAlignment="Center" 
+                        Minimum="{Binding Path=MinimumGain}" 
+                        Maximum="{Binding Path=MaximumGain}" 
+                        Value="{Binding Path=SelectedOutputSettings.EqualizerBands[7].Gain, Mode=TwoWay}" />
+                <TextBlock Grid.Row="1"
+                           HorizontalAlignment="Center" 
+                           Text="{Binding Path=SelectedOutputSettings.EqualizerBands[7].Gain}"/>
+                <TextBlock Grid.Row="2"
+                           HorizontalAlignment="Center" 
+                           Text="{Binding Path=SelectedOutputSettings.EqualizerBands[7].Frequency, StringFormat={}{0} Hz}"/>
+            </Grid>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Slider Orientation="Vertical"
+                        HorizontalAlignment="Center" 
+                        Minimum="{Binding Path=MinimumGain}" 
+                        Maximum="{Binding Path=MaximumGain}" 
+                        Value="{Binding Path=SelectedOutputSettings.EqualizerBands[8].Gain, Mode=TwoWay}" />
+                <TextBlock Grid.Row="1"
+                           HorizontalAlignment="Center" 
+                           Text="{Binding Path=SelectedOutputSettings.EqualizerBands[8].Gain}"/>
+                <TextBlock Grid.Row="2"
+                           HorizontalAlignment="Center" 
+                           Text="{Binding Path=SelectedOutputSettings.EqualizerBands[8].Frequency, StringFormat={}{0} Hz}"/>
+            </Grid>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Slider Orientation="Vertical"
+                        HorizontalAlignment="Center" 
+                        Minimum="{Binding Path=MinimumGain}" 
+                        Maximum="{Binding Path=MaximumGain}" 
+                        Value="{Binding Path=SelectedOutputSettings.EqualizerBands[9].Gain, Mode=TwoWay}" />
+                <TextBlock Grid.Row="1"
+                           HorizontalAlignment="Center" 
+                           Text="{Binding Path=SelectedOutputSettings.EqualizerBands[9].Gain}"/>
+                <TextBlock Grid.Row="2"
+                           HorizontalAlignment="Center" 
+                           Text="{Binding Path=SelectedOutputSettings.EqualizerBands[9].Frequency, StringFormat={}{0} Hz}"/>
+            </Grid>
+        </UniformGrid>
+
+        <Button Grid.Row="3"
+                Content="Save"
+                Command="{Binding Path=SaveSettings}" />
+
+    </Grid>
+</UserControl>

@@ -74,9 +74,9 @@ namespace Soncoord.SongManager.ViewModels
         private ISongSetting LoadSettings()
         {
             var fileToOpen = $"{Globals.SongSettingsPath}\\{SelectedSong.Id}.json";
-            ISongSetting setting;
             if (File.Exists(fileToOpen))
             {
+                ISongSetting setting;
                 using (var file = File.OpenText(fileToOpen))
                 {
                     var serializer = new JsonSerializer();
