@@ -5,8 +5,11 @@ using Prism.Mvvm;
 using Soncoord.Infrastructure;
 using Soncoord.Infrastructure.Interfaces;
 using Soncoord.Infrastructure.Models;
+using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Windows;
+using System.Windows.Threading;
 
 namespace Soncoord.Player.ViewModels
 {
@@ -15,37 +18,38 @@ namespace Soncoord.Player.ViewModels
         public SettingsViewModel()
         {
             SaveSettings = new DelegateCommand(OnSaveSettingsExecute);
-            OutputDevices = DirectSoundOut.Devices;
-
             SelectedOutputSettings = LoadSettings();
         }
 
         public DelegateCommand SaveSettings { get; set; }
-        
-        public IEnumerable<DirectSoundDeviceInfo> OutputDevices { get; set; }
 
         public float MinimumGain => -12;
         
         public float MaximumGain => 12;
 
-        private IPlayerOutputSettings _selectedOutputSettings;
-        public IPlayerOutputSettings SelectedOutputSettings
+        public IEnumerable<DirectSoundDeviceInfo> OutputDevices
+        { 
+            get => DirectSoundOut.Devices;
+        }
+        
+        private PlayerOutputSettings _selectedOutputSettings;
+        public PlayerOutputSettings SelectedOutputSettings
         {
             get => _selectedOutputSettings;
             set => SetProperty(ref _selectedOutputSettings, value);
         }
 
-        private IPlayerOutputSettings LoadSettings()
+        private PlayerOutputSettings LoadSettings()
         {
             if (Directory.Exists(Globals.PlayerPath))
             {
                 if (File.Exists(Globals.PlayerOutputSettingsFile))
                 {
-                    IPlayerOutputSettings settings;
+                    PlayerOutputSettings settings;
                     using (var file = File.OpenText(Globals.PlayerOutputSettingsFile))
                     {
                         var serializer = new JsonSerializer();
-                        settings = serializer.Deserialize(file, typeof(PlayerOutputSettings)) as IPlayerOutputSettings;
+                        settings = serializer.Deserialize(file, typeof(PlayerOutputSettings)) as PlayerOutputSettings;
                     }
 
                     return settings;        

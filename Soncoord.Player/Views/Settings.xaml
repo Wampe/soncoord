@@ -21,19 +21,16 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Output Device for Click Track" />
-                <TextBlock Text="{Binding Path=SelectedOutputSettings.ClickTrackOutputDevice.Description}" />
-            </StackPanel>
+            
+            <TextBlock Text="Output Device for Click Track" />
+         
             <ComboBox Grid.Row="1"
                       DisplayMemberPath="Description"
                       ItemsSource="{Binding Path=OutputDevices}"
+                      SelectedValuePath="Guid"
+                      SelectedValue="{Binding Path=SelectedOutputSettings.ClickTrackOutputDevice.Guid, Mode=TwoWay}"
                       SelectedItem="{Binding Path=SelectedOutputSettings.ClickTrackOutputDevice, Mode=TwoWay}"/>
-            <!--<ListBox Grid.Row="1"
-                         HorizontalContentAlignment="Stretch"
-                         DisplayMemberPath="Description"
-                         ItemsSource="{Binding Path=OutputDevices}"
-                         SelectedItem="{Binding Path=SelectedOutputDevices.ClickTrackOutputDevice, Mode=TwoWay}" />-->
+            
         </Grid>
 
         <Grid Grid.Row="1">
@@ -41,30 +38,27 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Output Device for Song" />
-                <TextBlock Text="{Binding Path=SelectedOutputSettings.SongTrackOutputDevice.Description}" />
-            </StackPanel>
+            
+            <TextBlock Text="Output Device for Song" />
+            
             <ComboBox Grid.Row="1"
                       DisplayMemberPath="Description"                      
                       ItemsSource="{Binding Path=OutputDevices}"
+                      SelectedValuePath="Guid"
+                      SelectedValue="{Binding Path=SelectedOutputSettings.SongTrackOutputDevice.Guid, Mode=TwoWay}"  
                       SelectedItem="{Binding Path=SelectedOutputSettings.SongTrackOutputDevice, Mode=TwoWay}"  />
-            <!--<ListBox Grid.Row="1"
-                         HorizontalContentAlignment="Stretch"
-                         DisplayMemberPath="Description"
-                         ItemsSource="{Binding Path=OutputDevices}"
-                         SelectedItem="{Binding Path=SelectedOutputDevices.SongTrackOutputDevice, Mode=TwoWay}" />-->
+            
         </Grid>
-
 
         <UniformGrid Grid.Row="2"
                      Columns="12">
+            
             <StackPanel>
                 <TextBlock Text="EQ Preset" />
                 <ComboBox DisplayMemberPath="Key"
                           SelectedValuePath="Value"
                           ItemsSource="{x:Static infrastructure:EqualizerPresets.Presets}" 
-                          SelectedValue="{Binding Path=SelectedOutputSettings.EqualizerBands}"/>
+                          SelectedValue="{Binding Path=SelectedOutputSettings.EqualizerBands, Mode=TwoWay}" />
             </StackPanel>
 
             <Grid>
@@ -84,6 +78,7 @@
                 <TextBlock Grid.Row="1" />
                 <TextBlock Grid.Row="2" />
             </Grid>
+            
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition />
@@ -102,6 +97,7 @@
                            HorizontalAlignment="Center" 
                            Text="{Binding Path=SelectedOutputSettings.EqualizerBands[0].Frequency, StringFormat={}{0} Hz}"/>
             </Grid>
+            
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition />
@@ -120,6 +116,7 @@
                            HorizontalAlignment="Center" 
                            Text="{Binding Path=SelectedOutputSettings.EqualizerBands[1].Frequency, StringFormat={}{0} Hz}"/>
             </Grid>
+            
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition />
@@ -138,6 +135,7 @@
                            HorizontalAlignment="Center" 
                            Text="{Binding Path=SelectedOutputSettings.EqualizerBands[2].Frequency, StringFormat={}{0} Hz}"/>
             </Grid>
+            
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition />
@@ -156,6 +154,7 @@
                            HorizontalAlignment="Center" 
                            Text="{Binding Path=SelectedOutputSettings.EqualizerBands[3].Frequency, StringFormat={}{0} Hz}"/>
             </Grid>
+            
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition />
@@ -174,6 +173,7 @@
                            HorizontalAlignment="Center" 
                            Text="{Binding Path=SelectedOutputSettings.EqualizerBands[4].Frequency, StringFormat={}{0} Hz}"/>
             </Grid>
+            
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition />
@@ -192,6 +192,7 @@
                            HorizontalAlignment="Center" 
                            Text="{Binding Path=SelectedOutputSettings.EqualizerBands[5].Frequency, StringFormat={}{0} Hz}"/>
             </Grid>
+            
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition />
@@ -210,6 +211,7 @@
                            HorizontalAlignment="Center" 
                            Text="{Binding Path=SelectedOutputSettings.EqualizerBands[6].Frequency, StringFormat={}{0} Hz}"/>
             </Grid>
+            
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition />
@@ -228,6 +230,7 @@
                            HorizontalAlignment="Center" 
                            Text="{Binding Path=SelectedOutputSettings.EqualizerBands[7].Frequency, StringFormat={}{0} Hz}"/>
             </Grid>
+            
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition />
@@ -246,6 +249,7 @@
                            HorizontalAlignment="Center" 
                            Text="{Binding Path=SelectedOutputSettings.EqualizerBands[8].Frequency, StringFormat={}{0} Hz}"/>
             </Grid>
+            
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition />
@@ -264,6 +268,7 @@
                            HorizontalAlignment="Center" 
                            Text="{Binding Path=SelectedOutputSettings.EqualizerBands[9].Frequency, StringFormat={}{0} Hz}"/>
             </Grid>
+            
         </UniformGrid>
 
         <Button Grid.Row="3"
