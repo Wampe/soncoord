@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using Prism.Commands;
 using Prism.Mvvm;
+using Prism.Regions;
 using Soncoord.Infrastructure;
 using Soncoord.Infrastructure.Models;
 using System.Collections.Generic;
@@ -9,6 +10,7 @@ using System.IO;
 
 namespace Soncoord.Player.ViewModels
 {
+    [RegionMemberLifetime(KeepAlive = false)]
     public class SettingsViewModel : BindableBase
     {
         public SettingsViewModel()

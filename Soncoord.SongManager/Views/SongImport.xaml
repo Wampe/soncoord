@@ -12,6 +12,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Button Margin="8"
                 Padding="8"
@@ -21,5 +22,9 @@
                      Margin="8"
                      Height="8" 
                      IsIndeterminate="{Binding Path=IsImportActive}" />
+        <TextBlock Grid.Row="2"
+                   Margin="8"
+                   HorizontalAlignment="Center"
+                   Text="{Binding Path=ImportCount, StringFormat={}{0} songs imported}" />
     </Grid>
 </UserControl>

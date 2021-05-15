@@ -28,6 +28,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         
         <TextBlock Margin="8">Id</TextBlock>
@@ -142,6 +143,13 @@
                 Margin="8"
                 Padding="8"
                 Command="{Binding Path=SaveSettings}" />
+
+        <Button Content="Load song into controller" 
+                Grid.Row="13"
+                Grid.Column="1"
+                Margin="8"
+                Padding="8"
+                Command="{Binding Path=LoadSongIntoController}" />
 
     </Grid>
 </UserControl>

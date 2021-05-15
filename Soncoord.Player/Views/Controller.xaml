@@ -13,16 +13,17 @@
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
         <StackPanel>
-            <TextBlock Text="Title"/>
-            <TextBlock Text="Artist"/>
+            <TextBlock Text="{Binding Path=SelectedSong.Title, StringFormat={} Title: {0}, FallbackValue=Title:}"/>
+            <TextBlock Text="{Binding Path=SelectedSong.Artist, StringFormat={} Artist: {0}, FallbackValue=Artist:}"/>
             <TextBlock VerticalAlignment="Center">
                 <TextBlock.Text>
-                    <MultiBinding StringFormat="{}{0:00}:{1:00;00}">
+                    <MultiBinding StringFormat="{}Time: {0:00}:{1:00;00}" FallbackValue="Time:">
                         <Binding Path="AudioPosition.Minutes"/>
                         <Binding Path="AudioPosition.Seconds"/>
                     </MultiBinding>
                 </TextBlock.Text>
             </TextBlock>
+            <Slider />
         </StackPanel>
         <StackPanel Grid.Column="1" 
                     Orientation="Horizontal">

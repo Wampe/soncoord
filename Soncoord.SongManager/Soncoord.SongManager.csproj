@@ -79,7 +79,6 @@
       <DependentUpon>SongManager.xaml</DependentUpon>
     </Compile>
     <Compile Include="SongManagerModule.cs" />
-    <Compile Include="SongManagerViewModel.cs" />
     <Compile Include="ViewModels\SongDetailViewModel.cs" />
     <Compile Include="ViewModels\SongImportViewModel.cs" />
     <Compile Include="ViewModels\SongListViewModel.cs" />

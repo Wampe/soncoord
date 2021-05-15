@@ -1,9 +1,11 @@
 ﻿using Microsoft.Win32;
 using Newtonsoft.Json;
 using Prism.Commands;
+using Prism.Events;
 using Prism.Mvvm;
 using Prism.Regions;
 using Soncoord.Infrastructure;
+using Soncoord.Infrastructure.Events;
 using Soncoord.Infrastructure.Interfaces;
 using Soncoord.Infrastructure.Models;
 using System.IO;
@@ -13,16 +15,22 @@ namespace Soncoord.SongManager.ViewModels
     [RegionMemberLifetime(KeepAlive = false)]
     public class SongDetailViewModel : BindableBase, INavigationAware
     {
-        public SongDetailViewModel()
+        private readonly IEventAggregator _eventAggregator;
+
+        public SongDetailViewModel(IEventAggregator eventAggregator)
         {
+            _eventAggregator = eventAggregator;
+
             SaveSettings = new DelegateCommand(OnSaveSettingsExecute);
             SelectClickTrack = new DelegateCommand(OnSelectClickTrackExecute);
             SelectMusicTrack = new DelegateCommand(OnSelectMusicTrackExecute);
+            LoadSongIntoController = new DelegateCommand(OnLoadSongIntoControllerExecute);
         }
 
         public DelegateCommand SaveSettings { get; set; }
         public DelegateCommand SelectClickTrack { get; set; }
         public DelegateCommand SelectMusicTrack { get; set; }
+        public DelegateCommand LoadSongIntoController { get; set; }
 
         private ISongSetting _songSettings;
         public ISongSetting SongSettings
@@ -69,6 +77,17 @@ namespace Soncoord.SongManager.ViewModels
             {
                 SongSettings.ClickTrackPath = openFileDialog.FileName;
             }
+        }
+
+        private void OnLoadSongIntoControllerExecute()
+        {
+            _eventAggregator.GetEvent<LoadSongIntoControllerEvent>().Publish(
+                new LoadSongIntoControllerParameters
+                {
+                    Song = SelectedSong,
+                    Settings = SongSettings
+                }
+            );
         }
 
         private ISongSetting LoadSettings()

@@ -17,18 +17,18 @@ namespace Soncoord.Player
         private AudioFileReader _clickReader;
         private AudioFileReader _songReader;
 
-        private Equalizer _equalizer;
-        private readonly EqualizerBand[] _bands;
+        //private Equalizer _equalizer;
+        //private readonly EqualizerBand[] _bands;
 
-        private readonly DispatcherTimer _positionTimer;
+        //private readonly DispatcherTimer _positionTimer;
 
         public PlayerViewModel()
         {
-            _positionTimer = new DispatcherTimer(DispatcherPriority.ApplicationIdle)
-            {
-                Interval = TimeSpan.FromMilliseconds(50)
-            };
-            _positionTimer.Tick += PositionTimerTick;
+            //_positionTimer = new DispatcherTimer(DispatcherPriority.ApplicationIdle)
+            //{
+            //    Interval = TimeSpan.FromMilliseconds(50)
+            //};
+            //_positionTimer.Tick += PositionTimerTick;
 
             // EQ Settings simliar to Techno preset of Winamp
             //_bands = new EqualizerBand[]
@@ -46,30 +46,30 @@ namespace Soncoord.Player
             //};
 
             //Devices = new ObservableCollection<DirectSoundDeviceInfo>();
-            StopCommand = new DelegateCommand(StopCommandExecute, CanStopCommandExecute)
-                .ObservesProperty(() => IsPlaying);
-            PlayCommand = new DelegateCommand(PlayCommandExecute, CanPlayCommandExecute)
-                .ObservesProperty(() => IsPlaying);
+            //StopCommand = new DelegateCommand(StopCommandExecute, CanStopCommandExecute)
+            //    .ObservesProperty(() => IsPlaying);
+            //PlayCommand = new DelegateCommand(PlayCommandExecute, CanPlayCommandExecute)
+            //    .ObservesProperty(() => IsPlaying);
                 //.ObservesProperty(() => SelectedClickDevice)
                 //.ObservesProperty(() => SelectedSongDevice);
 
-            UpdateAudioPosition(new TimeSpan(0));
+            //UpdateAudioPosition(new TimeSpan(0));
             //LoadDevices();
         }
 
-        public DelegateCommand PlayCommand { get; set; }
-        public DelegateCommand StopCommand { get; set; }
+        //public DelegateCommand PlayCommand { get; set; }
+        //public DelegateCommand StopCommand { get; set; }
         //public ObservableCollection<DirectSoundDeviceInfo> Devices { get; set; }
 
         //public float MinimumGain => -12;
         //public float MaximumGain => 12;
 
-        private TimeSpan _audioPosition;
-        public TimeSpan AudioPosition
-        {
-            get => _audioPosition;
-            set => SetProperty(ref _audioPosition, value);
-        }
+        //private TimeSpan _audioPosition;
+        //public TimeSpan AudioPosition
+        //{
+        //    get => _audioPosition;
+        //    set => SetProperty(ref _audioPosition, value);
+        //}
 
         private bool _isPlaying;
         public bool IsPlaying
@@ -104,7 +104,8 @@ namespace Soncoord.Player
         {
             //_clickReader = new AudioFileReader(@"");
             //_songReader = new AudioFileReader(@"");
-            
+
+
             //_outputClick = new DirectSoundOut(SelectedClickDevice.Guid);
             //_outputClick.PlaybackStopped += OnPlaybackStopped;
             //_outputClick.Init(new OffsetSampleProvider(_clickReader.ToSampleProvider())
@@ -138,7 +139,7 @@ namespace Soncoord.Player
             _outputClick?.Stop();
             _outputSong?.Stop();
 
-            _positionTimer.Stop();
+            //_positionTimer.Stop();
         }
 
         private void OnPlaybackStopped(object sender, StoppedEventArgs e)
@@ -158,7 +159,7 @@ namespace Soncoord.Player
             _songReader = null;
 
             IsPlaying = false;
-            UpdateAudioPosition(new TimeSpan(0));
+            //UpdateAudioPosition(new TimeSpan(0));
         }
 
         //private void LoadDevices()
@@ -169,14 +170,14 @@ namespace Soncoord.Player
         //    }
         //}
 
-        private void PositionTimerTick(object sender, EventArgs e)
-        {
-            UpdateAudioPosition(_songReader.CurrentTime);
-        }
+        //private void PositionTimerTick(object sender, EventArgs e)
+        //{
+        //    //UpdateAudioPosition(_songReader.CurrentTime);
+        //}
 
-        private void UpdateAudioPosition(TimeSpan value)
-        {
-            AudioPosition = value;
-        }
+        //private void UpdateAudioPosition(TimeSpan value)
+        //{
+        //    AudioPosition = value;
+        //}
     }
 }

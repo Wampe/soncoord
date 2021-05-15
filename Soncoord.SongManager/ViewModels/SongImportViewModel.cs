@@ -39,6 +39,13 @@ namespace Soncoord.SongManager.ViewModels
         public DelegateCommand SynchronizeSongs { get; set; }
         internal ICollection<ISong> Songs { get; set; }
 
+        private int _importCount;
+        public int ImportCount
+        {
+            get => _importCount;
+            set => SetProperty(ref _importCount, value);
+        }
+
         private bool _isImportActive;
         public bool IsImportActive
         {
@@ -57,6 +64,8 @@ namespace Soncoord.SongManager.ViewModels
             var songs = await LoadSongs(100, 0, new Collection<ISong>());
             SaveSongs(songs);
             IsImportActive = false;
+
+            ImportCount = songs.Count;
 
             _eventAggregator.GetEvent<SongsImportedEvent>().Publish();
         }

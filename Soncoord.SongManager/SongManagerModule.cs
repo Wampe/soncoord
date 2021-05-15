@@ -21,7 +21,6 @@ namespace Soncoord.SongManager
 
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            ViewModelLocationProvider.Register<SongManager, SongManagerViewModel>();
             ViewModelLocationProvider.Register<SongDetail, SongDetailViewModel>();
             ViewModelLocationProvider.Register<SongList, SongListViewModel>();
             ViewModelLocationProvider.Register<SongImport, SongImportViewModel>();
