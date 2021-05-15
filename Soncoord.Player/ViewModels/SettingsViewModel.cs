@@ -3,13 +3,9 @@ using Newtonsoft.Json;
 using Prism.Commands;
 using Prism.Mvvm;
 using Soncoord.Infrastructure;
-using Soncoord.Infrastructure.Interfaces;
 using Soncoord.Infrastructure.Models;
-using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Windows;
-using System.Windows.Threading;
 
 namespace Soncoord.Player.ViewModels
 {

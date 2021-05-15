@@ -67,14 +67,14 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-                <TextBlock Text="12 db"
-                           HorizontalAlignment="Center" />
+                <TextBlock HorizontalAlignment="Center"
+                           Text="{Binding Path=MaximumGain, StringFormat={}{0} db}" />
                 <TextBlock Text="0 db" 
                            VerticalAlignment="Center"
                            HorizontalAlignment="Center" />
-                <TextBlock Text="-12 db" 
-                           VerticalAlignment="Bottom"
-                           HorizontalAlignment="Center" />
+                <TextBlock VerticalAlignment="Bottom"
+                           HorizontalAlignment="Center" 
+                           Text="{Binding Path=MinimumGain, StringFormat={}{0} db}"/>
                 <TextBlock Grid.Row="1" />
                 <TextBlock Grid.Row="2" />
             </Grid>
