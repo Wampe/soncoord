@@ -21,7 +21,6 @@ namespace Soncoord.Player
 
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            ViewModelLocationProvider.Register<Player, PlayerViewModel>();
             ViewModelLocationProvider.Register<Controller, ControllerViewModel>();
             ViewModelLocationProvider.Register<Playlist, PlaylistViewModel>();
             ViewModelLocationProvider.Register<Settings, SettingsViewModel>();

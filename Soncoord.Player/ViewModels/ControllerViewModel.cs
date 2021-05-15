@@ -4,37 +4,33 @@ using Prism.Mvvm;
 using Soncoord.Infrastructure.Events;
 using Soncoord.Infrastructure.Interfaces;
 using System;
-using System.Windows.Threading;
 
 namespace Soncoord.Player.ViewModels
 {
     public class ControllerViewModel : BindableBase
     {
-        private readonly DispatcherTimer _positionTimer;
-
         public ControllerViewModel(IEventAggregator eventAggregator)
         {
-            _positionTimer = new DispatcherTimer(DispatcherPriority.ApplicationIdle)
-            {
-                Interval = TimeSpan.FromMilliseconds(50)
-            };
-            _positionTimer.Tick += PositionTimerTick;
-
-            PlayCommand = new DelegateCommand(OnPlayCommandExecute);
+            PlayerExecuter = new PlayerExecuter();
+            PlayCommand = new DelegateCommand(OnPlayCommandExecute, OnPlayCommandCanExecute)
+                .ObservesProperty(() => SongSettings);
             StopCommand = new DelegateCommand(OnStopCommandExecute);
-
-            UpdateAudioPosition(new TimeSpan(0));
 
             eventAggregator.GetEvent<LoadSongIntoControllerEvent>().Subscribe((LoadSongIntoControllerParameters parameter) =>
             {
                 SelectedSong = parameter.Song;
                 SongSettings = parameter.Settings;
+                RaisePropertyChanged("SongSettings");
             });
+
+            PlayerExecuter.PositionUpdated += PositionUpdated;
+            PlayerExecuter.Started += PlayerStarted;
         }
 
         public DelegateCommand PlayCommand { get; set; }
         public DelegateCommand StopCommand { get; set; }
         internal ISongSetting SongSettings { get; set; }
+        internal PlayerExecuter PlayerExecuter { get; set; }
 
         private ISong _selectedSong;
         public ISong SelectedSong
@@ -50,31 +46,38 @@ namespace Soncoord.Player.ViewModels
             set => SetProperty(ref _audioPosition, value);
         }
 
-        private bool _isReversedAudioPosition;
-        public bool IsReversedAudioPosition
+        private TimeSpan _audioTotalTime;
+        public TimeSpan AudioTotalTime
         {
-            get => _isReversedAudioPosition;
-            set => SetProperty(ref _isReversedAudioPosition, value);
+            get => _audioTotalTime;
+            set => SetProperty(ref _audioTotalTime, value);
         }
 
         private void OnStopCommandExecute()
         {
-            _positionTimer.Stop();
-            UpdateAudioPosition(new TimeSpan(0));
+            PlayerExecuter.Stop();
+        }
+
+        private bool OnPlayCommandCanExecute()
+        {
+            return SongSettings != null
+                && !string.IsNullOrEmpty(SongSettings.ClickTrackPath) 
+                && !string.IsNullOrEmpty(SongSettings.MusicTrackPath);
         }
 
         private void OnPlayCommandExecute()
         {
+            PlayerExecuter.Play(SongSettings.ClickTrackPath, SongSettings.MusicTrackPath);
         }
 
-        private void PositionTimerTick(object sender, EventArgs e)
+        private void PositionUpdated(object sender, TimeSpan e)
         {
-            //UpdateAudioPosition(_songReader.CurrentTime);
+            AudioPosition = e;
         }
 
-        private void UpdateAudioPosition(TimeSpan value)
+        private void PlayerStarted(object sender, TimeSpan e)
         {
-            AudioPosition = value;
+            AudioTotalTime = e;
         }
     }
 }

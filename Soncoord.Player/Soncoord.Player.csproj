@@ -94,6 +94,8 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="PlayerExecuter.cs" />
+    <Compile Include="TimeSpanDoubleConverter.cs" />
     <Compile Include="ViewModels\ControllerViewModel.cs" />
     <Compile Include="ViewModels\PlaylistViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModel.cs" />
@@ -128,7 +130,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="PlayerModule.cs" />
-    <Compile Include="PlayerViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

@@ -4,6 +4,7 @@ using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
 using Soncoord.Infrastructure;
+using Soncoord.Infrastructure.Interfaces;
 using Soncoord.Infrastructure.Models;
 using System.Collections.Generic;
 using System.IO;
@@ -30,24 +31,24 @@ namespace Soncoord.Player.ViewModels
             get => DirectSoundOut.Devices;
         }
         
-        private PlayerOutputSettings _selectedOutputSettings;
-        public PlayerOutputSettings SelectedOutputSettings
+        private IPlayerOutputSettings _selectedOutputSettings;
+        public IPlayerOutputSettings SelectedOutputSettings
         {
             get => _selectedOutputSettings;
             set => SetProperty(ref _selectedOutputSettings, value);
         }
 
-        private PlayerOutputSettings LoadSettings()
+        private IPlayerOutputSettings LoadSettings()
         {
             if (Directory.Exists(Globals.PlayerPath))
             {
                 if (File.Exists(Globals.PlayerOutputSettingsFile))
                 {
-                    PlayerOutputSettings settings;
+                    IPlayerOutputSettings settings;
                     using (var file = File.OpenText(Globals.PlayerOutputSettingsFile))
                     {
                         var serializer = new JsonSerializer();
-                        settings = serializer.Deserialize(file, typeof(PlayerOutputSettings)) as PlayerOutputSettings;
+                        settings = serializer.Deserialize(file, typeof(PlayerOutputSettings)) as IPlayerOutputSettings;
                     }
 
                     return settings;        
