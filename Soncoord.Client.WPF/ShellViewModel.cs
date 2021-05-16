@@ -69,7 +69,7 @@ namespace Soncoord.Client.WPF
                 ),
             };
 
-            _positionTimer.Start();
+            //_positionTimer.Start();
 
             CallAudioPlayer = new DelegateCommand(() =>
             {

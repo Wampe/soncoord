@@ -16,11 +16,13 @@ namespace Soncoord.Player.ViewModels
             _playlistService = playlistService;
             _executer = executer;
 
-            Play = new DelegateCommand(OnPlayCommandExecute, OnPlayCommandCanExecute);
+            Play = new DelegateCommand(OnPlayCommandExecute);
             Stop = new DelegateCommand(OnStopCommandExecute);
 
             _executer.PositionChanged += PositionUpdated;
             _executer.Started += PlayerStarted;
+            _executer.Stopped += PlayerStopped;
+            _executer.Ended += PlayEnded;
         }
 
         public DelegateCommand Play { get; set; }
@@ -52,18 +54,9 @@ namespace Soncoord.Player.ViewModels
             _executer.Stop();
         }
 
-        private bool OnPlayCommandCanExecute()
-        {
-            return true;
-
-            // ToDo: Update Handling
-            //return !_playlistService.IsPlaylistEmpty();
-        }
-
         private void OnPlayCommandExecute()
         {
-            SelectedSong = _playlistService.GetNextSong();
-            _executer.Play(_playlistService.GetSongSettings(SelectedSong));
+            PlayNextSong();
         }
 
         private void PositionUpdated(object sender, TimeSpan e)
@@ -74,6 +67,27 @@ namespace Soncoord.Player.ViewModels
         private void PlayerStarted(object sender, TimeSpan e)
         {
             TotalTime = e;
+        }
+
+        private void PlayEnded(object sender, EventArgs e)
+        {
+            _playlistService.Remove(SelectedSong);
+            PlayNextSong();
+        }
+
+        private void PlayerStopped(object sender, EventArgs e)
+        {
+        }
+
+        private void PlayNextSong()
+        {
+            SelectedSong = _playlistService.GetNextSong();
+            if (SelectedSong == null)
+            {
+                return;
+            }
+
+            _executer.Play(_playlistService.GetSongSettings(SelectedSong));
         }
     }
 }

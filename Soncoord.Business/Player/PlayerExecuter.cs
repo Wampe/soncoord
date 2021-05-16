@@ -32,6 +32,9 @@ namespace Soncoord.Business.Player
 
         public event EventHandler<TimeSpan> PositionChanged;
         public event EventHandler<TimeSpan> Started;
+        public event EventHandler Stopped;
+        public event EventHandler Ended;
+
         public bool IsTrackRunReverted { get; set; }
 
         public void Play(ISongSetting settings)
@@ -45,7 +48,6 @@ namespace Soncoord.Business.Player
 
             _clickTrackReader = new AudioFileReader(clickTrack);
             _clickTrackOutput = new DirectSoundOut(selectedOutputSettings.ClickTrackOutputDevice.Guid, 300);
-            _clickTrackOutput.PlaybackStopped += OnPlaybackStopped;
             _clickTrackOutput.Init(_clickTrackReader.ToSampleProvider());
 
             _songTrackReader = new AudioFileReader(songTrack);
@@ -73,26 +75,28 @@ namespace Soncoord.Business.Player
 
         public void Stop()
         {
-            _clickTrackOutput?.Stop();
             _songTrackOutput?.Stop();
-
-            _clickTrackReader.Dispose();
-            _clickTrackReader = null;
-
-            _songTrackReader.Dispose();
-            _songTrackReader = null;
-
-            _positionTimer.Stop();
-            UpdateAudioPosition(new TimeSpan(0));
         }
 
         private void OnPlaybackStopped(object sender, StoppedEventArgs e)
         {
-            if (sender is DirectSoundOut directSoundOutput)
+            _songTrackOutput.PlaybackStopped -= OnPlaybackStopped;
+            _songTrackOutput.Dispose();
+            _songTrackOutput = null;
+
+            _clickTrackOutput.Stop();
+            _clickTrackOutput.Dispose();
+            _clickTrackOutput = null;
+
+            _positionTimer.Stop();
+            UpdateAudioPosition(new TimeSpan(0));
+            if (_songTrackReader.CurrentTime < _songTrackReader.TotalTime)
             {
-                directSoundOutput.PlaybackStopped -= OnPlaybackStopped;
-                directSoundOutput.Dispose();
-                directSoundOutput = null;
+                Stopped?.Invoke(this, null);
+            }
+            else
+            {
+                Ended?.Invoke(this, null);
             }
         }
 
