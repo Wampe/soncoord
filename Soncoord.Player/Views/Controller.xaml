@@ -22,21 +22,21 @@
             <TextBlock VerticalAlignment="Center">
                 <TextBlock.Text>
                     <MultiBinding StringFormat="{}Time: {0:00}:{1:00;00}" FallbackValue="Time:">
-                        <Binding Path="AudioPosition.Minutes"/>
-                        <Binding Path="AudioPosition.Seconds"/>
+                        <Binding Path="Position.Minutes"/>
+                        <Binding Path="Position.Seconds"/>
                     </MultiBinding>
                 </TextBlock.Text>
             </TextBlock>
             <Slider Minimum="0"
-                    Value="{Binding Path=AudioPosition, Converter={StaticResource TimeSpanConverter}}"
-                    Maximum="{Binding Path=AudioTotalTime, Converter={StaticResource TimeSpanConverter}}"/>
+                    Value="{Binding Path=Position, Converter={StaticResource TimeSpanConverter}}"
+                    Maximum="{Binding Path=TotalTime, Converter={StaticResource TimeSpanConverter}}"/>
         </StackPanel>
         <StackPanel Grid.Column="1" 
                     Orientation="Horizontal">
             <Button Content="Play"
-                    Command="{Binding Path=PlayCommand}" />
+                    Command="{Binding Path=Play}" />
             <Button Content="Stop"
-                    Command="{Binding Path=StopCommand}" />
+                    Command="{Binding Path=Stop}" />
         </StackPanel>
     </Grid>
 </UserControl>

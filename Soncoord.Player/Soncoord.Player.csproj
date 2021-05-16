@@ -94,7 +94,6 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="PlayerExecuter.cs" />
     <Compile Include="TimeSpanDoubleConverter.cs" />
     <Compile Include="ViewModels\ControllerViewModel.cs" />
     <Compile Include="ViewModels\PlaylistViewModel.cs" />
@@ -154,6 +153,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Soncoord.Business\Soncoord.Business.csproj">
+      <Project>{df27e9c5-5c38-46e5-96f4-6d05d1289d88}</Project>
+      <Name>Soncoord.Business</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Soncoord.Infrastructure\Soncoord.Infrastructure.csproj">
       <Project>{585dd6c6-8dde-40f1-bf30-71ecb4907a60}</Project>
       <Name>Soncoord.Infrastructure</Name>

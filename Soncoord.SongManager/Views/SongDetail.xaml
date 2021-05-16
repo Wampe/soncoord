@@ -144,12 +144,12 @@
                 Padding="8"
                 Command="{Binding Path=SaveSettings}" />
 
-        <Button Content="Load song into controller" 
+        <Button Content="Add To Playlist" 
                 Grid.Row="13"
                 Grid.Column="1"
                 Margin="8"
                 Padding="8"
-                Command="{Binding Path=LoadSongIntoController}" />
+                Command="{Binding Path=AddToPlaylist}" />
 
     </Grid>
 </UserControl>

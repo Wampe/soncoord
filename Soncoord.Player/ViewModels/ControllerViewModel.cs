@@ -1,36 +1,30 @@
 ﻿using Prism.Commands;
-using Prism.Events;
 using Prism.Mvvm;
-using Soncoord.Infrastructure.Events;
 using Soncoord.Infrastructure.Interfaces;
+using Soncoord.Infrastructure.Interfaces.Services;
 using System;
 
 namespace Soncoord.Player.ViewModels
 {
     public class ControllerViewModel : BindableBase
     {
-        public ControllerViewModel(IEventAggregator eventAggregator)
+        private readonly IPlaylistService _playlistService;
+        private readonly IPlayerExecuter _executer;
+
+        public ControllerViewModel(IPlaylistService playlistService, IPlayerExecuter executer)
         {
-            PlayerExecuter = new PlayerExecuter();
-            PlayCommand = new DelegateCommand(OnPlayCommandExecute, OnPlayCommandCanExecute)
-                .ObservesProperty(() => SongSettings);
-            StopCommand = new DelegateCommand(OnStopCommandExecute);
+            _playlistService = playlistService;
+            _executer = executer;
 
-            eventAggregator.GetEvent<LoadSongIntoControllerEvent>().Subscribe((LoadSongIntoControllerParameters parameter) =>
-            {
-                SelectedSong = parameter.Song;
-                SongSettings = parameter.Settings;
-                RaisePropertyChanged("SongSettings");
-            });
+            Play = new DelegateCommand(OnPlayCommandExecute, OnPlayCommandCanExecute);
+            Stop = new DelegateCommand(OnStopCommandExecute);
 
-            PlayerExecuter.PositionUpdated += PositionUpdated;
-            PlayerExecuter.Started += PlayerStarted;
+            _executer.PositionChanged += PositionUpdated;
+            _executer.Started += PlayerStarted;
         }
 
-        public DelegateCommand PlayCommand { get; set; }
-        public DelegateCommand StopCommand { get; set; }
-        internal ISongSetting SongSettings { get; set; }
-        internal PlayerExecuter PlayerExecuter { get; set; }
+        public DelegateCommand Play { get; set; }
+        public DelegateCommand Stop { get; set; }
 
         private ISong _selectedSong;
         public ISong SelectedSong
@@ -39,45 +33,47 @@ namespace Soncoord.Player.ViewModels
             set => SetProperty(ref _selectedSong, value);
         }
 
-        private TimeSpan _audioPosition;
-        public TimeSpan AudioPosition
+        private TimeSpan _position;
+        public TimeSpan Position
         {
-            get => _audioPosition;
-            set => SetProperty(ref _audioPosition, value);
+            get => _position;
+            set => SetProperty(ref _position, value);
         }
 
-        private TimeSpan _audioTotalTime;
-        public TimeSpan AudioTotalTime
+        private TimeSpan _totalTime;
+        public TimeSpan TotalTime
         {
-            get => _audioTotalTime;
-            set => SetProperty(ref _audioTotalTime, value);
+            get => _totalTime;
+            set => SetProperty(ref _totalTime, value);
         }
 
         private void OnStopCommandExecute()
         {
-            PlayerExecuter.Stop();
+            _executer.Stop();
         }
 
         private bool OnPlayCommandCanExecute()
         {
-            return SongSettings != null
-                && !string.IsNullOrEmpty(SongSettings.ClickTrackPath) 
-                && !string.IsNullOrEmpty(SongSettings.MusicTrackPath);
+            return true;
+
+            // ToDo: Update Handling
+            //return !_playlistService.IsPlaylistEmpty();
         }
 
         private void OnPlayCommandExecute()
         {
-            PlayerExecuter.Play(SongSettings.ClickTrackPath, SongSettings.MusicTrackPath);
+            SelectedSong = _playlistService.GetNextSong();
+            _executer.Play(_playlistService.GetSongSettings(SelectedSong));
         }
 
         private void PositionUpdated(object sender, TimeSpan e)
         {
-            AudioPosition = e;
+            Position = e;
         }
 
         private void PlayerStarted(object sender, TimeSpan e)
         {
-            AudioTotalTime = e;
+            TotalTime = e;
         }
     }
 }

@@ -13,6 +13,29 @@
             <RowDefinition />
         </Grid.RowDefinitions>
         <TextBlock Text="Playlist" />
-        <ListBox Grid.Row="1" />
+        <ItemsControl Grid.Row="1" 
+                 ItemsSource="{Binding Path=PlaylistSongs}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Margin="16">
+                            <TextBlock Text="{Binding Path=Artist}" />
+                            <TextBlock Text="{Binding Path=Title}" />
+                        </StackPanel>
+
+                        <Button Grid.Column="1"
+                                Content="Remove" 
+                                CommandParameter="{Binding}"
+                                Command="{Binding DataContext.RemoveFromPlaylist, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ItemsControl}}}" />
+
+                    </Grid>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
     </Grid>
 </UserControl>
