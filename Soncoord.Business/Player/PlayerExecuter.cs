@@ -44,23 +44,24 @@ namespace Soncoord.Business.Player
             var selectedOutputSettings = _outputsService.GetSettings();
 
             _clickTrackReader = new AudioFileReader(clickTrack);
-            _clickTrackOutput = new DirectSoundOut(selectedOutputSettings.ClickTrackOutputDevice.Guid);
+            _clickTrackOutput = new DirectSoundOut(selectedOutputSettings.ClickTrackOutputDevice.Guid, 300);
             _clickTrackOutput.PlaybackStopped += OnPlaybackStopped;
-            _clickTrackOutput.Init(
-                new OffsetSampleProvider(_clickTrackReader.ToSampleProvider())
-                {
-                    DelayBy = TimeSpan.FromSeconds(1)
-                });
+            _clickTrackOutput.Init(_clickTrackReader.ToSampleProvider());
 
             _songTrackReader = new AudioFileReader(songTrack);
-            _songTrackOutput = new DirectSoundOut(selectedOutputSettings.SongTrackOutputDevice.Guid);
+            _songTrackOutput = new DirectSoundOut(selectedOutputSettings.SongTrackOutputDevice.Guid, 300);
             _songTrackOutput.PlaybackStopped += OnPlaybackStopped;
+
+            var songTrackProvider = new OffsetSampleProvider(_songTrackReader.ToSampleProvider());
+            int sampleRate = songTrackProvider.WaveFormat.SampleRate;
+            int channels = songTrackProvider.WaveFormat.Channels;
+            var delay = _clickTrackReader.TotalTime - _songTrackReader.TotalTime;
+            var samplesToDelay = Convert.ToInt32(sampleRate * delay.TotalSeconds) * channels;
+            songTrackProvider.DelayBySamples = samplesToDelay;
+
             _songTrackOutput.Init(
                 new Equalizer(
-                    new OffsetSampleProvider(_songTrackReader.ToSampleProvider())
-                    {
-                        DelayBy = _clickTrackReader.TotalTime - _songTrackReader.TotalTime + TimeSpan.FromSeconds(1)
-                    },
+                    songTrackProvider,
                     selectedOutputSettings.EqualizerBands));
 
             _clickTrackOutput.Play();
