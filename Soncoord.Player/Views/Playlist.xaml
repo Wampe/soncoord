@@ -6,15 +6,17 @@
              xmlns:prism="http://prismlibrary.com/"
              prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
+             Padding="8"
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid Grid.Row="1">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
-        <TextBlock Text="Playlist" />
+        <TextBlock Margin="8"
+                   Text="Playlist" />
         <ItemsControl Grid.Row="1" 
-                 ItemsSource="{Binding Path=PlaylistSongs}">
+                      ItemsSource="{Binding Path=PlaylistSongs}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <Grid>
@@ -23,12 +25,16 @@
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
 
-                        <StackPanel Margin="16">
-                            <TextBlock Text="{Binding Path=Artist}" />
-                            <TextBlock Text="{Binding Path=Title}" />
+                        <StackPanel Margin="4">
+                            <TextBlock Margin="4"
+                                       Text="{Binding Path=Artist}" />
+                            <TextBlock Margin="4"
+                                       Text="{Binding Path=Title}" />
                         </StackPanel>
 
-                        <Button Grid.Column="1"
+                        <Button Margin="8"
+                                Padding="8"
+                                Grid.Column="1"
                                 Content="Remove" 
                                 CommandParameter="{Binding}"
                                 Command="{Binding DataContext.RemoveFromPlaylist, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ItemsControl}}}" />

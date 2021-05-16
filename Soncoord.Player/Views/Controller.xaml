@@ -7,6 +7,8 @@
              xmlns:local="clr-namespace:Soncoord.Player"
              prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
+             Padding="8"
+             Background="SlateGray"
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
         <local:TimeSpanDoubleConverter x:Key="TimeSpanConverter" />
@@ -14,29 +16,49 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
-            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
         <StackPanel>
-            <TextBlock Text="{Binding Path=SelectedSong.Title, StringFormat={} Title: {0}, FallbackValue=Title:}"/>
-            <TextBlock Text="{Binding Path=SelectedSong.Artist, StringFormat={} Artist: {0}, FallbackValue=Artist:}"/>
-            <TextBlock VerticalAlignment="Center">
+            <TextBlock Margin="8"
+                       FontSize="32"
+                       Text="{Binding Path=SelectedSong.Title, FallbackValue=No song selected}"/>
+            <TextBlock Margin="8"
+                       FontSize="24"
+                       Text="{Binding Path=SelectedSong.Artist}"/>
+        </StackPanel>
+        <StackPanel Grid.Column="1">
+            <TextBlock Margin="8"
+                       FontSize="64"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center">
                 <TextBlock.Text>
-                    <MultiBinding StringFormat="{}Time: {0:00}:{1:00;00}" FallbackValue="Time:">
+                    <MultiBinding StringFormat="{}{0:00}:{1:00;00}">
                         <Binding Path="Position.Minutes"/>
                         <Binding Path="Position.Seconds"/>
                     </MultiBinding>
                 </TextBlock.Text>
             </TextBlock>
-            <Slider Minimum="0"
+            <StackPanel Grid.Column="1" 
+                        Grid.Row="1"
+                        HorizontalAlignment="Center"
+                        Orientation="Horizontal">
+                <Button Margin="8"
+                        Padding="8"
+                        Content="Play"
+                        Command="{Binding Path=Play}" />
+                <Button Margin="8"
+                        Padding="8"
+                        Content="Stop"
+                        Command="{Binding Path=Stop}" />
+                <Button Margin="8"
+                        Padding="8"
+                        Content="Next" />
+            </StackPanel>
+            <Slider Margin="4"
+                    Minimum="0"
                     Value="{Binding Path=Position, Converter={StaticResource TimeSpanConverter}}"
                     Maximum="{Binding Path=TotalTime, Converter={StaticResource TimeSpanConverter}}"/>
         </StackPanel>
-        <StackPanel Grid.Column="1" 
-                    Orientation="Horizontal">
-            <Button Content="Play"
-                    Command="{Binding Path=Play}" />
-            <Button Content="Stop"
-                    Command="{Binding Path=Stop}" />
-        </StackPanel>
+        
     </Grid>
 </UserControl>

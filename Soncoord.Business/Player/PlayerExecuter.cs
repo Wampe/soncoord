@@ -158,10 +158,17 @@ namespace Soncoord.Business.Player
                     : _songTrackReader.CurrentTime;
 
             UpdateAudioPosition(position);
-            if (_timeCodeCommandIndex != -1)
-            {
-                TimeCodeCommands(position);
-            }
+
+            // Problem: 
+            // This current (dummy) implementation already hits the timer intervall for updarting the time display in the controller
+            // and causes lags in updating the UI. 
+            //
+            // ToDo: CHECK FOR Background Thread based handling
+            // Commands will just trigger specific non-UI things so it should be possible (and enough) to to this in background!
+            //if (_timeCodeCommandIndex != -1)
+            //{
+            //    TimeCodeCommands(position);
+            //}
         }
 
         private void UpdateAudioPosition(TimeSpan value)

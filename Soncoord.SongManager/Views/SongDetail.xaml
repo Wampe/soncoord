@@ -22,34 +22,27 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        
-        <TextBlock Margin="8">Id</TextBlock>
-        <TextBlock Grid.Column="1"
-                   Margin="8"
-                   Text="{Binding Path=SelectedSong.Id}" />
 
-        <TextBlock Grid.Row="1"
-                   Margin="8">Title</TextBlock>
-        <TextBlock Grid.Row="1"
-                   Grid.Column="1" 
+        <TextBlock Margin="8">Title</TextBlock>
+        <TextBlock Grid.Column="1" 
                    Margin="8"
                    Text="{Binding Path=SelectedSong.Title}" />
 
-        <TextBlock Grid.Row="2"
+        <TextBlock Grid.Row="1"
                    Margin="8">Artist</TextBlock>
-        <TextBlock Grid.Row="2"
+        <TextBlock Grid.Row="1"
                    Grid.Column="1" 
                    Margin="8"
                    Text="{Binding Path=SelectedSong.Artist}" />
 
+        <TextBlock Grid.Row="2"
+                   Margin="8">Id</TextBlock>
+        <TextBlock Grid.Column="1"
+                   Grid.Row="2"
+                   Margin="8"
+                   Text="{Binding Path=SelectedSong.Id}" />
+        
         <TextBlock Grid.Row="3"
                    Margin="8">Created At</TextBlock>
         <TextBlock Grid.Row="3"
@@ -58,50 +51,8 @@
                    Text="{Binding Path=SelectedSong.CreatedAt}" />
 
         <TextBlock Grid.Row="4"
-                   Margin="8">Active</TextBlock>
-        <TextBlock Grid.Row="4"
-                   Grid.Column="1" 
-                   Margin="8"
-                   Text="{Binding Path=SelectedSong.Active}" />
-
-        <TextBlock Grid.Row="5"
-                   Margin="8">Min Amount</TextBlock>
-        <TextBlock Grid.Row="5"
-                   Grid.Column="1" 
-                   Margin="8"
-                   Text="{Binding Path=SelectedSong.MinAmount}" />
-
-        <TextBlock Grid.Row="6"
-                   Margin="8">Last Played</TextBlock>
-        <TextBlock Grid.Row="6"
-                   Grid.Column="1" 
-                   Margin="8"
-                   Text="{Binding Path=SelectedSong.LastPlayed}" />
-
-        <TextBlock Grid.Row="7"
-                   Margin="8">Times Played</TextBlock>
-        <TextBlock Grid.Row="7"
-                   Grid.Column="1" 
-                   Margin="8"
-                   Text="{Binding Path=SelectedSong.TimesPlayed}" />
-
-        <TextBlock Grid.Row="8"
-                   Margin="8">Num Queued</TextBlock>
-        <TextBlock Grid.Row="8"
-                   Grid.Column="1" 
-                   Margin="8"
-                   Text="{Binding Path=SelectedSong.NumQueued}" />
-
-        <TextBlock Grid.Row="9"
-                   Margin="8">Attribute Ids</TextBlock>
-        <TextBlock Grid.Row="9"
-                   Grid.Column="1" 
-                   Margin="8"
-                   Text="{Binding Path=SelectedSong.AttributeIds}" />
-
-        <TextBlock Grid.Row="10"
                    Margin="8">Click Track</TextBlock>
-        <Grid Grid.Row="10"
+        <Grid Grid.Row="4"
               Grid.Column="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
@@ -118,9 +69,9 @@
                      Text="{Binding Path=SongSettings.ClickTrackPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
         </Grid>
 
-        <TextBlock Grid.Row="11"
+        <TextBlock Grid.Row="5"
                    Margin="8">Music Track</TextBlock>
-        <Grid Grid.Row="11"
+        <Grid Grid.Row="5"
               Grid.Column="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
@@ -138,14 +89,14 @@
         </Grid>
 
         <Button Content="Save" 
-                Grid.Row="12"
+                Grid.Row="6"
                 Grid.Column="1"
                 Margin="8"
                 Padding="8"
                 Command="{Binding Path=SaveSettings}" />
 
         <Button Content="Add To Playlist" 
-                Grid.Row="13"
+                Grid.Row="7"
                 Grid.Column="1"
                 Margin="8"
                 Padding="8"
