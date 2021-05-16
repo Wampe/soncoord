@@ -21,8 +21,7 @@ namespace Soncoord.Player.ViewModels
 
             _executer.PositionChanged += PositionUpdated;
             _executer.Started += PlayerStarted;
-            _executer.Stopped += PlayerStopped;
-            _executer.Ended += PlayEnded;
+            _executer.Ended += PlayerEnded;
         }
 
         public DelegateCommand Play { get; set; }
@@ -69,14 +68,10 @@ namespace Soncoord.Player.ViewModels
             TotalTime = e;
         }
 
-        private void PlayEnded(object sender, EventArgs e)
+        private void PlayerEnded(object sender, EventArgs e)
         {
             _playlistService.Remove(SelectedSong);
             PlayNextSong();
-        }
-
-        private void PlayerStopped(object sender, EventArgs e)
-        {
         }
 
         private void PlayNextSong()
