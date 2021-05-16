@@ -15,15 +15,6 @@
         </Grid.RowDefinitions>
         <StackPanel Margin="8"
                     Orientation="Horizontal">
-            <TextBlock Margin="8"
-                       VerticalAlignment="Center">
-                <TextBlock.Text>
-                    <MultiBinding StringFormat="{}{0:00}:{1:00;00}">
-                        <Binding Path="PlayerTime.Minutes"/>
-                        <Binding Path="PlayerTime.Seconds"/>
-                    </MultiBinding>
-                </TextBlock.Text>
-            </TextBlock>
             <Button Margin="8"
                     Padding="8"
                     Content="Audio Player" 
