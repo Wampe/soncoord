@@ -21,7 +21,7 @@
                     Orientation="Horizontal">
             <Button Margin="8"
                     Padding="8"
-                    Content="Audio Player" 
+                    Content="Dashboard" 
                     Command="{Binding Path=CallAudioPlayer}" />
             <Button Margin="8"
                     Padding="8"

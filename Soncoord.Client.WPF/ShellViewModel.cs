@@ -17,7 +17,7 @@ namespace Soncoord.Client.WPF
             {
                 _regionManager.RequestNavigate(
                     Regions.ShellContent,
-                    "Player"
+                    "Dashboard"
                 );
             });
 

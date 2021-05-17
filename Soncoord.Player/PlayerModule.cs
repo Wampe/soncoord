@@ -16,7 +16,7 @@ namespace Soncoord.Player
         public void OnInitialized(IContainerProvider containerProvider)
         {
             var regionManager = containerProvider.Resolve<IRegionManager>();
-            regionManager.RegisterViewWithRegion(Regions.ShellContent, typeof(Player));
+            regionManager.RegisterViewWithRegion(Regions.DashboardPlayer, typeof(Player));
             regionManager.RegisterViewWithRegion(Regions.PlayerController, typeof(Controller));
             regionManager.RegisterViewWithRegion(Regions.PlayerContext, typeof(Playlist));
             regionManager.RegisterViewWithRegion(Regions.PlayerContext, typeof(Settings));

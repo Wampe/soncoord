@@ -85,7 +85,15 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Bootstrapper.cs.cs" />
+    <Compile Include="ViewModels\DashboardViewModel.cs" />
+    <Compile Include="Views\Dashboard.xaml.cs">
+      <DependentUpon>Dashboard.xaml</DependentUpon>
+    </Compile>
     <Page Include="Shell.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Dashboard.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -133,6 +141,10 @@
     <ProjectReference Include="..\Soncoord.SongManager\Soncoord.SongManager.csproj">
       <Project>{7fda7c55-e134-4464-ae91-5cd3aaabb53b}</Project>
       <Name>Soncoord.SongManager</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Soncoord.SongRequests\Soncoord.SongRequests.csproj">
+      <Project>{78D665FC-4870-4E40-883E-10F4B3BE1882}</Project>
+      <Name>Soncoord.SongRequests</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

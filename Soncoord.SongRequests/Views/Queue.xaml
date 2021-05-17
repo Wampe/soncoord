@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="Soncoord.Player.Views.Playlist"
+﻿<UserControl x:Class="Soncoord.SongRequests.Views.Queue"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -14,11 +14,11 @@
             <RowDefinition />
         </Grid.RowDefinitions>
         <TextBlock Margin="8"
-                   Text="Playlist" />
-        <ItemsControl Grid.Row="1" 
-                      Margin="8"
-                      ItemsSource="{Binding Path=PlaylistSongs}">
-            <ItemsControl.ItemTemplate>
+                   Text="Song Requests Queue" />
+        <ListBox Grid.Row="1" 
+                 Margin="8"
+                 ItemsSource="{Binding Path=SongRequestQueue}">
+            <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -28,21 +28,23 @@
 
                         <StackPanel Margin="4">
                             <TextBlock Margin="4"
-                                       Text="{Binding Path=Artist}" />
+                                       Text="{Binding Path=Song.Artist}" />
                             <TextBlock Margin="4"
-                                       Text="{Binding Path=Title}" />
+                                       Text="{Binding Path=Song.Title}" />
+                            <TextBlock Margin="4"
+                                       Text="{Binding Path=Requests[0].Name}" />
                         </StackPanel>
 
-                        <Button Margin="8"
+                        <!--<Button Margin="8"
                                 Padding="8"
                                 Grid.Column="1"
                                 Content="Remove" 
                                 CommandParameter="{Binding}"
-                                Command="{Binding DataContext.RemoveFromPlaylist, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ItemsControl}}}" />
+                                Command="{Binding DataContext.RemoveFromPlaylist, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ItemsControl}}}" />-->
 
                     </Grid>
                 </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
+            </ListBox.ItemTemplate>
+        </ListBox>
     </Grid>
 </UserControl>

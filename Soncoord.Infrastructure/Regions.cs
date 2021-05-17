@@ -10,5 +10,7 @@
         public static string PlayerContext = "PlayerContextRegion";
 
         public static string ShellContent = "ShellContentRegion";
+        public static string DashboardQueue = "DashboardQueueRegion";
+        public static string DashboardPlayer = "DashboardPlayerRegion";
     }
 }

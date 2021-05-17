@@ -21,9 +21,11 @@
         <StackPanel>
             <TextBlock Margin="8"
                        FontSize="32"
-                       Text="{Binding Path=SelectedSong.Title, FallbackValue=No song selected}"/>
+                       TextWrapping="Wrap"
+                       Text="{Binding Path=SelectedSong.Title, FallbackValue=No song selected}" />
             <TextBlock Margin="8"
                        FontSize="24"
+                       TextWrapping="Wrap"
                        Text="{Binding Path=SelectedSong.Artist}"/>
         </StackPanel>
         <StackPanel Grid.Column="1">
