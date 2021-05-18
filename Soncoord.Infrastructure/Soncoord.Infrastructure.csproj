@@ -91,6 +91,7 @@
     <Compile Include="Interfaces\Services\IOutputsService.cs" />
     <Compile Include="Interfaces\IPlayerExecuter.cs" />
     <Compile Include="Interfaces\Services\IPlaylistService.cs" />
+    <Compile Include="Interfaces\Services\ISongsService.cs" />
     <Compile Include="Models\PlayerOutputSettings.cs" />
     <Compile Include="Models\Queue.cs" />
     <Compile Include="Models\QueueQuery.cs" />

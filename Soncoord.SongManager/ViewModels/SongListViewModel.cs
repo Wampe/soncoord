@@ -1,37 +1,29 @@
-﻿using Newtonsoft.Json;
-using Prism.Commands;
-using Prism.Events;
+﻿using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
 using Soncoord.Infrastructure;
-using Soncoord.Infrastructure.Events;
 using Soncoord.Infrastructure.Interfaces;
-using Soncoord.Infrastructure.Models;
-using System;
-using System.Collections.ObjectModel;
+using Soncoord.Infrastructure.Interfaces.Services;
 using System.ComponentModel;
-using System.IO;
 using System.Linq;
 using System.Windows.Data;
 
 namespace Soncoord.SongManager.ViewModels
 {
     [RegionMemberLifetime(KeepAlive = false)]
-    public class SongListViewModel : BindableBase, INavigationAware
+    public class SongListViewModel : BindableBase
     {
         private readonly IRegionManager _regionManager;
-        private readonly IEventAggregator _eventAggregator;
+        private readonly ISongsService _songsService;
 
-        public SongListViewModel(IRegionManager regionManager, IEventAggregator eventAggregator)
+        public SongListViewModel(IRegionManager regionManager, ISongsService songsService)
         {
             _regionManager = regionManager;
-            _eventAggregator = eventAggregator;
-            _eventAggregator.GetEvent<SongsImportedEvent>().Subscribe(LoadSongsFromFiles);
-
-            Songs = new ObservableCollection<ISong>();
+            _songsService = songsService;
+            
             SongsViewSource = new CollectionViewSource
             {
-                Source = Songs
+                Source = _songsService.GetSongs()
             };
             SongsViewSource.SortDescriptions.Add(new SortDescription("Artist", ListSortDirection.Ascending));
             SongsViewSource.SortDescriptions.Add(new SortDescription("Title", ListSortDirection.Ascending));
@@ -40,11 +32,10 @@ namespace Soncoord.SongManager.ViewModels
             ResetFilter = new DelegateCommand(OnResetFilterExecute, OnResetFilterCanExecute)
                 .ObservesProperty(() => FilterText);
 
-            LoadSongsFromFiles();
+            SelectedSong = SongsView.OfType<ISong>().FirstOrDefault();
         }
 
         public DelegateCommand ResetFilter { get; set; }
-        internal ObservableCollection<ISong> Songs { get; set; }
         internal CollectionViewSource SongsViewSource { get; set; }
         internal ISong PreviousSelectedSong { get; set; }
 
@@ -65,21 +56,6 @@ namespace Soncoord.SongManager.ViewModels
         {
             get => _filterText;
             set => SetProperty(ref _filterText, value);
-        }
-
-        public bool IsNavigationTarget(NavigationContext navigationContext)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void OnNavigatedFrom(NavigationContext navigationContext)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void OnNavigatedTo(NavigationContext navigationContext)
-        {
-            throw new NotImplementedException();
         }
 
         protected override void OnPropertyChanged(PropertyChangedEventArgs args)
@@ -138,27 +114,6 @@ namespace Soncoord.SongManager.ViewModels
             e.Accepted = string.IsNullOrWhiteSpace(_filterText)
                 || song.Artist.ToLower().Contains(_filterText.ToLower())
                 || song.Title.ToLower().Contains(_filterText.ToLower());
-        }
-
-        private void LoadSongsFromFiles()
-        {
-            var files = Directory.GetFiles(Globals.SongsPath);
-            if (files != null && files.Length > 0)
-            {
-                Songs.Clear();
-
-                foreach (var item in files)
-                {
-                    using (var file = File.OpenText(item))
-                    {
-                        var serializer = new JsonSerializer();
-                        var song = serializer.Deserialize(file, typeof(Song)) as ISong;
-                        Songs.Add(song);
-                    }
-                }
-
-                SelectedSong = SongsView.OfType<ISong>().FirstOrDefault();
-            }
         }
     }
 }

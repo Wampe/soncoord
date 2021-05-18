@@ -2,7 +2,9 @@
 using Prism.Modularity;
 using Prism.Mvvm;
 using Prism.Regions;
+using Soncoord.Business.SongManager;
 using Soncoord.Infrastructure;
+using Soncoord.Infrastructure.Interfaces.Services;
 using Soncoord.SongManager.ViewModels;
 using Soncoord.SongManager.Views;
 
@@ -21,6 +23,8 @@ namespace Soncoord.SongManager
 
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
+            containerRegistry.RegisterSingleton<ISongsService, SongsService>();
+
             ViewModelLocationProvider.Register<SongDetail, SongDetailViewModel>();
             ViewModelLocationProvider.Register<SongList, SongListViewModel>();
             ViewModelLocationProvider.Register<SongImport, SongImportViewModel>();

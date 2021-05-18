@@ -13,11 +13,11 @@ namespace Soncoord.Business.Player
 {
     public class PlaylistService : IPlaylistService
     {
-        private ObservableCollection<ISong> _playlist { get; set; }
+        private ObservableCollection<ISong> Playlist { get; set; }
         
         public PlaylistService()
         {
-            _playlist = new ObservableCollection<ISong>();
+            Playlist = new ObservableCollection<ISong>();
         }
 
         public event EventHandler AddedToPlaylist;
@@ -25,29 +25,29 @@ namespace Soncoord.Business.Player
 
         public void Add(ISong song)
         {
-            _playlist.Add(song);
+            Playlist.Add(song);
             AddedToPlaylist?.Invoke(this, null);
         }
 
         public bool Contains(ISong song)
         {
-            return _playlist.Contains(song);
+            return Playlist.Contains(song);
         }
 
         public IEnumerable<ISong> GetPlaylist()
         {
-            return _playlist;
+            return Playlist;
         }
 
         public void Remove(ISong song)
         {
-            _playlist.Remove(song);
+            Playlist.Remove(song);
             RemovedFromPlaylist?.Invoke(this, null);
         }
 
         public bool IsPlaylistEmpty()
         {
-            return !_playlist.Any();
+            return !Playlist.Any();
         }
 
         public ISong GetNextSong()
@@ -57,7 +57,7 @@ namespace Soncoord.Business.Player
                 return null;
             }
 
-            return _playlist.FirstOrDefault();
+            return Playlist.FirstOrDefault();
         }
 
         public ISongSetting GetSongSettings(ISong song)

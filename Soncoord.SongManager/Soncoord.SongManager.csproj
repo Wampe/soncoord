@@ -120,6 +120,10 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Soncoord.Business\Soncoord.Business.csproj">
+      <Project>{DF27E9C5-5C38-46E5-96F4-6D05D1289D88}</Project>
+      <Name>Soncoord.Business</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Soncoord.Infrastructure\Soncoord.Infrastructure.csproj">
       <Project>{585dd6c6-8dde-40f1-bf30-71ecb4907a60}</Project>
       <Name>Soncoord.Infrastructure</Name>

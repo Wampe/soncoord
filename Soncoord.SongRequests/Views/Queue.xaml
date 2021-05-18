@@ -15,10 +15,11 @@
         </Grid.RowDefinitions>
         <TextBlock Margin="8"
                    Text="Song Requests Queue" />
-        <ListBox Grid.Row="1" 
+        <ItemsControl Grid.Row="1" 
                  Margin="8"
+                 HorizontalContentAlignment="Stretch"
                  ItemsSource="{Binding Path=SongRequestQueue}">
-            <ListBox.ItemTemplate>
+            <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -35,16 +36,16 @@
                                        Text="{Binding Path=Requests[0].Name}" />
                         </StackPanel>
 
-                        <!--<Button Margin="8"
+                        <Button Margin="8"
                                 Padding="8"
                                 Grid.Column="1"
-                                Content="Remove" 
+                                Content="Add" 
                                 CommandParameter="{Binding}"
-                                Command="{Binding DataContext.RemoveFromPlaylist, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ItemsControl}}}" />-->
+                                Command="{Binding DataContext.AddToPlaylist, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ItemsControl}}}" />
 
                     </Grid>
                 </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
     </Grid>
 </UserControl>
