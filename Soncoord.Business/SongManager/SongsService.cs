@@ -170,6 +170,14 @@ namespace Soncoord.Business.SongManager
 
             foreach (var item in songs)
             {
+                var existingSettings = GetSettings(item);
+                if (existingSettings != null
+                    && !string.IsNullOrEmpty(existingSettings.ClickTrackPath)
+                    && !string.IsNullOrEmpty(existingSettings.MusicTrackPath))
+                {
+                    continue;
+                }
+
                 var parts = Regex.Escape(
                     item.Title
                         .ToLower()
