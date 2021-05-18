@@ -26,11 +26,20 @@
                      Padding="4"
                      VerticalContentAlignment="Center"
                      Text="{Binding Path=FilterText, UpdateSourceTrigger=PropertyChanged}" />
-            <Button Grid.Column="2"
-                    Content="Reset" 
-                    Margin="8"
-                    Padding="8"
-                    Command="{Binding Path=ResetFilter}" />
+            <StackPanel Grid.Column="2"
+                        Orientation="Horizontal">
+                
+                <Button Content="Reset" 
+                        Margin="8"
+                        Padding="8"
+                        Command="{Binding Path=ResetFilter}" />
+                
+                <ToggleButton Content="Without Files"
+                              Margin="8"
+                              Padding="8"
+                              IsChecked="{Binding Path=FilterWithoutFiles, Mode=TwoWay}" />
+                
+            </StackPanel>
         </Grid>
         <ListBox Grid.Row="1"
                  Margin="8"

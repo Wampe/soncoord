@@ -39,6 +39,13 @@ namespace Soncoord.SongManager.ViewModels
         internal CollectionViewSource SongsViewSource { get; set; }
         internal ISong PreviousSelectedSong { get; set; }
 
+        private bool _filterWithoutFiles;
+        public bool FilterWithoutFiles
+        {
+            get => _filterWithoutFiles;
+            set => SetProperty(ref _filterWithoutFiles, value);
+        }
+
         public ICollectionView SongsView
         {
             get => SongsViewSource.View;
@@ -61,6 +68,11 @@ namespace Soncoord.SongManager.ViewModels
         protected override void OnPropertyChanged(PropertyChangedEventArgs args)
         {
             base.OnPropertyChanged(args);
+
+            if (args.PropertyName == "FilterWithoutFiles")
+            {
+                SongsView.Refresh();
+            }
 
             if (args.PropertyName == "FilterText")
             {
@@ -111,9 +123,19 @@ namespace Soncoord.SongManager.ViewModels
         private void SongsViewSourceFilter(object sender, FilterEventArgs e)
         {
             var song = e.Item as ISong;
-            e.Accepted = string.IsNullOrWhiteSpace(_filterText)
-                || song.Artist.ToLower().Contains(_filterText.ToLower())
-                || song.Title.ToLower().Contains(_filterText.ToLower());
+            if (FilterWithoutFiles)
+            {
+                var setting = _songsService.GetSettings(song);
+                e.Accepted = string.IsNullOrEmpty(setting.ClickTrackPath)
+                    && string.IsNullOrEmpty(setting.MusicTrackPath);
+            }
+            else
+            {
+                e.Accepted = string.IsNullOrWhiteSpace(_filterText)
+                    || song.Artist.ToLower().Contains(_filterText.ToLower())
+                    || song.Title.ToLower().Contains(_filterText.ToLower());
+            }
+            
         }
     }
 }

@@ -9,6 +9,7 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web;
 
@@ -129,6 +130,7 @@ namespace Soncoord.Business.SongManager
         {
             var songs = await LoadSongs(100, 0, new Collection<ISong>());
             SaveSongs(songs);
+            AssignMediaFilesToSongs(songs);
             LoadSongs();
             Imported?.Invoke(this, null);
         }
@@ -160,6 +162,47 @@ namespace Soncoord.Business.SongManager
             }
 
             return collection;
+        }
+
+        private void AssignMediaFilesToSongs(ICollection<ISong> songs)
+        {
+            var files = Directory.GetFiles(Globals.TracksSourcePath);
+
+            foreach (var item in songs)
+            {
+                var parts = Regex.Escape(
+                    item.Title
+                        .ToLower()
+                        .Replace(" ", "_")
+                        .Replace("-", "_")
+                        .Replace(" / ", "_")
+                        .Replace("'", "")
+                        .Replace("`", "")
+                        .Replace("´", "")
+                        .Replace("!", "")
+                        .Replace("?", "")
+                        .Replace(", ", "_")
+                        .Replace("ä", "a")
+                        .Replace("ü", "u")
+                        .Replace("ö", "o"));
+
+                var clickTrack = files
+                    .FirstOrDefault(
+                        file => Regex.Escape(file).ToLower().Contains(parts)
+                            && Regex.Escape(file).ToLower().Contains("Klick"));
+
+                var songTrack = files
+                    .FirstOrDefault(
+                        file => Regex.Escape(file).ToLower().Contains(parts)
+                            && !Regex.Escape(file).ToLower().Contains("Klick"));
+
+                if (string.IsNullOrEmpty(clickTrack) && string.IsNullOrEmpty(songTrack))
+                {
+                    continue;
+                }
+
+                SaveSettings(item, new SongSetting { ClickTrackPath = clickTrack, MusicTrackPath = songTrack });
+            }
         }
     }
 }

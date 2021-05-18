@@ -11,5 +11,7 @@ namespace Soncoord.Infrastructure
 
         public static readonly string PlayerPath = $"{LocalAppData}\\Player";
         public static readonly string PlayerOutputSettingsFile = $"{PlayerPath}\\settings.json";
+
+        public static readonly string TracksSourcePath = $"D:\\Song Library\\";
     }
 }
