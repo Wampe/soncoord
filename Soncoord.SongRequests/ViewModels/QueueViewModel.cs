@@ -37,7 +37,7 @@ namespace Soncoord.SongRequests.ViewModels
             _queueTimer.Tick += QueueTimerTicked;
             _queueTimer.Start();
 
-            AddToPlaylist = new DelegateCommand<Queue>(OnAddToPlaylistExecute);
+            AddToPlaylist = new DelegateCommand<Queue>(OnAddToPlaylistExecute, OnAddToPlaylistCanExecute);
             SongRequestQueue = new ObservableCollection<Queue>();
 
             LoadSongs();
@@ -56,7 +56,25 @@ namespace Soncoord.SongRequests.ViewModels
 
             _playlistService.Add(song);
         }
-        
+
+        private bool OnAddToPlaylistCanExecute(Queue queue)
+        {
+            var song = _songsService.GetSongById(queue.SongId);
+            if (song == null)
+            {
+                return false;
+            }
+
+            var settings = _songsService.GetSettings(song);
+            if (settings == null)
+            {
+                return false;
+            }
+
+            return !string.IsNullOrEmpty(settings.MusicTrackPath);
+    
+        }
+
         private void QueueTimerTicked(object sender, EventArgs e)
         {
             LoadSongs();

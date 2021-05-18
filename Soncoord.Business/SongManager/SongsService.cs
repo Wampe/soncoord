@@ -173,30 +173,31 @@ namespace Soncoord.Business.SongManager
                 var parts = Regex.Escape(
                     item.Title
                         .ToLower()
-                        .Replace(" ", "_")
-                        .Replace("-", "_")
-                        .Replace(" / ", "_")
-                        .Replace("'", "")
-                        .Replace("`", "")
-                        .Replace("´", "")
-                        .Replace("!", "")
-                        .Replace("?", "")
-                        .Replace(", ", "_")
-                        .Replace("ä", "a")
-                        .Replace("ü", "u")
-                        .Replace("ö", "o"));
+                        .Replace($"-", "_")
+                        .Replace($"/", string.Empty)
+                        .Replace($"'", string.Empty)
+                        .Replace($"`", string.Empty)
+                        .Replace($"´", string.Empty)
+                        .Replace($"!", string.Empty)
+                        .Replace($"?", string.Empty)
+                        .Replace($",", "_")
+                        .Replace($".", "_")
+                        .Replace($"ä", "a")
+                        .Replace($"ü", "u")
+                        .Replace($"ö", "o")
+                        .Replace($" ", "_"));
 
                 var clickTrack = files
                     .FirstOrDefault(
                         file => Regex.Escape(file).ToLower().Contains(parts)
-                            && Regex.Escape(file).ToLower().Contains("Klick"));
+                            && Regex.Escape(file).ToLower().Contains("klick"));
 
                 var songTrack = files
                     .FirstOrDefault(
                         file => Regex.Escape(file).ToLower().Contains(parts)
-                            && !Regex.Escape(file).ToLower().Contains("Klick"));
+                            && !Regex.Escape(file).ToLower().Contains("klick"));
 
-                if (string.IsNullOrEmpty(clickTrack) && string.IsNullOrEmpty(songTrack))
+                if (string.IsNullOrEmpty(clickTrack) || string.IsNullOrEmpty(songTrack))
                 {
                     continue;
                 }
