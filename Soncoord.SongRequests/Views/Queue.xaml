@@ -15,37 +15,39 @@
         </Grid.RowDefinitions>
         <TextBlock Margin="8"
                    Text="Song Requests Queue" />
-        <ItemsControl Grid.Row="1" 
-                 Margin="8"
-                 HorizontalContentAlignment="Stretch"
-                 ItemsSource="{Binding Path=SongRequestQueue}">
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition />
-                            <ColumnDefinition Width="Auto" />
-                        </Grid.ColumnDefinitions>
+        <ScrollViewer Grid.Row="1" 
+                      Margin="8"
+                      VerticalScrollBarVisibility="Auto">
+            <ItemsControl HorizontalContentAlignment="Stretch"
+                          ItemsSource="{Binding Path=SongRequestQueue}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
 
-                        <StackPanel Margin="4">
-                            <TextBlock Margin="4"
-                                       Text="{Binding Path=Song.Artist}" />
-                            <TextBlock Margin="4"
-                                       Text="{Binding Path=Song.Title}" />
-                            <TextBlock Margin="4"
-                                       Text="{Binding Path=Requests[0].Name}" />
-                        </StackPanel>
+                            <StackPanel Margin="4">
+                                <TextBlock Margin="4"
+                                           Text="{Binding Path=Song.Artist}" />
+                                <TextBlock Margin="4"
+                                           Text="{Binding Path=Song.Title}" />
+                                <TextBlock Margin="4"
+                                           Text="{Binding Path=Requests[0].Name}" />
+                            </StackPanel>
 
-                        <Button Margin="8"
-                                Padding="8"
-                                Grid.Column="1"
-                                Content="Add" 
-                                CommandParameter="{Binding}"
-                                Command="{Binding DataContext.AddToPlaylist, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ItemsControl}}}" />
+                            <Button Margin="8"
+                                    Padding="8"
+                                    Grid.Column="1"
+                                    Content="Add" 
+                                    CommandParameter="{Binding}"
+                                    Command="{Binding DataContext.AddToPlaylist, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ItemsControl}}}" />
 
-                    </Grid>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
+                        </Grid>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
     </Grid>
 </UserControl>

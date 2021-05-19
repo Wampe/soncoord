@@ -28,9 +28,18 @@ namespace Soncoord.Client.WPF
                     "SongManager"
                 );
             });
+
+            CallBrowser = new DelegateCommand(() =>
+            {
+                _regionManager.RequestNavigate(
+                    Regions.ShellContent,
+                    "RequestsBrowser"
+                );
+            });
         }
 
         public DelegateCommand CallAudioPlayer { get; set; }
         public DelegateCommand CallSongManager { get; set; }
+        public DelegateCommand CallBrowser { get; set; }
     }
 }

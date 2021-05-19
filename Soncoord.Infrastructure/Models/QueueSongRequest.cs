@@ -2,7 +2,7 @@
 
 namespace Soncoord.Infrastructure.Models
 {
-    public class Queue
+    public class QueueSongRequest
     {
         public string Id { get; set; }
         public string Note { get; set; }

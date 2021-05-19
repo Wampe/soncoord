@@ -2,7 +2,7 @@
 {
     public class QueueQuery
     {
-        public Queue[] List { get; set; }
+        public QueueSongRequest[] List { get; set; }
         public object Status { get; set; }
     }
 }

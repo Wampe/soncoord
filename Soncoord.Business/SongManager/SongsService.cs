@@ -8,24 +8,18 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
-using System.Net.Http;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using System.Web;
 
 namespace Soncoord.Business.SongManager
 {
     public class SongsService : ISongsService
     {
-        private readonly HttpClient _httpClient;
+        private readonly IStreamerSonglistService _providerService;
 
-        public SongsService()
+        public SongsService(IStreamerSonglistService providerService)
         {
-            _httpClient = new HttpClient
-            {
-                BaseAddress = new Uri("https://api.streamersonglist.com")
-            };
-
+            _providerService = providerService;
+            
             Songs = new ObservableCollection<ISong>();
             LoadSongs();
         }
@@ -128,40 +122,11 @@ namespace Soncoord.Business.SongManager
 
         private async void ImportSongs()
         {
-            var songs = await LoadSongs(100, 0, new Collection<ISong>());
+            var songs = await _providerService.GetSongs();
             SaveSongs(songs);
             AssignMediaFilesToSongs(songs);
             LoadSongs();
             Imported?.Invoke(this, null);
-        }
-
-        private async Task<ICollection<ISong>> LoadSongs(int size, int current, ICollection<ISong> collection)
-        {
-            var builder = new UriBuilder($"{_httpClient.BaseAddress}v1/streamers/wampe/songs");
-            //var builder = new UriBuilder($"{_httpClient.BaseAddress}v1/streamers/2557/songs");
-            var query = HttpUtility.ParseQueryString(builder.Query);
-            query["size"] = size.ToString();
-            query["current"] = current.ToString();
-            query["current"] = current.ToString();
-            builder.Query = query.ToString();
-
-            var response = await _httpClient.GetAsync(builder.Uri);
-            response.EnsureSuccessStatusCode();
-            var result = await response.Content.ReadAsStringAsync();
-            var songQuery = JsonConvert.DeserializeObject<SongQuery>(result);
-
-            foreach (var item in songQuery.Items)
-            {
-                collection.Add(item);
-            }
-
-            if (collection.Count < songQuery.Total)
-            {
-                var songs = await LoadSongs(size, current + 1, collection);
-                collection.Concat(songs);
-            }
-
-            return collection;
         }
 
         private void AssignMediaFilesToSongs(ICollection<ISong> songs)

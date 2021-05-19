@@ -1,11 +1,9 @@
-﻿using Newtonsoft.Json;
-using Prism.Commands;
+﻿using Prism.Commands;
 using Prism.Mvvm;
 using Soncoord.Infrastructure.Interfaces.Services;
 using Soncoord.Infrastructure.Models;
 using System;
 using System.Collections.ObjectModel;
-using System.Net.Http;
 using System.Windows.Threading;
 
 namespace Soncoord.SongRequests.ViewModels
@@ -15,20 +13,18 @@ namespace Soncoord.SongRequests.ViewModels
         // Still needed or is it enough to create a new call after an event?
         private readonly DispatcherTimer _queueTimer;
 
-        private readonly HttpClient _httpClient;
         private readonly IPlaylistService _playlistService;
         private readonly ISongsService _songsService;
+        private readonly IStreamerSonglistService _providerService;
 
-        public QueueViewModel(ISongsService songsService, IPlaylistService playlistService)
+        public QueueViewModel(
+            ISongsService songsService,
+            IPlaylistService playlistService,
+            IStreamerSonglistService providerService)
         {
+            _providerService = providerService;
             _songsService = songsService;
             _playlistService = playlistService;
-
-            _httpClient = new HttpClient
-            {
-                BaseAddress = new Uri("https://api.streamersonglist.com")
-            };
-
             _queueTimer = new DispatcherTimer(DispatcherPriority.ApplicationIdle)
             {
                 Interval = TimeSpan.FromSeconds(15)
@@ -37,16 +33,16 @@ namespace Soncoord.SongRequests.ViewModels
             _queueTimer.Tick += QueueTimerTicked;
             _queueTimer.Start();
 
-            AddToPlaylist = new DelegateCommand<Queue>(OnAddToPlaylistExecute, OnAddToPlaylistCanExecute);
-            SongRequestQueue = new ObservableCollection<Queue>();
+            AddToPlaylist = new DelegateCommand<QueueSongRequest>(OnAddToPlaylistExecute, OnAddToPlaylistCanExecute);
+            SongRequestQueue = new ObservableCollection<QueueSongRequest>();
 
-            LoadSongs();
+            LoadSongRequests();
         }
 
-        public DelegateCommand<Queue> AddToPlaylist { get; set; }
-        public ObservableCollection<Queue> SongRequestQueue { get; set; }
+        public DelegateCommand<QueueSongRequest> AddToPlaylist { get; set; }
+        public ObservableCollection<QueueSongRequest> SongRequestQueue { get; set; }
 
-        private void OnAddToPlaylistExecute(Queue queue)
+        private void OnAddToPlaylistExecute(QueueSongRequest queue)
         {
             var song = _songsService.GetSongById(queue.SongId);
             if (song == null)
@@ -57,7 +53,7 @@ namespace Soncoord.SongRequests.ViewModels
             _playlistService.Add(song);
         }
 
-        private bool OnAddToPlaylistCanExecute(Queue queue)
+        private bool OnAddToPlaylistCanExecute(QueueSongRequest queue)
         {
             var song = _songsService.GetSongById(queue.SongId);
             if (song == null)
@@ -77,19 +73,14 @@ namespace Soncoord.SongRequests.ViewModels
 
         private void QueueTimerTicked(object sender, EventArgs e)
         {
-            LoadSongs();
+            LoadSongRequests();
         }
 
-        private async void LoadSongs()
+        private async void LoadSongRequests()
         {
-            var response = await _httpClient.GetAsync($"{_httpClient.BaseAddress}v1/streamers/wampe/queue");
-            //var response = await _httpClient.GetAsync($"{_httpClient.BaseAddress}v1/streamers/2557/queue");
-            response.EnsureSuccessStatusCode();
-            var result = await response.Content.ReadAsStringAsync();
-            var songQuery = JsonConvert.DeserializeObject<QueueQuery>(result);
-
+            var requests = await _providerService.GetSongRequests();
             SongRequestQueue.Clear();
-            foreach (var item in songQuery.List)
+            foreach (var item in requests)
             {
                 SongRequestQueue.Add(item);
             }

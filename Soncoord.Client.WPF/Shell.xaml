@@ -27,6 +27,10 @@
                     Padding="8"
                     Content="Song Manager" 
                     Command="{Binding Path=CallSongManager}" />
+            <Button Margin="8"
+                    Padding="8"
+                    Content="Request Browser" 
+                    Command="{Binding Path=CallBrowser}" />
         </StackPanel>
         <ContentControl Grid.Row="1"
                         prism:RegionManager.RegionName="{x:Static infrastructure:Regions.ShellContent}" />
