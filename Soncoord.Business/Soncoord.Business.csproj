@@ -83,6 +83,7 @@
     <Compile Include="Player\OutputsService.cs" />
     <Compile Include="Player\PlayerExecuter.cs" />
     <Compile Include="Player\PlaylistService.cs" />
+    <Compile Include="Player\SongExecuter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Provider\StreamerSonglistService.cs" />
     <Compile Include="SongManager\SongsService.cs" />

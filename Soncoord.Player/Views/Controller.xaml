@@ -54,7 +54,8 @@
                         Command="{Binding Path=Stop}" />
                 <Button Margin="8"
                         Padding="8"
-                        Content="Next" />
+                        Content="Next" 
+                        Command="{Binding Path=Next}" />
             </StackPanel>
             <Slider Margin="4"
                     Minimum="0"

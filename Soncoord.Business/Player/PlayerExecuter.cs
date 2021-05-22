@@ -10,13 +10,12 @@ using System.Windows.Threading;
 
 namespace Soncoord.Business.Player
 {
+    [Obsolete]
     public class PlayerExecuter : IPlayerExecuter
     {
         private readonly DispatcherTimer _positionTimer;
         private readonly IOutputsService _outputsService;
-        private int _timeCodeCommandIndex { get; set; }
-        private ObservableCollection<KeyValuePair<TimeSpan, IList<string>>> _timeCodeCommands { get; set; }
-
+        
         private DirectSoundOut _clickTrackOutput;
         private DirectSoundOut _songTrackOutput;
         private AudioFileReader _clickTrackReader;
@@ -33,7 +32,7 @@ namespace Soncoord.Business.Player
 
             UpdateAudioPosition(new TimeSpan(0));
 
-            _timeCodeCommands = new ObservableCollection<KeyValuePair<TimeSpan, IList<string>>>
+            TimeCodeCommands = new ObservableCollection<KeyValuePair<TimeSpan, IList<string>>>
             {
                 new KeyValuePair<TimeSpan, IList<string>>(
                     TimeSpan.FromSeconds(3),
@@ -84,7 +83,8 @@ namespace Soncoord.Business.Player
         public event EventHandler<TimeSpan> Started;
         public event EventHandler Stopped;
         public event EventHandler Ended;
-
+        private int TimeCodeCommandIndex { get; set; }
+        private ObservableCollection<KeyValuePair<TimeSpan, IList<string>>> TimeCodeCommands { get; set; }
         public bool IsTrackRunReverted { get; set; }
 
         public void Play(ISongSetting settings)
@@ -116,7 +116,7 @@ namespace Soncoord.Business.Player
                     songTrackProvider,
                     selectedOutputSettings.EqualizerBands));
             
-            _timeCodeCommandIndex = 0;
+            TimeCodeCommandIndex = 0;
             _clickTrackOutput.Play();
             _songTrackOutput.Play();
             _positionTimer.Start();
@@ -149,13 +149,18 @@ namespace Soncoord.Business.Player
             {
                 Ended?.Invoke(this, null);
             }
+
+            _songTrackReader.Dispose();
+            _songTrackReader = null;
+            _clickTrackReader.Dispose();
+            _clickTrackReader = null;
         }
 
         private void PositionTimerTick(object sender, EventArgs e)
         {
             var position = IsTrackRunReverted
-                    ? _songTrackReader.TotalTime - _songTrackReader.CurrentTime
-                    : _songTrackReader.CurrentTime;
+                ? _songTrackReader.TotalTime - _songTrackReader.CurrentTime
+                : _songTrackReader.CurrentTime;
 
             UpdateAudioPosition(position);
 
@@ -167,7 +172,7 @@ namespace Soncoord.Business.Player
             // Commands will just trigger specific non-UI things so it should be possible (and enough) to to this in background!
             //if (_timeCodeCommandIndex != -1)
             //{
-            //    TimeCodeCommands(position);
+            //    HandleTimeCodeCommands(position);
             //}
         }
 
@@ -176,22 +181,22 @@ namespace Soncoord.Business.Player
             PositionChanged?.Invoke(this, value);
         }
 
-        private void TimeCodeCommands(TimeSpan position)
+        private void HandleTimeCodeCommands(TimeSpan position)
         {
-            if (TimeSpan.Compare(position, _timeCodeCommands[_timeCodeCommandIndex].Key) >= 0)
+            if (TimeSpan.Compare(position, TimeCodeCommands[TimeCodeCommandIndex].Key) >= 0)
             {
-                foreach (var item in _timeCodeCommands[_timeCodeCommandIndex].Value)
+                foreach (var item in TimeCodeCommands[TimeCodeCommandIndex].Value)
                 {
-                    Console.WriteLine($"Fire specific event on {_timeCodeCommands[_timeCodeCommandIndex].Key}: {item}");
+                    Console.WriteLine($"Fire specific event on {TimeCodeCommands[TimeCodeCommandIndex].Key}: {item}");
                 }
 
-                _timeCodeCommandIndex++;
+                TimeCodeCommandIndex++;
             }
 
-            if (TimeSpan.Compare(position, _timeCodeCommands[_timeCodeCommands.Count - 1].Key) >= 0)
+            if (TimeSpan.Compare(position, TimeCodeCommands[TimeCodeCommands.Count - 1].Key) >= 0)
             {
-                _timeCodeCommandIndex = -1;
-                Console.WriteLine($"Timer stopped at {_timeCodeCommands[_timeCodeCommands.Count - 1].Key}");
+                TimeCodeCommandIndex = -1;
+                Console.WriteLine($"Timer stopped at {TimeCodeCommands[TimeCodeCommands.Count - 1].Key}");
             }
         }
     }
