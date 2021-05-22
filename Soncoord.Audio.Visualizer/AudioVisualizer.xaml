@@ -12,9 +12,11 @@
         <local:ImageConverter x:Key="imageConverter" />
     </UserControl.Resources>
     <Grid>
-        <StackPanel>
-            <Image Source="{Binding Path=Image, Converter={StaticResource imageConverter}}"/>
-            <Image Source="{Binding Path=Image2, Converter={StaticResource imageConverter}}"/>
-        </StackPanel>
+        <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
+            <StackPanel>
+                <Image Margin="8" Source="{Binding Path=Image, Converter={StaticResource imageConverter}}" HorizontalAlignment="Right"/>
+                <Image Margin="8" Source="{Binding Path=Image2, Converter={StaticResource imageConverter}}" HorizontalAlignment="Right"/>
+            </StackPanel>
+        </ScrollViewer>
     </Grid>
 </UserControl>

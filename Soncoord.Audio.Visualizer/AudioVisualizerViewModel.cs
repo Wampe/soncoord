@@ -1,4 +1,5 @@
-﻿using NAudio.WaveFormRenderer;
+﻿using NAudio.Wave;
+using NAudio.WaveFormRenderer;
 using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
@@ -38,29 +39,44 @@ namespace Soncoord.Audio.Visualizer
 
         private void GenerateVisualization()
         {
-            var maxPeakProvider = new MaxPeakProvider();
+            var clickTrackPath = @"";
+            var songTrackPath = @"";
+
+            var clickTrackReader = new AudioFileReader(clickTrackPath);
+            var songTrackReader = new AudioFileReader(songTrackPath);
+            
+            //var maxPeakProvider = new MaxPeakProvider();
             var rmsPeakProvider = new RmsPeakProvider(200); // e.g. 200
-            var samplingPeakProvider = new SamplingPeakProvider(200); // e.g. 200
-            var averagePeakProvider = new AveragePeakProvider(4); // e.g. 4
+            //var samplingPeakProvider = new SamplingPeakProvider(200); // e.g. 200
+            //var averagePeakProvider = new AveragePeakProvider(4); // e.g. 4
 
-            var myRendererSettings = new StandardWaveFormRendererSettings();
-            myRendererSettings.Width = 800;
-            myRendererSettings.TopHeight = 64;
-            myRendererSettings.BottomHeight = 64;
+            var clickTrackRendererSettings = new StandardWaveFormRendererSettings
+            {
+                Width = Convert.ToInt16(clickTrackReader.TotalTime.TotalSeconds)*10,
+                TopHeight = 64,
+                BottomHeight = 64,
 
-            myRendererSettings.BackgroundColor = Color.White;
-            myRendererSettings.TopPeakPen = new Pen(Color.DarkGray);
-            myRendererSettings.BottomPeakPen = new Pen(Color.Gray);
+                BackgroundColor = Color.White,
+                TopPeakPen = new Pen(Color.DarkGray),
+                BottomPeakPen = new Pen(Color.Gray)
+            };
 
-            var renderer = new WaveFormRenderer();
-            var audioFilePath = @"";
+            var clickTrackRenderer = new WaveFormRenderer();
+            Image = clickTrackRenderer.Render(clickTrackPath, rmsPeakProvider, clickTrackRendererSettings);
 
-            Image = renderer.Render(audioFilePath, rmsPeakProvider, myRendererSettings);
+            var songTrackRendererSettings = new StandardWaveFormRendererSettings
+            {
+                Width = Convert.ToInt16(songTrackReader.TotalTime.TotalSeconds)*10,
+                TopHeight = 64,
+                BottomHeight = 64,
 
-            renderer = new WaveFormRenderer();
-            audioFilePath = @"";
+                BackgroundColor = Color.White,
+                TopPeakPen = new Pen(Color.DarkGray),
+                BottomPeakPen = new Pen(Color.Gray)
+            };
 
-            Image2 = renderer.Render(audioFilePath, rmsPeakProvider, myRendererSettings);
+            var songTackRenderer = new WaveFormRenderer();
+            Image2 = songTackRenderer.Render(songTrackPath, rmsPeakProvider, songTrackRendererSettings);
         }
     }
 }

@@ -35,7 +35,7 @@
         </Grid>
         <Grid Grid.Row="1">
             <ContentControl prism:RegionManager.RegionName="VisualizerRegion" Grid.Row="1"/>
-            <Slider Value="{Binding Path=SliderPosition}" Maximum="{Binding Path=AudioLength}"/>
+            <!--<Slider Value="{Binding Path=SliderPosition}" Maximum="{Binding Path=AudioLength}"/>-->
         </Grid>
         <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
