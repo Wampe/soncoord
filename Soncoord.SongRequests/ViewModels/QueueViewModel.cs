@@ -31,7 +31,6 @@ namespace Soncoord.SongRequests.ViewModels
             };
 
             _queueTimer.Tick += QueueTimerTicked;
-            _queueTimer.Start();
 
             AddToPlaylist = new DelegateCommand<QueueSongRequest>(OnAddToPlaylistExecute, OnAddToPlaylistCanExecute);
             Played = new DelegateCommand<QueueSongRequest>(OnPlayedExecute);
