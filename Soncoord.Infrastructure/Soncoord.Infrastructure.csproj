@@ -88,6 +88,8 @@
     <Compile Include="Interfaces\ISongRequest.cs" />
     <Compile Include="Interfaces\ISongRequester.cs" />
     <Compile Include="Interfaces\ISongSetting.cs" />
+    <Compile Include="Interfaces\IStreamer.cs" />
+    <Compile Include="Interfaces\IStreamerSettings.cs" />
     <Compile Include="Interfaces\IStreamerSonglistUser.cs" />
     <Compile Include="Interfaces\Services\IOutputsService.cs" />
     <Compile Include="Interfaces\IPlayerExecuter.cs" />
@@ -102,6 +104,8 @@
     <Compile Include="Models\SongRequest.cs" />
     <Compile Include="Models\SongRequester.cs" />
     <Compile Include="Models\SongSetting.cs" />
+    <Compile Include="Models\Streamer.cs" />
+    <Compile Include="Models\StreamerQueueSettings.cs" />
     <Compile Include="Models\StreamerSonglistUser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Regions.cs" />

@@ -34,13 +34,36 @@ namespace Soncoord.SongRequests.ViewModels
             _queueTimer.Start();
 
             AddToPlaylist = new DelegateCommand<QueueSongRequest>(OnAddToPlaylistExecute, OnAddToPlaylistCanExecute);
+            Played = new DelegateCommand<QueueSongRequest>(OnPlayedExecute);
             SongRequestQueue = new ObservableCollection<QueueSongRequest>();
-
-            LoadSongRequests();
         }
 
         public DelegateCommand<QueueSongRequest> AddToPlaylist { get; set; }
+        public DelegateCommand<QueueSongRequest> Played { get; set; }
         public ObservableCollection<QueueSongRequest> SongRequestQueue { get; set; }
+
+
+        // ToDo: Direct Binding to Service
+        private bool _isQueueActive;
+        public bool IsQueueActive
+        {
+            get => _isQueueActive;
+            set
+            {
+                SetProperty(ref _isQueueActive, value);
+                _providerService.SongRequestStatus(value);
+
+                if(value)
+                {
+                    LoadSongRequests();
+                    _queueTimer.Start();
+                }
+                else
+                {
+                    _queueTimer.Stop();
+                }
+            }
+        }
 
         private void OnAddToPlaylistExecute(QueueSongRequest queue)
         {
@@ -69,6 +92,12 @@ namespace Soncoord.SongRequests.ViewModels
 
             return !string.IsNullOrEmpty(settings.MusicTrackPath);
     
+        }
+
+        private void OnPlayedExecute(QueueSongRequest obj)
+        {
+            _providerService.SetSongAsPlayed(obj);
+            LoadSongRequests();
         }
 
         private void QueueTimerTicked(object sender, EventArgs e)

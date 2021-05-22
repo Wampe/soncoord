@@ -13,8 +13,14 @@
             <RowDefinition Height="Auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
-        <TextBlock Margin="8"
-                   Text="Song Requests Queue" />
+        <StackPanel Orientation="Horizontal">
+            <TextBlock Margin="8"
+                       Text="Song Requests Queue" />
+            <ToggleButton Content="Queue Active"
+                          Margin="8"
+                          Padding="8"
+                          IsChecked="{Binding Path=IsQueueActive, Mode=TwoWay}" />
+        </StackPanel>
         <ScrollViewer Grid.Row="1" 
                       Margin="8"
                       VerticalScrollBarVisibility="Auto">
@@ -25,6 +31,7 @@
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition />
+                                <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
 
@@ -40,6 +47,13 @@
                             <Button Margin="8"
                                     Padding="8"
                                     Grid.Column="1"
+                                    Content="Played" 
+                                    CommandParameter="{Binding}"
+                                    Command="{Binding DataContext.Played, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ItemsControl}}}" />
+                            
+                            <Button Margin="8"
+                                    Padding="8"
+                                    Grid.Column="2"
                                     Content="Add" 
                                     CommandParameter="{Binding}"
                                     Command="{Binding DataContext.AddToPlaylist, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ItemsControl}}}" />

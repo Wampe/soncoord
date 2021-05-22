@@ -15,6 +15,7 @@ namespace Soncoord.Player.ViewModels
         {
             _playlistService = playlistService;
             _executer = executer;
+            _executer.IsTrackRunReverted = true;
 
             Play = new DelegateCommand(OnPlayCommandExecute);
             Stop = new DelegateCommand(OnStopCommandExecute);
