@@ -15,8 +15,8 @@ namespace Soncoord.SongRequests
         public void OnInitialized(IContainerProvider containerProvider)
         {
             var regionManager = containerProvider.Resolve<IRegionManager>();
-            regionManager.RegisterViewWithRegion(Regions.ShellContent, typeof(RequestsBrowser));
             regionManager.RegisterViewWithRegion(Regions.DashboardQueue, typeof(Queue));
+            regionManager.RegisterViewWithRegion(Regions.ShellContent, typeof(RequestsBrowser));
         }
 
         public void RegisterTypes(IContainerRegistry containerRegistry)

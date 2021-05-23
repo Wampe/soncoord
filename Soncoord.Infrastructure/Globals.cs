@@ -7,6 +7,8 @@ namespace Soncoord.Infrastructure
         private static readonly string LocalAppData = $"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\\Soncoord";
         
         public static readonly string TemporaryNetCache = $"{Environment.GetFolderPath(Environment.SpecialFolder.InternetCache)}\\Soncoord";
+        public static readonly string SongProviderWebAddress = "https://www.streamersonglist.com";
+        public static readonly string SongProviderApiAddress = "https://api.streamersonglist.com";
 
         public static readonly string SongsPath = $"{LocalAppData}\\Songs";
         public static readonly string SongSettingsPath = $"{SongsPath}\\Settings";

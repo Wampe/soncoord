@@ -16,9 +16,10 @@
         <StackPanel Orientation="Horizontal">
             <TextBlock Margin="8"
                        Text="Song Requests Queue" />
-            <ToggleButton Content="Queue Active"
+            <ToggleButton Content="Queue Status"
                           Margin="8"
                           Padding="8"
+                          IsEnabled="{Binding Path=IsAuthorized}"
                           IsChecked="{Binding Path=IsQueueActive, Mode=TwoWay}" />
         </StackPanel>
         <ScrollViewer Grid.Row="1" 
@@ -31,6 +32,7 @@
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition />
+                                <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
@@ -47,9 +49,9 @@
                             <Button Margin="8"
                                     Padding="8"
                                     Grid.Column="1"
-                                    Content="Played" 
+                                    Content="Remove" 
                                     CommandParameter="{Binding}"
-                                    Command="{Binding DataContext.Played, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ItemsControl}}}" />
+                                    Command="{Binding DataContext.Remove, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ItemsControl}}}" />
                             
                             <Button Margin="8"
                                     Padding="8"
@@ -58,6 +60,12 @@
                                     CommandParameter="{Binding}"
                                     Command="{Binding DataContext.AddToPlaylist, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ItemsControl}}}" />
 
+                            <Button Margin="8"
+                                    Padding="8"
+                                    Grid.Column="3"
+                                    Content="Played" 
+                                    CommandParameter="{Binding}"
+                                    Command="{Binding DataContext.Played, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ItemsControl}}}" />
                         </Grid>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>

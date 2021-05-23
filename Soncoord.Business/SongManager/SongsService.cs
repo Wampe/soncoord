@@ -122,7 +122,7 @@ namespace Soncoord.Business.SongManager
 
         private async void ImportSongs()
         {
-            var songs = await _providerService.GetSongs();
+            var songs = await _providerService.GetSongsAsync();
             SaveSongs(songs);
             AssignMediaFilesToSongs(songs);
             LoadSongs();

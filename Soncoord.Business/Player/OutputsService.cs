@@ -12,32 +12,32 @@ namespace Soncoord.Business.Player
 {
     public class OutputsService : IOutputsService
     {
-        private IPlayerOutputSettings _outputSettings;
-        public IEnumerable<DirectSoundDeviceInfo> Devices => DirectSoundOut.Devices;
-
         public OutputsService()
         {
             Load();
         }
 
+        private IPlayerOutputSettings OutputSettings { get; set; }
+        public IEnumerable<DirectSoundDeviceInfo> Devices => DirectSoundOut.Devices;
+
         public DirectSoundDeviceInfo GetClickTrackOutputDevice()
         {
-            return _outputSettings.ClickTrackOutputDevice;
+            return OutputSettings.ClickTrackOutputDevice;
         }
 
         public EqualizerBand[] GetEqualizer()
         {
-            return _outputSettings.EqualizerBands;
+            return OutputSettings.EqualizerBands;
         }
 
         public DirectSoundDeviceInfo GetSongTrackOutputDevice()
         {
-            return _outputSettings.SongTrackOutputDevice;
+            return OutputSettings.SongTrackOutputDevice;
         }
 
         public void Load()
         {
-            _outputSettings = LoadSettings();
+            OutputSettings = LoadSettings();
         }
 
         public void Save()
@@ -47,27 +47,27 @@ namespace Soncoord.Business.Player
 
         public void SetClickTrackOutputDevice(DirectSoundDeviceInfo device)
         {
-            _outputSettings.ClickTrackOutputDevice = device;
+            OutputSettings.ClickTrackOutputDevice = device;
         }
 
         public void SetEqualizer(EqualizerBand[] bands)
         {
-            _outputSettings.EqualizerBands = bands;
+            OutputSettings.EqualizerBands = bands;
         }
 
         public void SetSongTrackOutputDevice(DirectSoundDeviceInfo device)
         {
-            _outputSettings.SongTrackOutputDevice = device;
+            OutputSettings.SongTrackOutputDevice = device;
         }
-        
+
         public IPlayerOutputSettings GetSettings()
         {
-            return _outputSettings;
+            return OutputSettings;
         }
 
         public void SetSettings(IPlayerOutputSettings settings)
         {
-            _outputSettings = settings;
+            OutputSettings = settings;
         }
 
         private IPlayerOutputSettings LoadSettings()
@@ -100,7 +100,7 @@ namespace Soncoord.Business.Player
             using (var file = File.CreateText(Globals.PlayerOutputSettingsFile))
             {
                 var serializer = new JsonSerializer();
-                serializer.Serialize(file, _outputSettings);
+                serializer.Serialize(file, OutputSettings);
             }
         }
     }

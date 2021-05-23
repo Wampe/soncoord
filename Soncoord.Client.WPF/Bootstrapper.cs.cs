@@ -34,9 +34,9 @@ namespace Soncoord.Client.WPF
 
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
         {
-            moduleCatalog.AddModule<SongRequestsModule>();
             moduleCatalog.AddModule<PlayerModule>();
             moduleCatalog.AddModule<SongManagerModule>();
+            moduleCatalog.AddModule<SongRequestsModule>();
         }
 
         protected override void ConfigureViewModelLocator()

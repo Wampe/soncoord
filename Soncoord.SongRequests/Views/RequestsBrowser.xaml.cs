@@ -24,7 +24,7 @@ namespace Soncoord.SongRequests.Views
             var environment = await CoreWebView2Environment.CreateAsync(userDataFolder: Globals.TemporaryNetCache);
             await webView.EnsureCoreWebView2Async(environment);
             webView.NavigationCompleted += NavigationCompleted;
-            webView.Source = new Uri("https://www.streamersonglist.com");
+            webView.Source = new Uri(Globals.SongProviderWebAddress);
         }
 
         private void NavigationCompleted(object sender, CoreWebView2NavigationCompletedEventArgs e)

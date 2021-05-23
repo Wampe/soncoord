@@ -1,18 +1,18 @@
 ﻿using Prism.Commands;
 using Prism.Mvvm;
+using Soncoord.Infrastructure.Interfaces;
 using Soncoord.Infrastructure.Interfaces.Services;
 using Soncoord.Infrastructure.Models;
 using System;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Windows.Threading;
 
 namespace Soncoord.SongRequests.ViewModels
 {
     public class QueueViewModel : BindableBase
     {
-        // Still needed or is it enough to create a new call after an event?
         private readonly DispatcherTimer _queueTimer;
-
         private readonly IPlaylistService _playlistService;
         private readonly ISongsService _songsService;
         private readonly IStreamerSonglistService _providerService;
@@ -23,44 +23,82 @@ namespace Soncoord.SongRequests.ViewModels
             IStreamerSonglistService providerService)
         {
             _providerService = providerService;
+            _providerService.UserChanged += UserChanged;
+
             _songsService = songsService;
             _playlistService = playlistService;
+            
             _queueTimer = new DispatcherTimer(DispatcherPriority.ApplicationIdle)
             {
-                Interval = TimeSpan.FromSeconds(15)
+                Interval = TimeSpan.FromSeconds(30)
             };
-
             _queueTimer.Tick += QueueTimerTicked;
 
             AddToPlaylist = new DelegateCommand<QueueSongRequest>(OnAddToPlaylistExecute, OnAddToPlaylistCanExecute);
             Played = new DelegateCommand<QueueSongRequest>(OnPlayedExecute);
+            Remove = new DelegateCommand<QueueSongRequest>(OnRemoveExecute);
             SongRequestQueue = new ObservableCollection<QueueSongRequest>();
+            
+            IsAuthorized = _providerService.IsAuthorized;
         }
 
         public DelegateCommand<QueueSongRequest> AddToPlaylist { get; set; }
         public DelegateCommand<QueueSongRequest> Played { get; set; }
+        public DelegateCommand<QueueSongRequest> Remove { get; set; }
         public ObservableCollection<QueueSongRequest> SongRequestQueue { get; set; }
+        private IStreamerQueueSettings QueueSettings { get; set; }
 
+        private bool _isAuthorized;
+        public bool IsAuthorized
+        {
+            get => _isAuthorized;
+            set => SetProperty(ref _isAuthorized, value);
+        }
 
-        // ToDo: Direct Binding to Service
         private bool _isQueueActive;
         public bool IsQueueActive
         {
             get => _isQueueActive;
-            set
-            {
-                SetProperty(ref _isQueueActive, value);
-                _providerService.SongRequestStatus(value);
+            set => SetProperty(ref _isQueueActive, value);
+        }
 
-                if(value)
+        protected override void OnPropertyChanged(PropertyChangedEventArgs args)
+        {
+            base.OnPropertyChanged(args);
+
+            if (args.PropertyName == "IsQueueActive")
+            {
+                QueueSettings.RequestsActive = IsQueueActive;
+                _providerService.SetQueueSettingsAsync(QueueSettings);
+
+                if (IsQueueActive)
                 {
-                    LoadSongRequests();
-                    _queueTimer.Start();
+                    ActivateQueue();
                 }
                 else
                 {
                     _queueTimer.Stop();
                 }
+            }
+        }
+
+        private void ActivateQueue()
+        {
+            _queueTimer.Start();
+            LoadSongRequests();
+        }
+
+        private async void UserChanged(object sender, EventArgs e)
+        {
+            IsAuthorized = _providerService.IsAuthorized;
+
+            if (IsAuthorized)
+            {
+                QueueSettings = await _providerService.GetQueueSettingsAsync();
+                _isQueueActive = QueueSettings.RequestsActive;
+                RaisePropertyChanged("IsQueueActive");
+
+                ActivateQueue();
             }
         }
 
@@ -90,13 +128,18 @@ namespace Soncoord.SongRequests.ViewModels
             }
 
             return !string.IsNullOrEmpty(settings.MusicTrackPath);
-    
         }
 
-        private void OnPlayedExecute(QueueSongRequest obj)
+        private async void OnPlayedExecute(QueueSongRequest request)
         {
-            _providerService.SetSongAsPlayed(obj);
-            LoadSongRequests();
+            await _providerService.SetSongAsPlayedAsync(request);
+            SongRequestQueue.Remove(request);
+        }
+
+        private async void OnRemoveExecute(QueueSongRequest request)
+        {
+            await _providerService.RemoveSongFromQueue(request);
+            SongRequestQueue.Remove(request);
         }
 
         private void QueueTimerTicked(object sender, EventArgs e)
@@ -106,7 +149,7 @@ namespace Soncoord.SongRequests.ViewModels
 
         private async void LoadSongRequests()
         {
-            var requests = await _providerService.GetSongRequests();
+            var requests = await _providerService.GetSongRequestsAsync();
             SongRequestQueue.Clear();
             foreach (var item in requests)
             {
