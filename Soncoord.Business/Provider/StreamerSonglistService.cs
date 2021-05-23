@@ -66,14 +66,30 @@ namespace Soncoord.Business.Provider
 
         public async Task SetSongAsPlayedAsync(QueueSongRequest request)
         {
-            var response = await _httpClient.PostAsync($"{_httpClient.BaseAddress}v1/streamers/{User.StreamerId}/queue/{request.Id}/played", null);
-            response.EnsureSuccessStatusCode();
+            try
+            {
+                var response = await _httpClient.PostAsync($"{_httpClient.BaseAddress}v1/streamers/{User.StreamerId}/queue/{request.Id}/played", null);
+                response.EnsureSuccessStatusCode();
+            }
+            catch (HttpRequestException e)
+            {
+                //Console.WriteLine("\nException Caught!");
+                //Console.WriteLine("Message :{0} ", e.Message);
+            }
         }
 
         public async Task RemoveSongFromQueue(QueueSongRequest request)
         {
-            var response = await _httpClient.DeleteAsync($"{_httpClient.BaseAddress}v1/streamers/{User.StreamerId}/queue/{request.Id}");
-            response.EnsureSuccessStatusCode();
+            try
+            {
+                var response = await _httpClient.DeleteAsync($"{_httpClient.BaseAddress}v1/streamers/{User.StreamerId}/queue/{request.Id}");
+                response.EnsureSuccessStatusCode();
+            }
+            catch (HttpRequestException e)
+            {
+                //Console.WriteLine("\nException Caught!");
+                //Console.WriteLine("Message :{0} ", e.Message);
+            }
         }
 
         public async Task<IStreamerQueueSettings> GetQueueSettingsAsync()
@@ -89,21 +105,29 @@ namespace Soncoord.Business.Provider
 
         public async Task SetQueueSettingsAsync(IStreamerQueueSettings settings)
         {
-            var json = JsonConvert.SerializeObject(
-               settings,
-               new JsonSerializerSettings
-               {
-                   ContractResolver = new DefaultContractResolver
+            try
+            {
+                var json = JsonConvert.SerializeObject(
+                   settings,
+                   new JsonSerializerSettings
                    {
-                       NamingStrategy = new CamelCaseNamingStrategy()
-                   },
-                   Formatting = Formatting.Indented
-               });
+                       ContractResolver = new DefaultContractResolver
+                       {
+                           NamingStrategy = new CamelCaseNamingStrategy()
+                       },
+                       Formatting = Formatting.Indented
+                   });
 
-            var response = await _httpClient.PutAsync(
-                $"{_httpClient.BaseAddress}v1/streamers/{User.StreamerId}",
-                new StringContent(json, Encoding.UTF8, "application/json"));
-            response.EnsureSuccessStatusCode();
+                var response = await _httpClient.PutAsync(
+                    $"{_httpClient.BaseAddress}v1/streamers/{User.StreamerId}",
+                    new StringContent(json, Encoding.UTF8, "application/json"));
+                response.EnsureSuccessStatusCode();
+            }
+            catch (HttpRequestException e)
+            {
+                //Console.WriteLine("\nException Caught!");
+                //Console.WriteLine("Message :{0} ", e.Message);
+            }
         }
 
         private async Task<ICollection<ISong>> GetSongs(int size, int current, ICollection<ISong> collection)

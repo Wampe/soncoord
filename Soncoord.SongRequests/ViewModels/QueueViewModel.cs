@@ -97,8 +97,6 @@ namespace Soncoord.SongRequests.ViewModels
                 QueueSettings = await _providerService.GetQueueSettingsAsync();
                 _isQueueActive = QueueSettings.RequestsActive;
                 RaisePropertyChanged("IsQueueActive");
-
-                ActivateQueue();
             }
         }
 

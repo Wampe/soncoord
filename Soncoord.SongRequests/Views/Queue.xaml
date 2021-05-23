@@ -6,6 +6,7 @@
              xmlns:prism="http://prismlibrary.com/"
              prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
+             xmlns:fa="http://schemas.fontawesome.io/icons/"
              Padding="8"
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid Grid.Row="1">
@@ -39,33 +40,39 @@
 
                             <StackPanel Margin="4">
                                 <TextBlock Margin="4"
+                                           TextWrapping="Wrap" 
                                            Text="{Binding Path=Song.Artist}" />
                                 <TextBlock Margin="4"
+                                           TextWrapping="Wrap" 
                                            Text="{Binding Path=Song.Title}" />
                                 <TextBlock Margin="4"
+                                           TextWrapping="Wrap" 
                                            Text="{Binding Path=Requests[0].Name}" />
                             </StackPanel>
 
                             <Button Margin="8"
                                     Padding="8"
                                     Grid.Column="1"
-                                    Content="Remove" 
                                     CommandParameter="{Binding}"
-                                    Command="{Binding DataContext.Remove, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ItemsControl}}}" />
-                            
+                                    Command="{Binding DataContext.Remove, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ItemsControl}}}">
+                                <fa:FontAwesome Icon="Minus" />
+                            </Button>
+
                             <Button Margin="8"
                                     Padding="8"
                                     Grid.Column="2"
-                                    Content="Add" 
                                     CommandParameter="{Binding}"
-                                    Command="{Binding DataContext.AddToPlaylist, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ItemsControl}}}" />
+                                    Command="{Binding DataContext.AddToPlaylist, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ItemsControl}}}">
+                                <fa:FontAwesome Icon="Plus" />
+                            </Button>
 
                             <Button Margin="8"
                                     Padding="8"
                                     Grid.Column="3"
-                                    Content="Played" 
                                     CommandParameter="{Binding}"
-                                    Command="{Binding DataContext.Played, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ItemsControl}}}" />
+                                    Command="{Binding DataContext.Played, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ItemsControl}}}">
+                                <fa:FontAwesome Icon="Check" />
+                            </Button>
                         </Grid>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>

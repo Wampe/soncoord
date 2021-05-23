@@ -6,6 +6,7 @@
              xmlns:prism="http://prismlibrary.com/"
              prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
+             xmlns:fa="http://schemas.fontawesome.io/icons/"
              Padding="8"
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid Grid.Row="1">
@@ -36,9 +37,10 @@
                         <Button Margin="8"
                                 Padding="8"
                                 Grid.Column="1"
-                                Content="Remove" 
                                 CommandParameter="{Binding}"
-                                Command="{Binding DataContext.RemoveFromPlaylist, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ItemsControl}}}" />
+                                Command="{Binding DataContext.RemoveFromPlaylist, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ItemsControl}}}">
+                            <fa:FontAwesome Icon="Minus" />
+                        </Button>
 
                     </Grid>
                 </DataTemplate>
