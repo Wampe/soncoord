@@ -22,12 +22,13 @@ namespace Soncoord.SongManager.ViewModels
             _songsService = songsService;
             
             SongsViewSource = new CollectionViewSource
-            {
+            {  
                 Source = _songsService.GetSongs()
             };
-            SongsViewSource.SortDescriptions.Add(new SortDescription("Artist", ListSortDirection.Ascending));
-            SongsViewSource.SortDescriptions.Add(new SortDescription("Title", ListSortDirection.Ascending));
             SongsViewSource.Filter += SongsViewSourceFilter;
+
+            SongsView.SortDescriptions.Add(new SortDescription("Artist", ListSortDirection.Ascending));
+            SongsView.SortDescriptions.Add(new SortDescription("Title", ListSortDirection.Ascending));
 
             ResetFilter = new DelegateCommand(OnResetFilterExecute, OnResetFilterCanExecute)
                 .ObservesProperty(() => FilterText);
@@ -38,6 +39,13 @@ namespace Soncoord.SongManager.ViewModels
         public DelegateCommand ResetFilter { get; set; }
         internal CollectionViewSource SongsViewSource { get; set; }
         internal ISong PreviousSelectedSong { get; set; }
+
+        private bool _filterByDate;
+        public bool SortByDate
+        {
+            get => _filterByDate;
+            set => SetProperty(ref _filterByDate, value);
+        }
 
         private bool _filterWithoutFiles;
         public bool FilterWithoutFiles
@@ -68,6 +76,22 @@ namespace Soncoord.SongManager.ViewModels
         protected override void OnPropertyChanged(PropertyChangedEventArgs args)
         {
             base.OnPropertyChanged(args);
+
+            if (args.PropertyName == "SortByDate")
+            {
+                if (SortByDate)
+                {
+                    SongsView.SortDescriptions.Clear();
+                    SongsView.SortDescriptions.Add(new SortDescription("CreatedAt", ListSortDirection.Descending));
+                    
+                }
+                else
+                {
+                    SongsView.SortDescriptions.Clear();
+                    SongsView.SortDescriptions.Add(new SortDescription("Artist", ListSortDirection.Ascending));
+                    SongsView.SortDescriptions.Add(new SortDescription("Title", ListSortDirection.Ascending));
+                }
+            }
 
             if (args.PropertyName == "FilterWithoutFiles")
             {

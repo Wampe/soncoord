@@ -2,9 +2,9 @@
 
 namespace Soncoord.SongManager.Views
 {
-    public partial class SongImport : UserControl
+    public partial class SongImportExport : UserControl
     {
-        public SongImport()
+        public SongImportExport()
         {
             InitializeComponent();
         }

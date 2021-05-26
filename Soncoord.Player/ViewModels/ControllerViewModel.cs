@@ -1,9 +1,11 @@
 ﻿using Prism.Commands;
 using Prism.Mvvm;
 using Soncoord.Business.Player;
+using Soncoord.Infrastructure;
 using Soncoord.Infrastructure.Interfaces;
 using Soncoord.Infrastructure.Interfaces.Services;
 using System;
+using System.IO;
 
 namespace Soncoord.Player.ViewModels
 {
@@ -113,6 +115,10 @@ namespace Soncoord.Player.ViewModels
             SelectedSong = _playlistService.GetNextSong();
             if (SelectedSong == null)
             {
+                CurrentSongToFile(true);
+                // ToDo:
+                // Call for Moderation music if no Song is in the playlist
+
                 return;
             }
 
@@ -127,6 +133,7 @@ namespace Soncoord.Player.ViewModels
 
             SongExecuter.Play();
             IsPlaying = true;
+            CurrentSongToFile(false);
         }
 
         private void UnregisterExecuter()
@@ -139,6 +146,26 @@ namespace Soncoord.Player.ViewModels
             SongExecuter = null;
 
             IsPlaying = false;
+        }
+
+        private void CurrentSongToFile(bool reset)
+        {
+            if (!Directory.Exists(Globals.PlayerPath))
+            {
+                Directory.CreateDirectory(Globals.PlayerPath);
+            }
+
+            using (var file = File.CreateText(Globals.PlayerOutputCurrentSongFile))
+            {
+                if (reset)
+                {
+                    file.Write($"No Song being played");
+                }
+                else
+                {
+                    file.Write($"Current Song: {SelectedSong.Artist} - {SelectedSong.Title}");
+                }
+            }
         }
     }
 }

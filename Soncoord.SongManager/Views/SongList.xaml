@@ -38,7 +38,12 @@
                               Margin="8"
                               Padding="8"
                               IsChecked="{Binding Path=FilterWithoutFiles, Mode=TwoWay}" />
-                
+
+                <ToggleButton Content="Date Sort"
+                              Margin="8"
+                              Padding="8"
+                              IsChecked="{Binding Path=SortByDate, Mode=TwoWay}" />
+
             </StackPanel>
         </Grid>
         <ListBox Grid.Row="1"
