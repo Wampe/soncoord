@@ -5,6 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:prism="http://prismlibrary.com/"
              xmlns:local="clr-namespace:Soncoord.Player"
+             xmlns:viewmodels="clr-namespace:Soncoord.Player.ViewModels"
+             d:DataContext="{d:DesignInstance Type=viewmodels:ControllerViewModel}"
              prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
              Padding="8"

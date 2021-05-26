@@ -7,6 +7,8 @@
              prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
              xmlns:fa="http://schemas.fontawesome.io/icons/"
+             xmlns:viewmodels="clr-namespace:Soncoord.SongRequests.ViewModels"
+             d:DataContext="{d:DesignInstance Type=viewmodels:QueueViewModel}"
              Padding="8"
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid Grid.Row="1">

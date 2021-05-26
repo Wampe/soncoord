@@ -19,7 +19,7 @@
                                 prism:RegionManager.RegionName="{x:Static infrastructure:Regions.SongDetail}" />
             </Grid>
         </TabItem>
-        <TabItem Header="Import">
+        <TabItem Header="Import / Export">
             <ContentControl prism:RegionManager.RegionName="{x:Static infrastructure:Regions.SongImport}" />
         </TabItem>
     </TabControl>
