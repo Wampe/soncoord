@@ -6,7 +6,7 @@
         xmlns:prism="http://prismlibrary.com/"
         prism:ViewModelLocator.AutoWireViewModel="True"
         xmlns:infrastructure="clr-namespace:Soncoord.Infrastructure;assembly=Soncoord.Infrastructure"
-        xmlns:wpf="clr-namespace:Soncoord.Client.WPF"
+        xmlns:wpf="clr-namespace:Soncoord.Client.WPF" 
         d:DataContext="{d:DesignInstance Type=wpf:ShellViewModel}"
         mc:Ignorable="d"
         Title="Soncoord"
@@ -36,5 +36,8 @@
         </StackPanel>
         <ContentControl Grid.Row="1"
                         prism:RegionManager.RegionName="{x:Static infrastructure:Regions.ShellContent}" />
+        <ContentControl Grid.Row="1"                       
+                        VerticalAlignment="Bottom"
+                        prism:RegionManager.RegionName="{x:Static infrastructure:Regions.NotificationContent}" />
     </Grid>
 </Window>

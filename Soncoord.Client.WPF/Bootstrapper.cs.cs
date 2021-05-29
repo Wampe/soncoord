@@ -26,6 +26,7 @@ namespace Soncoord.Client.WPF
 
             var regionManager = RegionManager.GetRegionManager(shell);
             regionManager.RegisterViewWithRegion(Regions.ShellContent, typeof(Dashboard));
+            regionManager.RegisterViewWithRegion(Regions.NotificationContent, typeof(Notification));
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
@@ -43,6 +44,7 @@ namespace Soncoord.Client.WPF
         {
             base.ConfigureViewModelLocator();
             ViewModelLocationProvider.Register<Dashboard, DashboardViewModel>();
+            ViewModelLocationProvider.Register<Notification, NotificationViewModel>();
             ViewModelLocationProvider.Register<Shell, ShellViewModel>();
         }
     }

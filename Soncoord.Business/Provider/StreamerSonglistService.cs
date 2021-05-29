@@ -1,6 +1,8 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using Prism.Events;
 using Soncoord.Infrastructure;
+using Soncoord.Infrastructure.Events;
 using Soncoord.Infrastructure.Interfaces;
 using Soncoord.Infrastructure.Interfaces.Services;
 using Soncoord.Infrastructure.Models;
@@ -19,9 +21,11 @@ namespace Soncoord.Business.Provider
     public class StreamerSonglistService : IStreamerSonglistService
     {
         private readonly HttpClient _httpClient;
-        
-        public StreamerSonglistService()
+        private readonly NotificationEvent _notifications;
+
+        public StreamerSonglistService(IEventAggregator eventAggregator)
         {
+            _notifications = eventAggregator.GetEvent<NotificationEvent>();
             _httpClient = new HttpClient
             {
                 BaseAddress = new Uri(Globals.SongProviderApiAddress)
@@ -73,8 +77,7 @@ namespace Soncoord.Business.Provider
             }
             catch (HttpRequestException e)
             {
-                //Console.WriteLine("\nException Caught!");
-                //Console.WriteLine("Message :{0} ", e.Message);
+                _notifications.Publish(e.Message);
             }
         }
 
@@ -87,8 +90,7 @@ namespace Soncoord.Business.Provider
             }
             catch (HttpRequestException e)
             {
-                //Console.WriteLine("\nException Caught!");
-                //Console.WriteLine("Message :{0} ", e.Message);
+                _notifications.Publish(e.Message);
             }
         }
 
@@ -125,8 +127,7 @@ namespace Soncoord.Business.Provider
             }
             catch (HttpRequestException e)
             {
-                //Console.WriteLine("\nException Caught!");
-                //Console.WriteLine("Message :{0} ", e.Message);
+                _notifications.Publish(e.Message);
             }
         }
 
