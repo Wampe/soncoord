@@ -25,7 +25,7 @@ namespace Soncoord.Business.Player
             _positionTimer.Tick += PositionTimerTick;
 
             Setup(songSettings, outputSettings);
-            UpdateAudioPosition(new TimeSpan(0));
+            UpdateAudioPosition(TimeSpan.Zero);
         }
 
         public event EventHandler<TimeSpan> PositionChanged;
@@ -80,7 +80,13 @@ namespace Soncoord.Business.Player
             var songTrackProvider = new OffsetSampleProvider(_songTrackReader.ToSampleProvider());
             int sampleRate = songTrackProvider.WaveFormat.SampleRate;
             int channels = songTrackProvider.WaveFormat.Channels;
+            
             var delay = _clickTrackReader.TotalTime - _songTrackReader.TotalTime;
+            if (delay < TimeSpan.Zero)
+            {
+                delay = TimeSpan.Zero;
+            }
+
             var samplesToDelay = Convert.ToInt32(sampleRate * delay.TotalSeconds) * channels;
             songTrackProvider.DelayBySamples = samplesToDelay;
 
@@ -96,7 +102,7 @@ namespace Soncoord.Business.Player
             {
                 _positionTimer.Stop();
 
-                UpdateAudioPosition(new TimeSpan(0));
+                UpdateAudioPosition(TimeSpan.Zero);
 
                 if (_songTrackReader.CurrentTime < _songTrackReader.TotalTime)
                 {
