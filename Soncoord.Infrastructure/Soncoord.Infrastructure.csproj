@@ -79,6 +79,7 @@
   <ItemGroup>
     <Compile Include="EqualizerPresets.cs" />
     <Compile Include="Events\Notification.cs" />
+    <Compile Include="Events\RemovedSongFromPlaylistArgs.cs" />
     <Compile Include="Events\SongsImported.cs" />
     <Compile Include="Globals.cs" />
     <Compile Include="Interfaces\IPlayerOutputSettings.cs" />

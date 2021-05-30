@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Soncoord.Infrastructure;
+using Soncoord.Infrastructure.Events;
 using Soncoord.Infrastructure.Interfaces;
 using Soncoord.Infrastructure.Interfaces.Services;
 using Soncoord.Infrastructure.Models;
@@ -21,7 +22,7 @@ namespace Soncoord.Business.Player
         }
 
         public event EventHandler AddedToPlaylist;
-        public event EventHandler RemovedFromPlaylist;
+        public event EventHandler<RemovedSongFromPlaylistArgs> RemovedFromPlaylist;
 
         public void Add(ISong song)
         {
@@ -39,10 +40,16 @@ namespace Soncoord.Business.Player
             return Playlist;
         }
 
-        public void Remove(ISong song)
+        public void Remove(ISong song, bool isSongPlayed)
         {
             Playlist.Remove(song);
-            RemovedFromPlaylist?.Invoke(this, null);
+
+            var args = new RemovedSongFromPlaylistArgs
+            {
+                Song = song,
+                IsSongPlayed = isSongPlayed
+            };
+            RemovedFromPlaylist?.Invoke(this, args);
         }
 
         public bool IsPlaylistEmpty()

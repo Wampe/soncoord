@@ -23,7 +23,7 @@ namespace Soncoord.Player.ViewModels
 
         private void OnRemoveFromPlaylistExecute(ISong song)
         {
-            _playlistService.Remove(song);
+            _playlistService.Remove(song, false);
         }
     }
 }

@@ -76,7 +76,7 @@ namespace Soncoord.Player.ViewModels
 
         private void OnNextCommandExecute()
         {
-            PlayNextSong();
+            PlayNextSong(false);
         }
 
         private void PositionUpdated(object sender, TimeSpan e)
@@ -92,7 +92,7 @@ namespace Soncoord.Player.ViewModels
         private void PlayerEnded(object sender, EventArgs e)
         {
             UnregisterExecuter();
-            PlayNextSong();
+            PlayNextSong(true);
         }
 
         private void PlayerStopped(object sender, EventArgs e)
@@ -100,11 +100,11 @@ namespace Soncoord.Player.ViewModels
             UnregisterExecuter();
         }
 
-        private void PlayNextSong()
+        private void PlayNextSong(bool isSongPlayed)
         {
             if (SelectedSong != null)
             {
-                _playlistService.Remove(SelectedSong);
+                _playlistService.Remove(SelectedSong, isSongPlayed);
             }
 
             PlaySong();

@@ -1,11 +1,13 @@
 ﻿using Prism.Commands;
 using Prism.Mvvm;
+using Soncoord.Infrastructure.Events;
 using Soncoord.Infrastructure.Interfaces;
 using Soncoord.Infrastructure.Interfaces.Services;
 using Soncoord.Infrastructure.Models;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Windows.Threading;
 
 namespace Soncoord.SongRequests.ViewModels
@@ -27,7 +29,8 @@ namespace Soncoord.SongRequests.ViewModels
 
             _songsService = songsService;
             _playlistService = playlistService;
-            
+            _playlistService.RemovedFromPlaylist += RemovedFromPlaylist;
+
             _queueTimer = new DispatcherTimer(DispatcherPriority.ApplicationIdle)
             {
                 Interval = TimeSpan.FromSeconds(30)
@@ -138,6 +141,16 @@ namespace Soncoord.SongRequests.ViewModels
         {
             await _providerService.RemoveSongFromQueue(request);
             SongRequestQueue.Remove(request);
+        }
+
+        private async void RemovedFromPlaylist(object sender, RemovedSongFromPlaylistArgs args)
+        {
+            if (args.IsSongPlayed)
+            {
+                var songRequest = SongRequestQueue.First(request => request.Song.Id == args.Song.Id);
+                await _providerService.SetSongAsPlayedAsync(songRequest);
+                SongRequestQueue.Remove(songRequest);
+            }
         }
 
         private void QueueTimerTicked(object sender, EventArgs e)
