@@ -147,7 +147,12 @@ namespace Soncoord.SongRequests.ViewModels
         {
             if (args.IsSongPlayed)
             {
-                var songRequest = SongRequestQueue.First(request => request.Song.Id == args.Song.Id);
+                var songRequest = SongRequestQueue.FirstOrDefault(request => request.Song.Id == args.Song.Id);
+                if (songRequest == null)
+                {
+                    return;
+                }
+
                 await _providerService.SetSongAsPlayedAsync(songRequest);
                 SongRequestQueue.Remove(songRequest);
             }
