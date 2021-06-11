@@ -139,7 +139,7 @@ namespace Soncoord.SongRequests.ViewModels
 
         private async void OnRemoveExecute(QueueSongRequest request)
         {
-            await _providerService.RemoveSongFromQueue(request);
+            await _providerService.RemoveSongFromQueueAsync(request);
             SongRequestQueue.Remove(request);
         }
 

@@ -82,6 +82,8 @@
     <Compile Include="Events\RemovedSongFromPlaylistArgs.cs" />
     <Compile Include="Events\SongsImported.cs" />
     <Compile Include="Globals.cs" />
+    <Compile Include="IAddSongRequestUser.cs" />
+    <Compile Include="Interfaces\IAddSongRequest.cs" />
     <Compile Include="Interfaces\IPlayerOutputSettings.cs" />
     <Compile Include="Interfaces\IQueue.cs" />
     <Compile Include="Interfaces\IQueueQuery.cs" />
@@ -97,6 +99,8 @@
     <Compile Include="Interfaces\Services\IPlaylistService.cs" />
     <Compile Include="Interfaces\Services\ISongsService.cs" />
     <Compile Include="Interfaces\Services\IStreamerSonglistService.cs" />
+    <Compile Include="Models\AddSongRequest.cs" />
+    <Compile Include="Models\AddSongRequestUser.cs" />
     <Compile Include="Models\PlayerOutputSettings.cs" />
     <Compile Include="Models\QueueSongRequest.cs" />
     <Compile Include="Models\QueueQuery.cs" />

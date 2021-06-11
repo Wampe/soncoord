@@ -24,6 +24,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
         <TextBlock Margin="8">Title</TextBlock>
@@ -104,5 +105,11 @@
                 Padding="8"
                 Command="{Binding Path=AddToPlaylist}" />
 
+        <Button Content="Add To Queue" 
+                Grid.Row="8"
+                Grid.Column="1"
+                Margin="8"
+                Padding="8"
+                Command="{Binding Path=AddToQueue}" />
     </Grid>
 </UserControl>

@@ -15,6 +15,7 @@ namespace Soncoord.Infrastructure.Interfaces.Services
         Task<ICollection<ISong>> GetSongsAsync();
         Task<ICollection<QueueSongRequest>> GetSongRequestsAsync();
         Task SetSongAsPlayedAsync(QueueSongRequest request);
-        Task RemoveSongFromQueue(QueueSongRequest request);
+        Task RemoveSongFromQueueAsync(QueueSongRequest request);
+        Task AddSongToQueueAsync(IAddSongRequest request);
     }
 }

@@ -81,11 +81,26 @@ namespace Soncoord.Business.Provider
             }
         }
 
-        public async Task RemoveSongFromQueue(QueueSongRequest request)
+        public async Task RemoveSongFromQueueAsync(QueueSongRequest request)
         {
             try
             {
                 var response = await _httpClient.DeleteAsync($"{_httpClient.BaseAddress}v1/streamers/{User.StreamerId}/queue/{request.Id}");
+                response.EnsureSuccessStatusCode();
+            }
+            catch (HttpRequestException e)
+            {
+                _notifications.Publish(e.Message);
+            }
+        }
+
+        public async Task AddSongToQueueAsync(IAddSongRequest request)
+        {
+            try
+            {
+                var response = await _httpClient.PostAsync(
+                    $"{_httpClient.BaseAddress}v1/streamers/{User.StreamerId}/queue",
+                    new StringContent(SerializeToJson(request), Encoding.UTF8, "application/json"));
                 response.EnsureSuccessStatusCode();
             }
             catch (HttpRequestException e)
@@ -109,20 +124,9 @@ namespace Soncoord.Business.Provider
         {
             try
             {
-                var json = JsonConvert.SerializeObject(
-                   settings,
-                   new JsonSerializerSettings
-                   {
-                       ContractResolver = new DefaultContractResolver
-                       {
-                           NamingStrategy = new CamelCaseNamingStrategy()
-                       },
-                       Formatting = Formatting.Indented
-                   });
-
                 var response = await _httpClient.PutAsync(
                     $"{_httpClient.BaseAddress}v1/streamers/{User.StreamerId}",
-                    new StringContent(json, Encoding.UTF8, "application/json"));
+                    new StringContent(SerializeToJson(settings), Encoding.UTF8, "application/json"));
                 response.EnsureSuccessStatusCode();
             }
             catch (HttpRequestException e)
@@ -157,6 +161,20 @@ namespace Soncoord.Business.Provider
             }
 
             return collection;
+        }
+
+        private string SerializeToJson(object objectToSerialize)
+        {
+            return JsonConvert.SerializeObject(
+                objectToSerialize,
+                new JsonSerializerSettings
+                {
+                    ContractResolver = new DefaultContractResolver
+                    {
+                        NamingStrategy = new CamelCaseNamingStrategy()
+                    },
+                    Formatting = Formatting.Indented
+                });
         }
     }
 }
