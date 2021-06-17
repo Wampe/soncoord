@@ -1,5 +1,6 @@
 ﻿using Prism.Commands;
 using Prism.Mvvm;
+using Soncoord.Business.Broadcasting;
 using Soncoord.Business.Player;
 using Soncoord.Infrastructure;
 using Soncoord.Infrastructure.Interfaces;
@@ -13,6 +14,8 @@ namespace Soncoord.Player.ViewModels
     {
         private readonly IPlaylistService _playlistService;
         private readonly IOutputsService _outputsService;
+
+        private BroadcasterService _broadcaster;
 
         public ControllerViewModel(IPlaylistService playlistService, IOutputsService outputsService)
         {
@@ -134,6 +137,9 @@ namespace Soncoord.Player.ViewModels
             SongExecuter.Play();
             IsPlaying = true;
             CurrentSongToFile(false);
+
+            _broadcaster = new BroadcasterService();
+            _broadcaster.StartRandomSceneRoation();
         }
 
         private void UnregisterExecuter()
@@ -146,6 +152,8 @@ namespace Soncoord.Player.ViewModels
             SongExecuter = null;
 
             IsPlaying = false;
+
+            _broadcaster.StopRandomSceneRotation();
         }
 
         private void CurrentSongToFile(bool reset)
