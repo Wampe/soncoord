@@ -31,7 +31,7 @@ namespace Soncoord.SongRequests.ViewModels
             _playlistService = playlistService;
             _playlistService.RemovedFromPlaylist += RemovedFromPlaylist;
 
-            _queueTimer = new DispatcherTimer(DispatcherPriority.ApplicationIdle)
+            _queueTimer = new DispatcherTimer(DispatcherPriority.Normal)
             {
                 Interval = TimeSpan.FromSeconds(30)
             };

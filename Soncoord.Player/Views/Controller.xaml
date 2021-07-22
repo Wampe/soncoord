@@ -20,16 +20,25 @@
             <ColumnDefinition />
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
-        <StackPanel>
-            <TextBlock Margin="8"
-                       FontSize="32"
-                       TextWrapping="Wrap"
-                       Text="{Binding Path=SelectedSong.Title, FallbackValue=No song selected}" />
-            <TextBlock Margin="8"
-                       FontSize="24"
-                       TextWrapping="Wrap"
-                       Text="{Binding Path=SelectedSong.Artist}"/>
-        </StackPanel>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <StackPanel>
+                <TextBlock Margin="8"
+                           FontSize="32"
+                           TextWrapping="Wrap"
+                           Text="{Binding Path=SelectedSong.Title, FallbackValue=No song selected}" />
+                <TextBlock Margin="8"
+                           FontSize="24"
+                           TextWrapping="Wrap"
+                           Text="{Binding Path=SelectedSong.Artist}"/>
+            </StackPanel>
+            <CheckBox Grid.Row="1"
+                      Content="Random Scene Rotation"
+                      IsChecked="{Binding Path=IsRandomSceneRotation, Mode=TwoWay}" />
+        </Grid>
         <StackPanel Grid.Column="1">
             <TextBlock Margin="8"
                        FontSize="64"

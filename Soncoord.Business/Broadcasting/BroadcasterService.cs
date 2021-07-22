@@ -18,9 +18,9 @@ namespace Soncoord.Business.Broadcasting
         public BroadcasterService()
         {
             _webSocket = new OBSWebsocket();
-            _rotationTimer = new DispatcherTimer(DispatcherPriority.Send)
+            _rotationTimer = new DispatcherTimer(DispatcherPriority.Normal)
             {
-                Interval = TimeSpan.FromSeconds(3) // ToDo: Configurable or fix to 10
+                Interval = TimeSpan.FromSeconds(10) // ToDo: Configurable or fix to 10
             };
             _rotationTimer.Tick += RotationTimerTick;
             _random = new Random();
@@ -33,13 +33,11 @@ namespace Soncoord.Business.Broadcasting
                 }
                 catch (AuthFailureException)
                 {
-                    //MessageBox.Show("Authentication failed.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                     Console.WriteLine($"Authentication failed.");
                     return;
                 }
                 catch (ErrorResponseException ex)
                 {
-                    //MessageBox.Show("Connect failed : " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                     Console.WriteLine($"Connect failed: {ex.Message}");
                     return;
                 }
@@ -55,28 +53,46 @@ namespace Soncoord.Business.Broadcasting
 
         public IList<OBSScene> GetScenes()
         {
-            return _webSocket.GetSceneList().Scenes;
+            return _webSocket.ListScenes();
         }
 
         public void SetScene(string sceneName)
         {
             _webSocket.SetCurrentScene(sceneName);
-            Console.WriteLine($"Current Scene: {sceneName}");
         }
 
         public void StartRandomSceneRoation()
         {
-            RotationScenes = GetScenes();
+            RotationScenes = GetScenes().Where(scene => scene.Name.StartsWith("Cam")).ToList();
+            SetSceneRandomly();
             _rotationTimer.Start();
         }
 
         public void StopRandomSceneRotation()
         {
             _rotationTimer.Stop();
+            SetScene("Moderation");
         }
 
         private void RotationTimerTick(object sender, EventArgs e)
         {
+            SetSceneRandomly();
+        }
+
+        private void SetSceneRandomly()
+        {
+            var currentScene = _webSocket.GetCurrentScene().Name;
+
+            if (currentScene == "Moderation")
+            {
+                _rotationTimer.Interval = TimeSpan.FromSeconds(1);
+                return;
+            }
+            else if (currentScene == "GO")
+            {
+                _rotationTimer.Interval = TimeSpan.FromSeconds(10);
+            }
+
             SetScene(RotationScenes[_random.Next(RotationScenes.Count)].Name);
         }
     }

@@ -21,6 +21,7 @@ namespace Soncoord.Player.ViewModels
         {
             _outputsService = outputsService;
             _playlistService = playlistService;
+            _isRandomSceneRotation = true;
 
             Stop = new DelegateCommand(OnStopCommandExecute);
             Play = new DelegateCommand(OnPlayCommandExecute, OnCommandCanExecute)
@@ -33,6 +34,13 @@ namespace Soncoord.Player.ViewModels
         public DelegateCommand Stop { get; set; }
         public DelegateCommand Next { get; set; }
         private SongExecuter SongExecuter { get; set; }
+
+        private bool _isRandomSceneRotation;
+        public bool IsRandomSceneRotation
+        {
+            get => _isRandomSceneRotation;
+            set => SetProperty(ref _isRandomSceneRotation, value);
+        }
 
         private bool _isPlaying;
         public bool IsPlaying
@@ -70,6 +78,7 @@ namespace Soncoord.Player.ViewModels
         private void OnStopCommandExecute()
         {
             SongExecuter?.Stop();
+            CurrentSongToFile(true);
         }
 
         private void OnPlayCommandExecute()
@@ -138,8 +147,11 @@ namespace Soncoord.Player.ViewModels
             IsPlaying = true;
             CurrentSongToFile(false);
 
-            _broadcaster = new BroadcasterService();
-            _broadcaster.StartRandomSceneRoation();
+            if (IsRandomSceneRotation)
+            {
+                _broadcaster = new BroadcasterService();
+                _broadcaster.StartRandomSceneRoation();
+            }
         }
 
         private void UnregisterExecuter()
@@ -153,7 +165,10 @@ namespace Soncoord.Player.ViewModels
 
             IsPlaying = false;
 
-            _broadcaster.StopRandomSceneRotation();
+            if (IsRandomSceneRotation)
+            {
+                _broadcaster.StopRandomSceneRotation();
+            }
         }
 
         private void CurrentSongToFile(bool reset)
@@ -171,7 +186,7 @@ namespace Soncoord.Player.ViewModels
                 }
                 else
                 {
-                    file.Write($"Current Song: {SelectedSong.Artist} - {SelectedSong.Title}");
+                    file.Write($"{SelectedSong.Artist} - {SelectedSong.Title}");
                 }
             }
         }

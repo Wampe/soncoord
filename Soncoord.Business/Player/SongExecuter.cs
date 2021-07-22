@@ -18,7 +18,7 @@ namespace Soncoord.Business.Player
 
         public SongExecuter(ISongSetting songSettings, IPlayerOutputSettings outputSettings)
         {
-            _positionTimer = new DispatcherTimer(DispatcherPriority.ApplicationIdle)
+            _positionTimer = new DispatcherTimer(DispatcherPriority.Normal)
             {
                 Interval = TimeSpan.FromMilliseconds(50)
             };
