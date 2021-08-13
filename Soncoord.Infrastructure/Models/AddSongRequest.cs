@@ -5,7 +5,7 @@ namespace Soncoord.Infrastructure.Models
 {
     public class AddSongRequest : IAddSongRequest
     {
-        public string SongId { get; set; }
+        public int SongId { get; set; }
         public ICollection<IAddSongRequestUser> Requests { get; set; }
         public string Note { get; set; }
         public bool AllowUpdate { get; set; }

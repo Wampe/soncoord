@@ -7,7 +7,7 @@ namespace Soncoord.Infrastructure.Interfaces.Services
     {
         event EventHandler Imported;
         IEnumerable<ISong> GetSongs();
-        ISong GetSongById(string songId);
+        ISong GetSongById(int songId);
         ISongSetting GetSettings(ISong song);
         void SaveSettings(ISong song, ISongSetting settings);
         void Import();

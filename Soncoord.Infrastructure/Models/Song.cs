@@ -5,7 +5,7 @@ namespace Soncoord.Infrastructure.Models
 {
     public class Song : ISong
     {
-        public string Id { get; set; }
+        public int Id { get; set; }
         public string Title { get; set; }
         public string Artist { get; set; }
         public DateTime CreatedAt { get; set; }
@@ -14,6 +14,6 @@ namespace Soncoord.Infrastructure.Models
         public DateTime? LastPlayed { get; set; }
         public int TimesPlayed { get; set; }
         public int NumQueued { get; set; }
-        public string[] AttributeIds { get; set; }
+        public int[] AttributeIds { get; set; }
     }
 }

@@ -40,14 +40,16 @@ namespace Soncoord.SongRequests.ViewModels
             AddToPlaylist = new DelegateCommand<QueueSongRequest>(OnAddToPlaylistExecute, OnAddToPlaylistCanExecute);
             Played = new DelegateCommand<QueueSongRequest>(OnPlayedExecute);
             Remove = new DelegateCommand<QueueSongRequest>(OnRemoveExecute);
+            MoveToTop = new DelegateCommand<QueueSongRequest>(OnMoveToTopExecute);
             SongRequestQueue = new ObservableCollection<QueueSongRequest>();
             
             IsAuthorized = _providerService.IsAuthorized;
         }
-
+        
         public DelegateCommand<QueueSongRequest> AddToPlaylist { get; set; }
         public DelegateCommand<QueueSongRequest> Played { get; set; }
         public DelegateCommand<QueueSongRequest> Remove { get; set; }
+        public DelegateCommand<QueueSongRequest> MoveToTop { get; set; }
         public ObservableCollection<QueueSongRequest> SongRequestQueue { get; set; }
         private IStreamerQueueSettings QueueSettings { get; set; }
 
@@ -129,6 +131,12 @@ namespace Soncoord.SongRequests.ViewModels
             }
 
             return !string.IsNullOrEmpty(settings.MusicTrackPath);
+        }
+
+        private async void OnMoveToTopExecute(QueueSongRequest queue)
+        {
+            await _providerService.UpdateSongPositionInQueueAsync(queue);
+            LoadSongRequests();
         }
 
         private async void OnPlayedExecute(QueueSongRequest request)

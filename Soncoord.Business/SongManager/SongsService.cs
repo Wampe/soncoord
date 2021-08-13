@@ -32,7 +32,7 @@ namespace Soncoord.Business.SongManager
             ImportSongs();
         }
 
-        public ISong GetSongById(string songId)
+        public ISong GetSongById(int songId)
         {
             return Songs.FirstOrDefault(song => song.Id == songId);
         }

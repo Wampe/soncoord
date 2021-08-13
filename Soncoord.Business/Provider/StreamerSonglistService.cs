@@ -135,6 +135,22 @@ namespace Soncoord.Business.Provider
             }
         }
 
+        public async Task UpdateSongPositionInQueueAsync(QueueSongRequest request)
+        {
+            try
+            {
+                request.Position = 1;
+                var response = await _httpClient.PutAsync(
+                    $"{_httpClient.BaseAddress}v1/streamers/{User.StreamerId}/queue/{request.Id}",
+                    new StringContent(SerializeToJson(request), Encoding.UTF8, "application/json"));
+                response.EnsureSuccessStatusCode();
+            }
+            catch (HttpRequestException e)
+            {
+                _notifications.Publish(e.Message);
+            }
+        }
+
         private async Task<ICollection<ISong>> GetSongs(int size, int current, ICollection<ISong> collection)
         {
             var builder = new UriBuilder($"{_httpClient.BaseAddress}v1/streamers/{User.StreamerId}/songs");

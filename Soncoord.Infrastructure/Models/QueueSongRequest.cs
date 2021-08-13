@@ -4,7 +4,7 @@ namespace Soncoord.Infrastructure.Models
 {
     public class QueueSongRequest
     {
-        public string Id { get; set; }
+        public int Id { get; set; }
         public string Note { get; set; }
         public string BotRequestBy { get; set; }
         public string NonlistSong { get; set; }
@@ -13,8 +13,8 @@ namespace Soncoord.Infrastructure.Models
         public bool ReadOnly { get; set; }
         public SongRequest Song { get; set; }
         public SongRequester[] Requests { get; set; }
-        public string SongId { get; set; }
-        public string StreamerId { get; set; }
+        public int SongId { get; set; }
+        public int StreamerId { get; set; }
         public int Position { get; set; }
     }
 }

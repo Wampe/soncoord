@@ -2,7 +2,7 @@
 {
     public interface ISongRequester
     {
-        string Id { get; set; }
+        int Id { get; set; }
         string Name { get; set; }
         string Note { get; set; }
         double Amount { get; set; }

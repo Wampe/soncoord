@@ -38,6 +38,7 @@
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
 
                             <StackPanel Margin="4">
@@ -51,10 +52,19 @@
                                            TextWrapping="Wrap" 
                                            Text="{Binding Path=Requests[0].Name}" />
                             </StackPanel>
+                            
 
                             <Button Margin="8"
                                     Padding="8"
                                     Grid.Column="1"
+                                    CommandParameter="{Binding}"
+                                    Command="{Binding DataContext.MoveToTop, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ItemsControl}}}">
+                                <fa:FontAwesome Icon="ArrowUp" />
+                            </Button>
+
+                            <Button Margin="8"
+                                    Padding="8"
+                                    Grid.Column="2"
                                     CommandParameter="{Binding}"
                                     Command="{Binding DataContext.Remove, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ItemsControl}}}">
                                 <fa:FontAwesome Icon="Minus" />
@@ -62,7 +72,7 @@
 
                             <Button Margin="8"
                                     Padding="8"
-                                    Grid.Column="2"
+                                    Grid.Column="3"
                                     CommandParameter="{Binding}"
                                     Command="{Binding DataContext.AddToPlaylist, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ItemsControl}}}">
                                 <fa:FontAwesome Icon="Plus" />
@@ -70,7 +80,7 @@
 
                             <Button Margin="8"
                                     Padding="8"
-                                    Grid.Column="3"
+                                    Grid.Column="4"
                                     CommandParameter="{Binding}"
                                     Command="{Binding DataContext.Played, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ItemsControl}}}">
                                 <fa:FontAwesome Icon="Check" />
